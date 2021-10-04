@@ -1,12 +1,17 @@
 from pico2d import *
 
-open_canvas()
+
+def handle_event():  # 입력처리
+    pass
+
 
 background = load_image('Background.png')
 character = load_image('Mario.png')
 
-# clip_draw(
-character.clip_draw(50, 50)
-background.draw_now(0, 0)
+open_canvas()
+
+background.clip_draw(0, 150, 250, 149, 250 // 2, 149 // 2)
+
+update_canvas()
 
 delay(10)
