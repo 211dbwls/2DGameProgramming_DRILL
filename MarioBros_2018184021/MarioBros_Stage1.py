@@ -193,6 +193,32 @@ class Flower:  # 플라워
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x, self.y)
 
+class HamerBro:  # 해머브러스
+    def __init__(self):
+        self.image = load_image('EnemiesAnimationSheet.png')
+        self.left, self.bottom = 170, 145  # clip
+        self.width, self.height = 30, 30  # 크기
+        self.x, self.y = 450, 60  # 위치
+        self.frame = 0  # 애니메이션 프레임
+        self.right = True  # 움직이는 방향 체크
+
+    def update(self):
+        if self.right == True:  # 오른쪽 방향으로 이동
+            self.x += 2
+            if self.x == 550:
+                self.left = 80
+                self.right = False
+        else:  # 왼쪽 방향으로  이동
+            self.x -= 2
+            if self.x == 450:
+                self.left = 170
+                self.right = True
+
+        self.frame = (self.frame + 1) % 3  # 움직일 때 애니메이션
+
+    def draw(self):
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x, self.y)
+
 
 class Mario:  # 마리오
     def __init__(self):
@@ -298,6 +324,7 @@ star = Star()  # 별 생성
 
 goomba = Goomba()  # 굼바 생성
 flower = Flower()  # 플라워 생성
+hamerbro = HamerBro()  # 해머브러스 생성
 
 character = Mario()  # 캐릭터 생성
 
@@ -324,6 +351,7 @@ while playing:
     star.update()
     goomba.update()
     flower.update()
+    hamerbro.update()
 
     background.draw()
     startsign.draw()
@@ -334,6 +362,7 @@ while playing:
     star.draw()
     goomba.draw()
     flower.draw()
+    hamerbro.draw()
     character.draw()
 
     update_canvas()
