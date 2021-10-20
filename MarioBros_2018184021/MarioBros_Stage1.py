@@ -12,16 +12,13 @@ class Background:  # 배경
 
 class StartSign:  # 시작 표지판
     def __init__(self):
-        self.image = load_image('Ground.png')
-        self.left, self.bottom = 103, 64  # clip
-        self.width, self.height = 17, 16
+        self.image = load_image('GroundSheet.png')
+        self.left, self.bottom = 195, 90  # clip
+        self.width, self.height = 38, 55
         self.x, self.y = 100, 56  # 생성 위치
 
     def draw(self):
-        self.image.clip_draw(103, self.bottom, self.width, self.height, 100 - Move_locX, self.y)
-        self.image.clip_draw(120, self.bottom, self.width, self.height, 116 - Move_locX, self.y)
-        self.image.clip_draw(103, self.bottom + 17, self.width, self.height, 100 - Move_locX, self.y + 16)
-        self.image.clip_draw(120, self.bottom + 17, self.width, self.height, 116 - Move_locX, self.y + 16)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
 class BigCloud:  # 구름
     def __init__(self):
@@ -221,9 +218,12 @@ class QuestionBox:  # 물음표 상자
         self.width, self.height = 30, 30
         self.x, self.y = 0, 0
         self.frame = 0
+        self.time = 0  # update 시간 조절
 
     def update(self):
-        self.frame = (self.frame + 1) % 3  # 제자리에서 색 변하도록 애니메이션 설정
+        if self.time % 3 == 0:
+            self.frame = (self.frame + 1) % 3  # 제자리에서 색 변하도록 애니메이션 설정
+        self.time += 1
 
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 250 - Move_locX, 100)
@@ -237,9 +237,12 @@ class Coin:  # 코인
         self.width, self.height = 30, 30
         self.x, self.y = 0, 0
         self.frame = 0
+        self.time = 0  # update 시간 조절
 
     def update(self):
-        self.frame = (self.frame + 1) % 4  # 제자리에서 돌아가도록 애니메이션 설정
+        if self.time % 2 == 0:
+            self.frame = (self.frame + 1) % 4  # 제자리에서 돌아가도록 애니메이션 설정
+        self.time += 1
 
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 440 - Move_locX, 60)
@@ -257,9 +260,12 @@ class Star:  # 별
         self.width, self.height = 30, 30
         self.x, self.y = 0, 0
         self.frame = 0
+        self.time = 0  # update 시간 조절
 
     def update(self):
-        self.frame = (self.frame + 1) % 4  # 제자리에서 색 변하도록 애니메이션 설정
+        if self.time % 3 == 0:
+            self.frame = (self.frame + 1) % 4  # 제자리에서 색 변하도록 애니메이션 설정
+        self.time += 1
 
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 955 - Move_locX, 120)
@@ -303,9 +309,12 @@ class Flower:  # 플라워
         self.width, self.height = 30, 30  # 크기
         self.x, self.y = 600, 60  # 위치
         self.frame = 0  # 애니메이션 프레임
+        self.time = 0  # update 시간 조절
 
     def update(self):
-        self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션
+        if self.time % 5 == 0:
+            self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션
+        self.time += 1
 
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
@@ -318,6 +327,14 @@ class HamerBro:  # 해머브러스
         self.x, self.y = 1000, 60  # 위치
         self.frame = 0  # 애니메이션 프레임
         self.right = True  # 움직이는 방향 체크
+
+        self.time = 0  # 공격 시간
+        self.hammerimage = load_image('EnemiesAnimationSheet.png')
+        # self.left, self.bottom = 170, 145  # clip
+        # self.width, self.height = 30, 30  # 크기
+        # self.x, self.y = 1000, 60  # 위치
+        # self.frame = 0  # 애니메이션 프레임
+        # self.right = True  # 움직이는 방향 체크
 
     def update(self):
         if self.right == True:  # 오른쪽 방향으로 이동
@@ -341,7 +358,7 @@ class Mario:  # 마리오
     def __init__(self):
         self.image = load_image('MarioAnimationSheet.png')
         self.left, self.bottom = 200, 170  # clip
-        self.x, self.y = 600, 60  # 캐릭터 위치 20
+        self.x, self.y = 20, 60  # 캐릭터 위치 20
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
@@ -389,7 +406,6 @@ class Mario:  # 마리오
             Move_locX = self.x - 400
         if self.x >= 800:  # 일정 거리를 넘으면 맵이 움직이지 않도록
             Move_locX = 800 - 400
-
 
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, 30, 30, self.x - Move_locX, self.y)
