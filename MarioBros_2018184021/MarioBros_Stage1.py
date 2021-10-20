@@ -2,6 +2,7 @@ from pico2d import *
 
 STAGE_WIDTH, STAGE_HEIGHT = 800, 600
 
+# 배경 ------------------------------------------------------------------------------------------------------------------
 class Background:  # 배경
     def __init__(self):
         self.image = load_image('Back.png')
@@ -22,6 +23,33 @@ class StartSign:  # 시작 표지판
         self.image.clip_draw(103, self.bottom + 17, self.width, self.height, 100 - Move_locX, self.y + 16)
         self.image.clip_draw(120, self.bottom + 17, self.width, self.height, 116 - Move_locX, self.y + 16)
 
+class BigCloud:  # 구름
+    def __init__(self):
+        self.image = load_image('ScenerySprites.gif')
+        self.left, self.bottom = 140, 850  # clip
+        self.width, self.height = 70, 40
+        self.x, self.y = 500, 300  # 생성 위치
+
+    def draw(self):
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 550 - Move_locX, 300)
+
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 900 - Move_locX, 350)
+
+class SmallCloud:  # 구름
+    def __init__(self):
+        self.image = load_image('ScenerySprites.gif')
+        self.left, self.bottom = 210, 855  # clip
+        self.width, self.height = 35, 30
+        self.x, self.y = 200, 300  # 생성 위치
+
+    def draw(self):
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 200 - Move_locX, 300)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 300 - Move_locX, 350)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 650 - Move_locX, 350)
+
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 1000 - Move_locX, 300)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 1100 - Move_locX, 300)
+
 class BigMountain:  # 산
     def __init__(self):
         self.image = load_image('ScenerySprites.gif')
@@ -30,7 +58,9 @@ class BigMountain:  # 산
         self.x, self.y = 200, 60  # 생성 위치
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 200 - Move_locX, self.y)
+
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 1100- Move_locX, self.y)
 
 class SmallMountain:  # 산
     def __init__(self):
@@ -60,7 +90,9 @@ class SmallGrass:  # 풀
         self.x, self.y = 565, 60  # 생성 위치
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 565 - Move_locX, self.y)
+
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 700 - Move_locX, self.y)
 
 class Ground:  # 땅
     def __init__(self):
@@ -77,7 +109,7 @@ class Ground:  # 땅
             self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
                                  self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
 
-        for i in range(0, 55):
+        for i in range(0, 80):
             self.x += 15
             for j in range(0, 3):
                 self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
@@ -131,12 +163,37 @@ class Ground:  # 땅
 
 # clip_draw(left, bottom, width, height, x, y)
 
-class UpDownObstruction:  # 위아래로 움직이는 장애물
+# 파이프, 벽돌 -----------------------------------------------------------------------------------------------------------
+class SmallPipe:
     def __init__(self):
         self.image = load_image('ScenerySprites.gif')
+        self.left, self.bottom = 305, 490  # clip
+        self.width, self.height = 40, 50
+        self.x, self.y = 800, 60  # 생성 위치
 
     def draw(self):
-        self.image.clip_draw()
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+
+class MidPipe:
+    def __init__(self):
+        self.image = load_image('ScenerySprites.gif')
+        self.left, self.bottom = 265, 490  # clip
+        self.width, self.height = 40, 60
+        self.x, self.y = 950, 65  # 생성 위치
+
+    def draw(self):
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 950 - Move_locX, 65)
+
+class LargePipe:
+    def __init__(self):
+        self.image = load_image('ScenerySprites.gif')
+        self.left, self.bottom = 300, 490  # clip
+        self.width, self.height = 50, 50
+        self.x, self.y = 800, 60  # 생성 위치
+
+    def draw(self):
+        pass
+        # self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
 class Brick:  # 벽돌
     def __init__(self):
@@ -152,6 +209,11 @@ class Brick:  # 벽돌
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, 300 - Move_locX, 107)
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, 332 - Move_locX, 107)
 
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 660 - Move_locX, 107)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 676 - Move_locX, 107)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 692 - Move_locX, 107)
+
+# 아이템 ----------------------------------------------------------------------------------------------------------------
 class QuestionBox:  # 물음표 상자
     def __init__(self):
         self.image = load_image('ItemsSheet.png')
@@ -184,9 +246,9 @@ class Coin:  # 코인
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 460 - Move_locX, 60)
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 480 - Move_locX, 60)
 
-        # self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 440 - Move_locX, 80)
-        # self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 460 - Move_locX, 100)
-        # self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 480 - Move_locX, 110)
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 662 - Move_locX, 130)
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 678 - Move_locX, 130)
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 694 - Move_locX, 130)
 
 class Star:  # 별
     def __init__(self):
@@ -200,8 +262,17 @@ class Star:  # 별
         self.frame = (self.frame + 1) % 4  # 제자리에서 색 변하도록 애니메이션 설정
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 200 - Move_locX, 200)
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 955 - Move_locX, 120)
 
+# 장애물 ----------------------------------------------------------------------------------------------------------------
+class UpDownObstruction:  # 위아래로 움직이는 장애물
+    def __init__(self):
+        self.image = load_image('ScenerySprites.gif')
+
+    def draw(self):
+        self.image.clip_draw()
+
+# 적군 ------------------------------------------------------------------------------------------------------------------
 class Goomba:  # 굼바
     def __init__(self):
         self.image = load_image('EnemiesAnimationSheet.png')
@@ -244,19 +315,19 @@ class HamerBro:  # 해머브러스
         self.image = load_image('EnemiesAnimationSheet.png')
         self.left, self.bottom = 170, 145  # clip
         self.width, self.height = 30, 30  # 크기
-        self.x, self.y = 650, 60  # 위치
+        self.x, self.y = 1000, 60  # 위치
         self.frame = 0  # 애니메이션 프레임
         self.right = True  # 움직이는 방향 체크
 
     def update(self):
         if self.right == True:  # 오른쪽 방향으로 이동
             self.x += 2
-            if self.x == 750:
+            if self.x == 1100:
                 self.left = 80
                 self.right = False
         else:  # 왼쪽 방향으로  이동
             self.x -= 2
-            if self.x == 650:
+            if self.x == 1000:
                 self.left = 170
                 self.right = True
 
@@ -265,11 +336,12 @@ class HamerBro:  # 해머브러스
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
+# 플레이어 --------------------------------------------------------------------------------------------------------------
 class Mario:  # 마리오
     def __init__(self):
         self.image = load_image('MarioAnimationSheet.png')
         self.left, self.bottom = 200, 170  # clip
-        self.x, self.y = 20, 60  # 캐릭터 위치
+        self.x, self.y = 600, 60  # 캐릭터 위치 20
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
@@ -313,8 +385,10 @@ class Mario:  # 마리오
                 self.t = 0
                 Mario_jumping = False
 
-        if self.x >= 400:
+        if self.x >= 400:  # 일정 거리를 넘으면 맵이 움직이도록
             Move_locX = self.x - 400
+        if self.x >= 800:  # 일정 거리를 넘으면 맵이 움직이지 않도록
+            Move_locX = 800 - 400
 
 
     def draw(self):
@@ -363,13 +437,19 @@ open_canvas()
 
 background = Background()  # 배경 생성
 startsign = StartSign()  # 시작 표지판 생성
+bigcloud = BigCloud()  # 구름 생성
+smallcloud = SmallCloud()  # 구름 생성
 bigmountain = BigMountain()  # 산 생성
 smallmountain = SmallMountain()  # 산 생성
 biggrass = BigGrass()  # 풀 생성
 smallgrass = SmallGrass()  # 풀 생성
 ground = Ground()  # 땅 생성
 
+smallpipe = SmallPipe()  # 파이프 생성
+midpipe = MidPipe()  # 파이프 생성
+largepipe = LargePipe()   # 파이프 생성
 brick = Brick()  # 벽돌 생성
+
 questionbox = QuestionBox()  # 물음표 상자 생성
 coin = Coin()  # 코인 생성
 star = Star()  # 별 생성
@@ -398,30 +478,44 @@ while playing:
     # Game Drawing
     clear_canvas()
 
+    # update
     character.update()
+
     questionbox.update()
     coin.update()
     star.update()
+
     goomba.update()
     flower.update()
     hamerbro.update()
 
+    # draw
     background.draw()
     startsign.draw()
+    bigcloud.draw()
+    smallcloud.draw()
     bigmountain.draw()
     smallmountain.draw()
     biggrass.draw()
     smallgrass.draw()
     ground.draw()
+
+    smallpipe.draw()
+    midpipe.draw()
+    largepipe.draw()
     brick.draw()
+
     questionbox.draw()
     coin.draw()
     star.draw()
+
     goomba.draw()
     flower.draw()
     hamerbro.draw()
+
     character.draw()
 
+    # update_canvas
     update_canvas()
 
     delay(0.07)
