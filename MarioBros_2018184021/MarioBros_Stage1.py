@@ -358,7 +358,7 @@ class Mario:  # 마리오
     def __init__(self):
         self.image = load_image('MarioAnimationSheet.png')
         self.left, self.bottom = 200, 170  # clip
-        self.x, self.y = 20, 60  # 캐릭터 위치 20
+        self.x, self.y = 30, 60  # 캐릭터 위치 30
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
