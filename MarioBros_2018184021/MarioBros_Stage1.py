@@ -1,6 +1,45 @@
 from pico2d import *
 
+import game_framework
+import MarioBros_StartState
+
+name = "MarioBros_Stage1"
+
 STAGE_WIDTH, STAGE_HEIGHT = 800, 600
+# 변수 ------------------------------------------------------------------------------------------------------------------
+background = None
+startsign = None
+bigcloud = None
+smallcloud = None
+bigmountain = None
+smallmountain = None
+biggrass = None
+smallgrass = None
+ground = None
+
+smallpipe = None
+midpipe = None
+largepipe = None
+brick = None
+
+questionbox = None
+coin = None
+star = None
+
+goomba = None
+flower = None
+hamerbro = None
+
+character = None
+
+playing = True
+Mario_running = False
+Mario_jumping = False
+Mario_sliding = False
+Mario_right = True
+Mario_dir = 0
+Move_locX = 0
+
 
 # 배경 ------------------------------------------------------------------------------------------------------------------
 class Background:  # 배경
@@ -410,91 +449,82 @@ class Mario:  # 마리오
     def draw(self):
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, 30, 30, self.x - Move_locX, self.y)
 
-def handle_event():  # 입력처리
-    global playing
-    global Mario_running
-    global Mario_jumping
-    global Mario_sliding
-    global Mario_right
-    global Mario_dir
 
-    events = get_events()
-    for event in events:
-        if event.type == SDL_QUIT:  # 종료 버튼
-            playing = False
-        elif event.type == SDL_KEYDOWN:  # 키 눌렀을 때
-            if event.key == SDLK_d:  # D키_오른쪽으로 이동
-                Mario_running = True
-                Mario_right = True
-                Mario_dir += 1
-            if event.key == SDLK_a:   # A키_왼쪽으로 이동
-                Mario_running = True
-                Mario_right = False
-                Mario_dir -= 1
-            if event.key == SDLK_w:   # W키_점프
-                Mario_jumping = True
-            if event.key == SDLK_s:  # S키_숙이기
-                pass
-            if event.key == SDLK_ESCAPE:  # esc 키_종료
-                playing = False
-        elif event.type == SDL_KEYUP:  # 키 뗐을 때
-            if event.key == SDLK_d:  # D키_앞으로 이동
-                Mario_running = False
-                Mario_dir -= 1
-            if event.key == SDLK_a:   # A키_왼쪽으로 이동
-                Mario_running = False
-                Mario_dir += 1
-            if event.key == SDLK_s:  # S키_숙이기
-                pass
+# 함수 -----------------------------------------------------------------------------------------------------------------
+def enter():
+    global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
+    global smallpipe, midpipe, largepipe, brick
+    global questionbox, coin, star
+    global goomba, flower, hamerbro
+    global character
 
+    # initialization code : 초기화
+    background = Background()  # 배경 생성
+    startsign = StartSign()  # 시작 표지판 생성
+    bigcloud = BigCloud()  # 구름 생성
+    smallcloud = SmallCloud()  # 구름 생성
+    bigmountain = BigMountain()  # 산 생성
+    smallmountain = SmallMountain()  # 산 생성
+    biggrass = BigGrass()  # 풀 생성
+    smallgrass = SmallGrass()  # 풀 생성
+    ground = Ground()  # 땅 생성
 
-# initialization code : 초기화
-open_canvas()
+    smallpipe = SmallPipe()  # 파이프 생성
+    midpipe = MidPipe()  # 파이프 생성
+    largepipe = LargePipe()  # 파이프 생성
+    brick = Brick()  # 벽돌 생성
 
-background = Background()  # 배경 생성
-startsign = StartSign()  # 시작 표지판 생성
-bigcloud = BigCloud()  # 구름 생성
-smallcloud = SmallCloud()  # 구름 생성
-bigmountain = BigMountain()  # 산 생성
-smallmountain = SmallMountain()  # 산 생성
-biggrass = BigGrass()  # 풀 생성
-smallgrass = SmallGrass()  # 풀 생성
-ground = Ground()  # 땅 생성
+    questionbox = QuestionBox()  # 물음표 상자 생성
+    coin = Coin()  # 코인 생성
+    star = Star()  # 별 생성
 
-smallpipe = SmallPipe()  # 파이프 생성
-midpipe = MidPipe()  # 파이프 생성
-largepipe = LargePipe()   # 파이프 생성
-brick = Brick()  # 벽돌 생성
+    goomba = Goomba()  # 굼바 생성
+    flower = Flower()  # 플라워 생성
+    hamerbro = HamerBro()  # 해머브러스 생성
 
-questionbox = QuestionBox()  # 물음표 상자 생성
-coin = Coin()  # 코인 생성
-star = Star()  # 별 생성
+    character = Mario()  # 캐릭터 생성
 
-goomba = Goomba()  # 굼바 생성
-flower = Flower()  # 플라워 생성
-hamerbro = HamerBro()  # 해머브러스 생성
+    playing = True
+    Mario_running = False
+    Mario_jumping = False
+    Mario_sliding = False
+    Mario_right = True
+    Mario_dir = 0
+    Move_locX = 0
 
-character = Mario()  # 캐릭터 생성
+def exit():
+    global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
+    global smallpipe, midpipe, largepipe, brick
+    global questionbox, coin, star
+    global goomba, flower, hamerbro
+    global character
 
-# 변수
-playing = True
-Mario_running = False
-Mario_jumping = False
-Mario_sliding = False
-Mario_right = True
-Mario_dir = 0
-Move_locX = 0
+    del (background)
+    del (startsign)
+    del (bigcloud)
+    del (smallcloud)
+    del (bigmountain)
+    del (smallmountain)
+    del (biggrass)
+    del (smallgrass)
+    del (ground)
 
-while playing:
-    handle_event()  # 키 입력 처리
+    del (smallpipe)
+    del (midpipe)
+    del (largepipe)
+    del (brick)
 
-    # Game Logic
+    del (questionbox)
+    del (coin)
+    del (star)
 
+    del (goomba)
+    del (flower)
+    del (hamerbro)
 
-    # Game Drawing
-    clear_canvas()
+    del (character)
 
-    # update
+def update():
     character.update()
 
     questionbox.update()
@@ -505,7 +535,9 @@ while playing:
     flower.update()
     hamerbro.update()
 
-    # draw
+def draw():
+    clear_canvas()
+
     background.draw()
     startsign.draw()
     bigcloud.draw()
@@ -531,11 +563,48 @@ while playing:
 
     character.draw()
 
-    # update_canvas
     update_canvas()
-
     delay(0.07)
 
-clear_canvas()
+
+def handle_events():  # 입력처리
+    global playing
+    global Mario_running
+    global Mario_jumping
+    global Mario_sliding
+    global Mario_right
+    global Mario_dir
+
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:  # 종료 버튼
+            playing = False
+            game_framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:  # esc키
+            game_framework.change_state(MarioBros_StartState)  # 이전 화면으로 이동
+        elif event.type == SDL_KEYDOWN:  # 키 눌렀을 때
+            if event.key == SDLK_d:  # D키_오른쪽으로 이동
+                Mario_running = True
+                Mario_right = True
+                Mario_dir += 1
+            if event.key == SDLK_a:   # A키_왼쪽으로 이동
+                Mario_running = True
+                Mario_right = False
+                Mario_dir -= 1
+            if event.key == SDLK_w:   # W키_점프
+                Mario_jumping = True
+            if event.key == SDLK_s:  # S키_숙이기
+                pass
+            if event.key == SDLK_ESCAPE:  # esc 키_종료
+                playing = False
+        elif event.type == SDL_KEYUP:  # 키 뗐을 때
+            if event.key == SDLK_d:  # D키_앞으로 이동
+                Mario_running = False
+                Mario_dir -= 1
+            if event.key == SDLK_a:   # A키_왼쪽으로 이동
+                Mario_running = False
+                Mario_dir += 1
+            if event.key == SDLK_s:  # S키_숙이기
+                pass
 
 
