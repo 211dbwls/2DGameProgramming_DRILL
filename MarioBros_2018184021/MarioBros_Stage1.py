@@ -22,6 +22,9 @@ midpipe = None
 largepipe = None
 brick = None
 
+flag = None
+castle = None
+
 questionbox = None
 coin = None
 star = None
@@ -43,96 +46,144 @@ Move_locX = 0
 
 # 배경 ------------------------------------------------------------------------------------------------------------------
 class Background:  # 배경
+    image = None
+
     def __init__(self):
-        self.image = load_image('Back.png')
+        if Background.image == None:
+            Background.image = load_image('Back.png')
 
     def draw(self):
         self.image.draw(400, 300)
 
 class StartSign:  # 시작 표지판
+    image = None
+
     def __init__(self):
-        self.image = load_image('GroundSheet.png')
-        self.left, self.bottom = 195, 90  # clip
-        self.width, self.height = 38, 55
-        self.x, self.y = 100, 56  # 생성 위치
+        if StartSign.image == None:
+            StartSign.image = load_image('GroundSheet.png')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(195, 90, 38, 55, 100 - Move_locX, 56)
 
 class BigCloud:  # 구름
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 140, 850  # clip
-        self.width, self.height = 70, 40
-        self.x, self.y = 500, 300  # 생성 위치
+        if BigCloud.image == None:
+            BigCloud.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 550 - Move_locX, 300)
+        self.image.clip_draw(140, 850, 70, 40, 550 - Move_locX, 300)
+        self.image.clip_draw(140, 850, 70, 40, 900 - Move_locX, 300 + 50)
 
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 900 - Move_locX, 350)
+        self.image.clip_draw(140, 850, 70, 40, 1200 - Move_locX, 300)
+
+        self.image.clip_draw(140, 850, 70, 40, 2100 - Move_locX, 300)
+
+        self.image.clip_draw(140, 850, 70, 40, 3000 - Move_locX, 300)
+
+        self.image.clip_draw(140, 850, 70, 40, 3150 - Move_locX, 300 + 50)
 
 class SmallCloud:  # 구름
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 210, 855  # clip
-        self.width, self.height = 35, 30
-        self.x, self.y = 200, 300  # 생성 위치
+        if SmallCloud.image == None:
+            SmallCloud.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 200 - Move_locX, 300)
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 300 - Move_locX, 350)
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 650 - Move_locX, 350)
+        self.image.clip_draw(210, 855, 35, 30, 200 - Move_locX, 300)
+        self.image.clip_draw(210, 855, 35, 30, 300 - Move_locX, 300 + 50)
+        self.image.clip_draw(210, 855, 35, 30, 650 - Move_locX, 300 + 50)
 
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 1000 - Move_locX, 300)
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 1100 - Move_locX, 300)
+        self.image.clip_draw(210, 855, 35, 30, 1000 - Move_locX, 300)
+        self.image.clip_draw(210, 855, 35, 30, 1100 - Move_locX, 300)
+
+        self.image.clip_draw(210, 855, 35, 30, 1350 - Move_locX, 300 + 50)
+
+        self.image.clip_draw(210, 855, 35, 30, 1750 - Move_locX, 300)
+
+        self.image.clip_draw(210, 855, 35, 30, 1900 - Move_locX, 300 + 50)
+
+        self.image.clip_draw(210, 855, 35, 30, 2700 - Move_locX, 300)
+
+        self.image.clip_draw(210, 855, 35, 30, 2850 - Move_locX, 300 + 50)
+
+        self.image.clip_draw(210, 855, 35, 30, 3420 - Move_locX, 300)
 
 class BigMountain:  # 산
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 80, 900  # clip
-        self.width, self.height = 90, 60
-        self.x, self.y = 200, 60  # 생성 위치
+        if BigMountain.image == None:
+            BigMountain.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 200 - Move_locX, self.y)
+        self.image.clip_draw(80, 900, 90, 60, 180 - Move_locX, 60)
 
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 1100- Move_locX, self.y)
+        self.image.clip_draw(80, 900, 90, 60, 800 - Move_locX, 60)
+
+        self.image.clip_draw(80, 900, 90, 60, 1600 - Move_locX, 60)
+
+        self.image.clip_draw(80, 900, 90, 60, 3300 - Move_locX, 60)
 
 class SmallMountain:  # 산
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 170, 900  # clip
-        self.width, self.height = 50, 60
-        self.x, self.y = 530, 60  # 생성 위치
+        if SmallMountain.image == None:
+            SmallMountain.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(170, 900, 50, 60, 400 - Move_locX, 60)
+
+        self.image.clip_draw(170, 900, 50, 60, 1000 - Move_locX, 60)
+
+        self.image.clip_draw(170, 900, 50, 60, 1875 - Move_locX, 60)
+
+        self.image.clip_draw(170, 900, 50, 60, 3560 - Move_locX, 60)
 
 class BigGrass:  # 풀
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 220, 900  # clip
-        self.width, self.height = 70, 60
-        self.x, self.y = 400, 60  # 생성 위치
+        if BigGrass.image == None:
+            BigGrass.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(220, 900, 70, 60, 350 - Move_locX, 65)
+
+        self.image.clip_draw(220, 900, 70, 60, 670 - Move_locX, 65)
+
+        self.image.clip_draw(220, 900, 70, 60, 950 - Move_locX, 65)
+
+        self.image.clip_draw(220, 900, 70, 60, 1440 - Move_locX, 65)
+
+        self.image.clip_draw(220, 900, 70, 60, 1820 - Move_locX, 65)
 
 class SmallGrass:  # 풀
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 290, 900  # clip
-        self.width, self.height = 30, 60
-        self.x, self.y = 565, 60  # 생성 위치
+        if SmallGrass.image == None:
+            SmallGrass.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 565 - Move_locX, self.y)
+        self.image.clip_draw(290, 900, 30, 60, 1120 - Move_locX, 65)
 
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 700 - Move_locX, self.y)
+        self.image.clip_draw(290, 900, 30, 60, 2010 - Move_locX, 65)
+
+        self.image.clip_draw(290, 900, 30, 60, 2900 - Move_locX, 65)
+
+        self.image.clip_draw(290, 900, 30, 60, 3520 - Move_locX, 65)
 
 class Ground:  # 땅
+    image = None
+
     def __init__(self):
-        self.image = load_image('Ground.png')
+        if Ground.image == None:
+            Ground.image = load_image('Ground.png')
+
         self.left, self.bottom = 2, 155  # clip
         self.width, self.height = 16, 17
         self.x, self.y = 8, 7  # 생성 위치
@@ -144,118 +195,175 @@ class Ground:  # 땅
         for i in range(0, 3):
             self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
                                  self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
-
-        for i in range(0, 80):
+        for i in range(0, 68):
             self.x += 15
             for j in range(0, 3):
                 self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
                                      self.x - Move_locX, self.y + self.width * j)  # 중간 땅
-
         self.x += 15
         for i in range(0, 3):
             self.image.clip_draw(self.left + 33, self.bottom + self.height * i, self.width - 1, self.height,
                                  self.x - Move_locX, self.y + self.width * i)  # 끝 땅
 
-        # 한 칸 위로
-        # self.x += 5
-        # for i in range(0, 4):
-        #     self.image.clip_draw(self.left, self.bottom + self.height, self.width, self.height,
-        #                          self.x, self.y + self.width * i)
-        # self.image.clip_draw(self.left, self.bottom + self.height * 2, self.width, self.height,
-        #                      self.x, self.y + self.width * 4)  # 시작 땅
-        #
-        # for i in range(0, 3):
-        #     self.x += 15
-        #     for j in range(0, 4):
-        #         self.image.clip_draw(self.left + 16, self.bottom + self.height, self.width, self.height,
-        #                              self.x, self.y + self.width * j)
-        #     self.image.clip_draw(self.left + 16, self.bottom + self.height * 2, self.width, self.height,
-        #                          self.x, self.y + self.width * 4)  # 중간 땅
-        #
-        # self.x += 15
-        # for i in range(0, 4):
-        #     self.image.clip_draw(self.left + 33, self.bottom + self.height, self.width - 1, self.height,
-        #                          self.x, self.y + self.width * i)  # 끝 땅
-        # self.image.clip_draw(self.left + 33, self.bottom + self.height * 2, self.width, self.height,
-        #                      self.x, self.y + self.width * 4)  # 끝 땅
+        self.x += 60
+        for i in range(0, 3):
+            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
+                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
+        for i in range(0, 15):
+            self.x += 15
+            for j in range(0, 3):
+                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
+                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
+        self.x += 15
+        for i in range(0, 3):
+            self.image.clip_draw(self.left + 33, self.bottom + self.height * i, self.width - 1, self.height,
+                                 self.x - Move_locX, self.y + self.width * i)  # 끝 땅
 
+        self.x += 60
+        for i in range(0, 3):
+            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
+                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
+        for i in range(0, 80):
+            self.x += 15
+            for j in range(0, 3):
+                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
+                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
+        self.x += 15
+        for i in range(0, 3):
+            self.image.clip_draw(self.left + 33, self.bottom + self.height * i, self.width - 1, self.height,
+                                 self.x - Move_locX, self.y + self.width * i)  # 끝 땅
 
-        # for i in range(0, 3):
-        #     self.image.clip_draw(self.left + 32, self.bottom + self.height * i, self.width, self.height,
-        #                          self.x + 225, self.y + self.width * i)  # 끝 땅
+        self.x += 60
+        for i in range(0, 3):
+            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
+                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
+        for i in range(0, 61):
+            self.x += 15
+            for j in range(0, 3):
+                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
+                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
 
-        # 처음 시작 땅
-        # self.image.clip_draw(2, 155, 16, 17, 8, 7)
-        # self.image.clip_draw(2, 172, 16, 17, 8, 23)
-        # self.image.clip_draw(2, 189, 16, 17, 8, 39)
-        # 중간 땅
-        # self.image.clip_draw(18(+16), 155, 16, 17, 23(+15), 7)
-        # self.image.clip_draw(18(+16), 172, 16, 17, 23(+15), 23)
-        # self.image.clip_draw(18(+16), 189, 16, 17, 23(+15), 39)
-
-        # self.image.clip_draw(18, 155, 16, 17, 38(+15), 7)
-        # self.image.clip_draw(18, 172, 16, 17, 38(+15), 23)
-        # self.image.clip_draw(18, 189, 16, 17, 38(+15), 39)
-
-# clip_draw(left, bottom, width, height, x, y)
 
 # 파이프, 벽돌 -----------------------------------------------------------------------------------------------------------
 class SmallPipe:
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 305, 490  # clip
-        self.width, self.height = 40, 50
-        self.x, self.y = 800, 60  # 생성 위치
+        if SmallPipe.image == None:
+            SmallPipe.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(305, 490, 40, 50, 460 - Move_locX, 60)
+
+        self.image.clip_draw(305, 490, 40, 50, 2850 - Move_locX, 60)
+
+        self.image.clip_draw(305, 490, 40, 50, 3100 - Move_locX, 60)
 
 class MidPipe:
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 265, 490  # clip
-        self.width, self.height = 40, 60
-        self.x, self.y = 950, 65  # 생성 위치
+        if MidPipe.image == None:
+            MidPipe.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 950 - Move_locX, 65)
+        self.image.clip_draw(265, 490, 40, 60, 600 - Move_locX, 65)
 
 class LargePipe:
+    image = None
+
     def __init__(self):
-        self.image = load_image('ScenerySprites.gif')
-        self.left, self.bottom = 300, 490  # clip
-        self.width, self.height = 50, 50
-        self.x, self.y = 800, 60  # 생성 위치
+        if LargePipe.image == None:
+            LargePipe.image = load_image('ScenerySprites.gif')
 
     def draw(self):
-        pass
-        # self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(225, 490, 40, 80, 740 - Move_locX, 75)
+
+        self.image.clip_draw(225, 490, 40, 80, 900 - Move_locX, 75)  # 보너스 맵 연결
 
 class Brick:  # 벽돌
+    image = None
+
     def __init__(self):
-        self.image = load_image('Ground.png')
-        self.left, self.bottom = 68, 36
-        self.width, self.height = 17, 16
-        self.x, self.y = 0, 0
+        if Brick.image == None:
+            Brick.image = load_image('Ground.png')
 
     def update(self):
         pass
 
     def draw(self):
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 300 - Move_locX, 107)
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 332 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 300 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 332 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 364 - Move_locX, 107)
 
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 660 - Move_locX, 107)
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 676 - Move_locX, 107)
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, 692 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 1185 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 1217 - Move_locX, 107)
+
+        for i in range(0, 10):
+            self.image.clip_draw(68, 36, 17, 16, 1233 + i * 16 - Move_locX, 107 + 50)
+
+        for i in range(0, 3):
+            self.image.clip_draw(68, 36, 17, 16, 1453 + i * 16 - Move_locX, 107 + 50)
+
+        self.image.clip_draw(68, 36, 17, 16, 1635 - Move_locX, 107)
+
+        self.image.clip_draw(68, 36, 17, 16, 1980 - Move_locX, 107)
+
+        for i in range(0, 3):
+            self.image.clip_draw(68, 36, 17, 16, 2050 + i * 16 - Move_locX, 107 + 50)
+
+        self.image.clip_draw(68, 36, 17, 16, 2150 - Move_locX, 107 + 50)
+        self.image.clip_draw(68, 36, 17, 16, 2198 - Move_locX, 107 + 50)
+
+        self.image.clip_draw(68, 36, 17, 16, 2169 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 2185 - Move_locX, 107)
+
+        self.image.clip_draw(68, 36, 17, 16, 2900 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 2916 - Move_locX, 107)
+        self.image.clip_draw(68, 36, 17, 16, 2948 - Move_locX, 107)
+
+# 깃발, 성 --------------------------------------------------------------------------------------------------------------
+class Flag:
+    image = None
+
+    def __init__(self):
+        if Flag.image == None:
+            Flag.image = load_image('ScenerySprites.gif')
+
+        self.frame = 0
+        self.time = 0  # update 시간 조절
+
+    def update(self):
+        pass
+        #if self.time % 3 == 0:
+        #    self.frame = (self.frame + 1) % 5  # 깃발 내려가도록
+        #self.time += 1
+
+    def draw(self):
+        self.image.clip_draw(247 - self.frame * 33, 185, 25, 170, 3370 - Move_locX, 130)
+
+class Castle:
+    image = None
+
+    def __init__(self):
+        if Castle.image == None:
+            Castle.image = load_image('ScenerySprites.gif')
+
+    def update(self):
+        pass
+
+    def draw(self):
+        self.image.clip_draw(250, 0, 100, 100, 3500 - Move_locX, 90)
+
 
 # 아이템 ----------------------------------------------------------------------------------------------------------------
 class QuestionBox:  # 물음표 상자
+    image = None
+
     def __init__(self):
-        self.image = load_image('ItemsSheet.png')
-        self.left, self.bottom = 0, 80
-        self.width, self.height = 30, 30
-        self.x, self.y = 0, 0
+        if QuestionBox.image == None:
+            QuestionBox.image = load_image('ItemsSheet.png')
+
         self.frame = 0
         self.time = 0  # update 시간 조절
 
@@ -265,16 +373,38 @@ class QuestionBox:  # 물음표 상자
         self.time += 1
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 250 - Move_locX, 100)
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 319 - Move_locX, 100)
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 319 - Move_locX, 100 + 50)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 250 - Move_locX, 100)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 319 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 335 - Move_locX, 100 + 50)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 351 - Move_locX, 100)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 980 - Move_locX, 100 + 30)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1204 - Move_locX, 100)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1504 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1504 - Move_locX, 100 + 50)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1654 - Move_locX, 100)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1770 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1820 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1820 - Move_locX, 100 + 50)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1870 - Move_locX, 100)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 2169 - Move_locX, 100 + 50)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 2185 - Move_locX, 100 + 50)
+
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 2935 - Move_locX, 100)
 
 class Coin:  # 코인
+    image = None
+
     def __init__(self):
-        self.image = load_image('ItemsSheet.png')
-        self.left, self.bottom = 120, 0
-        self.width, self.height = 30, 30
-        self.x, self.y = 0, 0
+        if Coin.image == None:
+            Coin.image = load_image('ItemsSheet.png')
+
         self.frame = 0
         self.time = 0  # update 시간 조절
 
@@ -284,20 +414,28 @@ class Coin:  # 코인
         self.time += 1
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 440 - Move_locX, 60)
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 460 - Move_locX, 60)
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 480 - Move_locX, 60)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 250 - Move_locX, 130)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 335 - Move_locX, 180)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 351 - Move_locX, 130)
 
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 662 - Move_locX, 130)
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 678 - Move_locX, 130)
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 694 - Move_locX, 130)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1504 - Move_locX, 130 + 50)
+
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1770 - Move_locX, 130)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1820 - Move_locX, 130)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1870 - Move_locX, 130)
+
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 2169 - Move_locX, 130 + 50)
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 2185 - Move_locX, 130 + 50)
+
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 2935 - Move_locX, 130)
 
 class Star:  # 별
+    image = None
+
     def __init__(self):
-        self.image = load_image('ItemsSheet.png')
-        self.left, self.bottom = 0, 0
-        self.width, self.height = 30, 30
-        self.x, self.y = 0, 0
+        if Star.image == None:
+            Star.image = load_image('ItemsSheet.png')
+
         self.frame = 0
         self.time = 0  # update 시간 조절
 
@@ -307,7 +445,7 @@ class Star:  # 별
         self.time += 1
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, 955 - Move_locX, 120)
+        self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, 1654 - Move_locX, 130)
 
 # 장애물 ----------------------------------------------------------------------------------------------------------------
 class UpDownObstruction:  # 위아래로 움직이는 장애물
@@ -319,10 +457,12 @@ class UpDownObstruction:  # 위아래로 움직이는 장애물
 
 # 적군 ------------------------------------------------------------------------------------------------------------------
 class Goomba:  # 굼바
+    image = None
+
     def __init__(self):
-        self.image = load_image('EnemiesAnimationSheet.png')
-        self.left, self.bottom = 0, 240  # clip
-        self.width, self.height = 30, 30  # 크기
+        if Goomba.image == None:
+            Goomba.image = load_image('EnemiesAnimationSheet.png')
+
         self.x, self.y = 250, 60  # 위치
         self.frame = 0  # 애니메이션 프레임
         self.right = True  # 움직이는 방향 체크
@@ -339,14 +479,15 @@ class Goomba:  # 굼바
         self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, self.x - Move_locX, self.y)
 
 class Flower:  # 플라워
+    image = None
+
     def __init__(self):
-        self.image = load_image('EnemiesAnimationSheet.png')
-        self.left, self.bottom = 380, 205  # clip
-        self.width, self.height = 30, 30  # 크기
-        self.x, self.y = 600, 60  # 위치
+        if Flower.image == None:
+            Flower.image = load_image('EnemiesAnimationSheet.png')
+
         self.frame = 0  # 애니메이션 프레임
         self.time = 0  # update 시간 조절
 
@@ -356,24 +497,21 @@ class Flower:  # 플라워
         self.time += 1
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        pass
+        # self.image.clip_draw(380 + self.frame * 30, 205, 30, 30, 600 - Move_locX, 60)
 
 class HamerBro:  # 해머브러스
+    image = None
+
     def __init__(self):
-        self.image = load_image('EnemiesAnimationSheet.png')
-        self.left, self.bottom = 170, 145  # clip
-        self.width, self.height = 30, 30  # 크기
+        if HamerBro.image == None:
+            HamerBro.image = load_image('EnemiesAnimationSheet.png')
+
         self.x, self.y = 1000, 60  # 위치
         self.frame = 0  # 애니메이션 프레임
         self.right = True  # 움직이는 방향 체크
 
         self.time = 0  # 공격 시간
-        self.hammerimage = load_image('EnemiesAnimationSheet.png')
-        # self.left, self.bottom = 170, 145  # clip
-        # self.width, self.height = 30, 30  # 크기
-        # self.x, self.y = 1000, 60  # 위치
-        # self.frame = 0  # 애니메이션 프레임
-        # self.right = True  # 움직이는 방향 체크
 
     def update(self):
         if self.right == True:  # 오른쪽 방향으로 이동
@@ -390,14 +528,19 @@ class HamerBro:  # 해머브러스
         self.frame = (self.frame + 1) % 3  # 움직일 때 애니메이션
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        pass
+        # self.image.clip_draw(170 + self.frame * 30, 145, 30, 30, self.x - Move_locX, self.y)
 
 # 플레이어 --------------------------------------------------------------------------------------------------------------
 class Mario:  # 마리오
+    image = None
+
     def __init__(self):
-        self.image = load_image('MarioAnimationSheet.png')
-        self.left, self.bottom = 200, 170  # clip
-        self.x, self.y = 30, 60  # 캐릭터 위치 30
+        if Mario.image == None:
+            Mario.image = load_image('MarioAnimationSheet.png')
+
+        self.left, self.bottom = 200, 170
+        self.x, self.y = 3300, 60  # 30
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
@@ -443,10 +586,11 @@ class Mario:  # 마리오
 
         if self.x >= 400:  # 일정 거리를 넘으면 맵이 움직이도록
             Move_locX = self.x - 400
-        if self.x >= 800:  # 일정 거리를 넘으면 맵이 움직이지 않도록
-            Move_locX = 800 - 400
+        if self.x >= 3200:  # 일정 거리를 넘으면 맵이 움직이지 않도록
+            Move_locX = 3200 - 400
 
     def draw(self):
+        print(self.x)
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, 30, 30, self.x - Move_locX, self.y)
 
 
@@ -454,9 +598,12 @@ class Mario:  # 마리오
 def enter():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
     global smallpipe, midpipe, largepipe, brick
+    global flag, castle
     global questionbox, coin, star
     global goomba, flower, hamerbro
     global character
+
+    global playing, Mario_running, Mario_jumping, Mario_sliding , Mario_right, Mario_dir, Move_locX
 
     # initialization code : 초기화
     background = Background()  # 배경 생성
@@ -473,6 +620,9 @@ def enter():
     midpipe = MidPipe()  # 파이프 생성
     largepipe = LargePipe()  # 파이프 생성
     brick = Brick()  # 벽돌 생성
+
+    flag = Flag()  # 깃발 생성
+    castle = Castle()  # 성 생성
 
     questionbox = QuestionBox()  # 물음표 상자 생성
     coin = Coin()  # 코인 생성
@@ -495,6 +645,7 @@ def enter():
 def exit():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
     global smallpipe, midpipe, largepipe, brick
+    global flag, castle
     global questionbox, coin, star
     global goomba, flower, hamerbro
     global character
@@ -514,6 +665,9 @@ def exit():
     del (largepipe)
     del (brick)
 
+    del (flag)
+    del (castle)
+
     del (questionbox)
     del (coin)
     del (star)
@@ -526,6 +680,9 @@ def exit():
 
 def update():
     character.update()
+
+    flag.update()
+    castle.update()
 
     questionbox.update()
     coin.update()
@@ -552,6 +709,9 @@ def draw():
     midpipe.draw()
     largepipe.draw()
     brick.draw()
+
+    flag.draw()
+    castle.draw()
 
     questionbox.draw()
     coin.draw()
