@@ -28,6 +28,10 @@ castle = None
 questionbox = None
 coin = None
 star = None
+supermushroom = None
+upmushroom = None
+fireflower = None
+propellermushroom = None
 
 goomba = None
 flower = None
@@ -355,7 +359,6 @@ class Castle:
     def draw(self):
         self.image.clip_draw(250, 0, 100, 100, 3500 - Move_locX, 90)
 
-
 # 아이템 ----------------------------------------------------------------------------------------------------------------
 class QuestionBox:  # 물음표 상자
     image = None
@@ -418,6 +421,7 @@ class Coin:  # 코인
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 335 - Move_locX, 180)
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 351 - Move_locX, 130)
 
+        self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1504 - Move_locX, 130)
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1504 - Move_locX, 130 + 50)
 
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 1770 - Move_locX, 130)
@@ -446,6 +450,49 @@ class Star:  # 별
 
     def draw(self):
         self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, 1654 - Move_locX, 130)
+
+class SuperMushroom:  # 슈퍼 버섯 -> 키 커짐
+    image = None
+
+    def __init__(self):
+        if SuperMushroom.image == None:
+            SuperMushroom.image = load_image('ItemsSheet.png')
+
+    def draw(self):
+        self.image.clip_draw(180, 60, 30, 30, 319 - Move_locX, 127)
+
+
+class UpMushroom:  # 1-UP 버섯 -> 목숨 + 1
+    image = None
+
+    def __init__(self):
+        if UpMushroom.image == None:
+            UpMushroom.image = load_image('ItemsSheet.png')
+
+    def draw(self):
+        self.image.clip_draw(210, 60, 30, 30, 1820 - Move_locX, 127 + 50)
+
+class FireFlower:  # 파이어 플라워 -> 불 공격
+    image = None
+
+    def __init__(self):
+        if FireFlower.image == None:
+            FireFlower.image = load_image('ItemsSheet.png')
+
+    def draw(self):
+        self.image.clip_draw(140, 30, 30, 30, 1193 - Move_locX, 127)
+
+class PropellerMushroom:  # 프로펠러 버섯 -> 날기 가능
+    image = None
+
+    def __init__(self):
+        if PropellerMushroom.image == None:
+            PropellerMushroom.image = load_image('ItemsSheet.png')
+
+    def draw(self):
+        pass
+        #  self.image.clip_draw(0, 80, 30, 30, 250 - Move_locX, 100)
+
 
 # 장애물 ----------------------------------------------------------------------------------------------------------------
 class UpDownObstruction:  # 위아래로 움직이는 장애물
@@ -540,7 +587,7 @@ class Mario:  # 마리오
             Mario.image = load_image('MarioAnimationSheet.png')
 
         self.left, self.bottom = 200, 170
-        self.x, self.y = 3300, 60  # 30
+        self.x, self.y = 1500, 60  # 30
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
@@ -599,7 +646,7 @@ def enter():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
     global smallpipe, midpipe, largepipe, brick
     global flag, castle
-    global questionbox, coin, star
+    global questionbox, coin, star, supermushroom, upmushroom, fireflower, propellermushroom
     global goomba, flower, hamerbro
     global character
 
@@ -627,6 +674,11 @@ def enter():
     questionbox = QuestionBox()  # 물음표 상자 생성
     coin = Coin()  # 코인 생성
     star = Star()  # 별 생성
+    supermushroom = SuperMushroom()  # 슈퍼 버섯 생성
+    upmushroom = UpMushroom()  # 업 버섯 생성
+    fireflower = FireFlower()  # 파이어 플라워 생성
+    propellermushroom = PropellerMushroom()  # 프로펠러 버섯 생성
+
 
     goomba = Goomba()  # 굼바 생성
     flower = Flower()  # 플라워 생성
@@ -646,7 +698,7 @@ def exit():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
     global smallpipe, midpipe, largepipe, brick
     global flag, castle
-    global questionbox, coin, star
+    global questionbox, coin, star, supermushroom, upmushroom, fireflower, propellermushroom
     global goomba, flower, hamerbro
     global character
 
@@ -671,6 +723,10 @@ def exit():
     del (questionbox)
     del (coin)
     del (star)
+    del (supermushroom)
+    del (upmushroom)
+    del (fireflower)
+    del (propellermushroom)
 
     del (goomba)
     del (flower)
@@ -716,6 +772,10 @@ def draw():
     questionbox.draw()
     coin.draw()
     star.draw()
+    supermushroom.draw()
+    upmushroom.draw()
+    fireflower.draw()
+    propellermushroom.draw()
 
     goomba.draw()
     flower.draw()
@@ -725,7 +785,6 @@ def draw():
 
     update_canvas()
     delay(0.07)
-
 
 def handle_events():  # 입력처리
     global playing
