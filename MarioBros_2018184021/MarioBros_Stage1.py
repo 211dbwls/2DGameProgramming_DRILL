@@ -2,6 +2,7 @@ from pico2d import *
 
 import game_framework
 import MarioBros_StartState
+import MarioBros_BonusStage
 
 name = "MarioBros_Stage1"
 
@@ -801,6 +802,8 @@ def handle_events():  # 입력처리
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:  # esc키
             game_framework.change_state(MarioBros_StartState)  # 이전 화면으로 이동
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:  # space키
+            game_framework.change_state(MarioBros_BonusStage)  # 보너스 스테이지 이동
         elif event.type == SDL_KEYDOWN:  # 키 눌렀을 때
             if event.key == SDLK_d:  # D키_오른쪽으로 이동
                 Mario_running = True
