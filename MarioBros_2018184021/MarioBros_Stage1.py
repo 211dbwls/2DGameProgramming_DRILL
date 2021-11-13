@@ -3,6 +3,7 @@ from pico2d import *
 import game_framework
 import MarioBros_StartState
 import MarioBros_BonusStage
+import MarioBros_BossStage
 
 name = "MarioBros_Stage1"
 
@@ -418,6 +419,8 @@ class Coin:  # 코인
         self.time += 1
 
     def draw(self):
+        self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
+
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 250 - Move_locX, 130)
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 335 - Move_locX, 180)
         self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 351 - Move_locX, 130)
@@ -461,7 +464,6 @@ class SuperMushroom:  # 슈퍼 버섯 -> 키 커짐
 
     def draw(self):
         self.image.clip_draw(180, 60, 30, 30, 319 - Move_locX, 127)
-
 
 class UpMushroom:  # 1-UP 버섯 -> 목숨 + 1
     image = None
@@ -784,6 +786,21 @@ def draw():
 
     character.draw()
 
+    font = load_font('SuperMario256.ttf', 16)
+    numfont = load_font('SuperMario256.ttf', 18)
+
+    font.draw(30, 570, 'MARIO', (255, 255, 255))
+
+    numfont.draw(100, 570, '000000', (255, 255, 255))
+
+    numfont.draw(405, 569, 'x', (255, 255, 255))
+    numfont.draw(420, 569, '00', (255, 255, 255))
+
+    font.draw(660, 570, 'TIME', (255, 255, 255))
+    numfont.draw(720, 570, '00', (255, 255, 255))
+    font.draw(743, 570, ':', (255, 255, 255))
+    numfont.draw(750, 570, '00', (255, 255, 255))
+
     update_canvas()
     delay(0.07)
 
@@ -804,6 +821,8 @@ def handle_events():  # 입력처리
             game_framework.change_state(MarioBros_StartState)  # 이전 화면으로 이동
         elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:  # space키
             game_framework.change_state(MarioBros_BonusStage)  # 보너스 스테이지 이동
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_TAB:  # tab키
+            game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지 이동
         elif event.type == SDL_KEYDOWN:  # 키 눌렀을 때
             if event.key == SDLK_d:  # D키_오른쪽으로 이동
                 Mario_running = True

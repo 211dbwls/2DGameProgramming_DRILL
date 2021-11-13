@@ -3,16 +3,20 @@ from pico2d import *
 import game_framework
 import MarioBros_Stage1
 
-name = "MarioBros_BonusStage"
+name = "MarioBros_BossStage"
 
 STAGE_WIDTH, STAGE_HEIGHT = 800, 600
 # 변수 ------------------------------------------------------------------------------------------------------------------
 background = None
+ground = None
+fireground = None
+bridgeground = None
 
-lpipe = None
 brick = None
 
 coin = None
+
+boss = None
 
 character = None
 
@@ -43,26 +47,110 @@ class Ground:  # 땅
         if Ground.image == None:
             Ground.image = load_image('ScenerySprites2.gif')
 
-    def draw(self):
-        for i in range(0, 48):
-            for j in range(0, 3):
-                self.image.clip_draw(392, 1112, 16, 17, 24 + 16 * i, 5 + 17 * j)
+        self.upx, self.downx = 8, 8
 
-# 파이프, 벽돌 -----------------------------------------------------------------------------------------------------------
-class LPipe:
+    def draw(self):
+        self.upx = 8
+        for i in range(0, 60):
+            for j in range(0, 12):
+                self.image.clip_draw(413, 1095, 16, 17, self.upx - Move_locX, 349 + 17 * j)
+            self.upx += 16
+
+        for j in range(0, 16):
+            self.image.clip_draw(413, 1095, 16, 17, self.upx - Move_locX, 349 - 68 + 17 * j)
+
+        for i in range(0, 28):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.upx - Move_locX, 349 + 17 * 5 + 17 * j)
+            self.upx += 16
+
+        for j in range(0, 16):
+            self.image.clip_draw(413, 1095, 16, 17, self.upx - Move_locX, 349 - 68 + 17 * j)
+
+        for i in range(0, 50):
+            for j in range(0, 16):
+                self.image.clip_draw(413, 1095, 16, 17, self.upx - Move_locX, 349 - 68 + 17 * j)
+            self.upx += 16
+
+        # 바닥
+        self.downx = 8
+        for t in range(0, 3):
+            for i in range(0, 15 - t * 2):
+                for j in range(0, 2):
+                    self.image.clip_draw(413, 1095, 16, 17, self.downx + 16 * i - Move_locX, 124 + 34 * t + 17 * j)
+
+        for i in range(0, 40):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx - Move_locX, 5 + 17 * j)
+            self.downx += 16
+
+        self.downx += 32
+        for i in range(0, 25):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx - Move_locX, 5 + 17 * j)
+            self.downx += 16
+
+        self.downx += 32
+        for i in range(0, 10):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx - Move_locX, 5 + 17 * j)
+            self.downx += 16
+
+        self.downx += 32
+        for i in range(0, 75):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx - Move_locX, 5 + 17 * j)
+            self.downx += 16
+
+        self.downx += 362
+        for i in range(0, 5):
+            for j in range(0, 2):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx + 16 * i - Move_locX, 124 + 17 * j)
+
+        for i in range(0, 5):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx - Move_locX, 5 + 17 * j)
+            self.downx += 16
+
+        for i in range(0, 23):
+            for j in range(0, 7):
+                self.image.clip_draw(413, 1095, 16, 17, self.downx - Move_locX, 5 + 17 * j)
+            self.downx += 16
+
+class FireGround:
     image = None
 
     def __init__(self):
-        if LPipe.image == None:
-            LPipe.image = load_image('ScenerySprites.gif')
+        if FireGround.image == None:
+            FireGround.image = load_image('ScenerySprites2.gif')
 
     def draw(self):
-        self.image.clip_draw(50, 500, 100, 130, 750, 110)
+        self.image.clip_draw(620, 755, 35, 35, 656 - Move_locX, 10)
+        self.image.clip_draw(620, 755, 35, 35, 656 - Move_locX, 30)
+        self.image.clip_draw(620, 792, 35, 12, 656 - Move_locX, 54)
 
-        self.image.clip_draw(70, 535, 80, 90, 760, 215)  # 위에 연결
-        self.image.clip_draw(70, 535, 80, 90, 760, 305)
-        self.image.clip_draw(70, 535, 80, 90, 760, 395)
-        self.image.clip_draw(70, 535, 80, 90, 760, 485)
+        self.image.clip_draw(620, 755, 35, 35, 1088 - Move_locX, 10)
+        self.image.clip_draw(620, 755, 35, 35, 1088 - Move_locX, 30)
+        self.image.clip_draw(620, 792, 35, 12, 1088 - Move_locX, 54)
+
+        self.image.clip_draw(620, 755, 35, 35, 1280 - Move_locX, 10)
+        self.image.clip_draw(620, 755, 35, 35, 1280 - Move_locX, 30)
+        self.image.clip_draw(620, 792, 35, 12, 1280 - Move_locX, 54)
+
+class BridgeGround:
+    image = None
+
+    def __init__(self):
+        if BridgeGround.image == None:
+            BridgeGround.image = load_image('ScenerySprites2.gif')
+
+        self.x = 2507
+
+    def draw(self):
+        for i in range(0, 20):
+            self.image.clip_draw(580, 770, 25, 15, self.x + 18 * i - Move_locX, 107)
+
+        self.image.clip_draw(140, 1200, 40, 10, 2700 - Move_locX, 157)
 
 class Brick:  # 벽돌
     image = None
@@ -72,17 +160,14 @@ class Brick:  # 벽돌
             Brick.image = load_image('ScenerySprites2.gif')
 
     def draw(self):
-        for i in range(0, 3):
-            for j in range(0, 30):
-                self.image.clip_draw(393, 1134, 15, 16, 25 + 15 * i, 56 + 16 * j)
+        self.image.clip_draw(373, 1095, 16, 17, 968 - Move_locX, 264)
 
-        for i in range(0, 22):
-            for j in range(0, 5):
-                self.image.clip_draw(393, 1134, 15, 16, 250 + 15 * i, 56 + 16 * j)
+        self.image.clip_draw(373, 1095, 16, 17, 1180 - Move_locX, 264)
 
-        for i in range(0, 22):
-            for j in range(0, 3):
-                self.image.clip_draw(393, 1134, 15, 16, 250 + 15 * i, 485 + 16 * j)
+        self.image.clip_draw(373, 1095, 16, 17, 1416 - Move_locX, 264)
+        self.image.clip_draw(373, 1095, 16, 17, 1630 - Move_locX, 264)
+        self.image.clip_draw(373, 1095, 16, 17, 1844 - Move_locX, 264)
+        self.image.clip_draw(373, 1095, 16, 17, 2058 - Move_locX, 264)
 
 # 아이템 ----------------------------------------------------------------------------------------------------------------
 class Coin:  # 코인
@@ -101,14 +186,28 @@ class Coin:  # 코인
         self.time += 1
 
     def draw(self):
-        for i in range(0, 11):
-            for j in range(0, 2):
-                self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 260 + 30 * i, 140 + 30 * j)
+        self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
+        #  self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 260 + 30 * i, 140 + 30 * j)
 
-        for i in range(0, 9):
-            self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
+# 보스 ------------------------------------------------------------------------------------------------------------------
+class Boss:  # 코인
+    image = None
 
-            self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 260 + 30 * i + 30, 140 + 60)
+    def __init__(self):
+        if Boss.image == None:
+            Boss.image = load_image('EnemiesAnimationSheet.png')
+
+        self.frame = 0
+        self.time = 0  # update 시간 조절
+
+    def update(self):
+        pass
+        #if self.time % 2 == 0:
+        #    self.frame = (self.frame + 1) % 4  # 제자리에서 돌아가도록 애니메이션 설정
+        #self.time += 1
+
+    def draw(self):
+        self.image.clip_draw(0, 10, 40, 50, 2820 - Move_locX, 130)
 
 # 플레이어 --------------------------------------------------------------------------------------------------------------
 class Mario:  # 마리오
@@ -119,7 +218,7 @@ class Mario:  # 마리오
             Mario.image = load_image('MarioAnimationSheet.png')
 
         self.left, self.bottom = 200, 170
-        self.x, self.y = 90, 60  # 90
+        self.x, self.y = 2800, 125  # 30, 230 | 125 /// 2200
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
@@ -165,8 +264,8 @@ class Mario:  # 마리오
 
         if self.x >= 400:  # 일정 거리를 넘으면 맵이 움직이도록
             Move_locX = self.x - 400
-        if self.x >= 3200:  # 일정 거리를 넘으면 맵이 움직이지 않도록
-            Move_locX = 3200 - 400
+        if self.x >= 2900:  # 일정 거리를 넘으면 맵이 움직이지 않도록
+            Move_locX = 2900 - 400
 
     def draw(self):
         print(self.x)
@@ -174,9 +273,10 @@ class Mario:  # 마리오
 
 # 함수 -----------------------------------------------------------------------------------------------------------------
 def enter():
-    global background, ground
-    global lpipe, brick
+    global background, ground, fireground, bridgeground
+    global brick
     global coin
+    global boss
     global character
 
     global playing, Mario_running, Mario_jumping, Mario_sliding , Mario_right, Mario_dir, Move_locX
@@ -184,11 +284,14 @@ def enter():
     # initialization code : 초기화
     background = Background()  # 배경 생성
     ground = Ground()  # 땅 생성
+    fireground = FireGround()  # 불 생성
+    bridgeground = BridgeGround()  # 다리 생성
 
-    lpipe = LPipe()  # 파이프 생성
     brick = Brick()  # 벽돌 생성
 
     coin = Coin()  # 코인 생성
+
+    boss = Boss()  # 보스 생성
 
     character = Mario()  # 캐릭터 생성
 
@@ -201,18 +304,22 @@ def enter():
     Move_locX = 0
 
 def exit():
-    global background, ground
-    global lpipe, brick
+    global background, ground, fireground, bridgeground
+    global brick
     global coin
+    global boss
     global character
 
     del (background)
     del (ground)
+    del (fireground)
+    del (bridgeground)
 
-    del (lpipe)
     del (brick)
 
     del (coin)
+
+    del (boss)
 
     del (character)
 
@@ -221,16 +328,21 @@ def update():
 
     coin.update()
 
+    boss.update()
+
 def draw():
     clear_canvas()
 
     background.draw()
+    fireground.draw()
     ground.draw()
+    bridgeground.draw()
 
-    lpipe.draw()
     brick.draw()
 
     coin.draw()
+
+    boss.draw()
 
     character.draw()
 
