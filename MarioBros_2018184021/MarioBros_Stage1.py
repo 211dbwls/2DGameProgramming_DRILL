@@ -28,6 +28,9 @@ from MarioBros_Item_PropellerMushroom import *
 
 from MarioBros_Mario import *
 
+from MarioBros_Mario_FireBall import *
+from MarioBros_Enemies_Boss_Fire import *
+
 name = "MarioBros_Stage1"
 
 STAGE_WIDTH, STAGE_HEIGHT = 800, 600
@@ -64,6 +67,9 @@ hamerbro = None
 
 mario = None
 
+mario_fireball = None
+
+
 # 함수 -----------------------------------------------------------------------------------------------------------------
 def enter():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
@@ -72,8 +78,7 @@ def enter():
     global questionbox, coin, star, supermushroom, upmushroom, fireflower, propellermushroom
     global goomba, flower, hamerbro
     global mario
-
-    global playing, Mario_running, Mario_jumping, Mario_sliding , Mario_right, Mario_dir, Move_locX
+    global mario_fireball
 
     # initialization code : 초기화
     background = Background()  # 배경 생성
@@ -106,7 +111,9 @@ def enter():
     flower = Flower()  # 플라워 생성
     hamerbro = HamerBro()  # 해머브러스 생성
 
-    mario = Mario()  # 캐릭터 생성
+    mario = Mario(1400, 60)  # 캐릭터 생성
+
+    mario_fireball = FireBall()  # 불 공격 생성
 
 def exit():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
@@ -115,6 +122,7 @@ def exit():
     global questionbox, coin, star, supermushroom, upmushroom, fireflower, propellermushroom
     global goomba, flower, hamerbro
     global mario
+    global mario_fireball
 
     del (background)
     del (startsign)
@@ -148,6 +156,8 @@ def exit():
 
     del (mario)
 
+    del(mario_fireball)
+
 def update():
     mario.update()
 
@@ -161,6 +171,8 @@ def update():
     goomba.update()
     flower.update()
     hamerbro.update()
+
+    mario_fireball.update()
 
 def draw():
     clear_canvas()
@@ -197,6 +209,8 @@ def draw():
 
     mario.draw()
 
+    mario_fireball.draw()
+
     font = load_font('SuperMario256.ttf', 16)
     numfont = load_font('SuperMario256.ttf', 18)
 
@@ -224,8 +238,9 @@ def handle_events():  # 입력처리
             game_framework.change_state(MarioBros_BonusStage)  # 보너스 스테이지 이동
         elif event.type == SDL_KEYDOWN and event.key == SDLK_TAB:  # tab키
             game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지 이동
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_b:  # b키
+            mario.changeBigMario()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_f:  # f키
+            mario.changeFireMario()
         else:
             mario.handle_events(event)
-
-
-

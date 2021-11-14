@@ -11,15 +11,26 @@ Move_locX = 0
 class Mario:  # 마리오
     image = None
 
-    def __init__(self):
+    def __init__(self, Start_locX, Start_locY):
         if Mario.image == None:
             Mario.image = load_image('MarioAnimationSheet.png')
 
         self.left, self.bottom = 200, 170
-        self.x, self.y = 1500, 60  # 30
+        self.width, self.height = 30, 30
+        self.move_right_frame, self.move_left_frame = 200, 170
+        self.x, self.y = Start_locX, Start_locY  # 30
         self.frame = 0  # 애니메이션 프레임
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
+
+    def changeBigMario(self):  # 큰 마리오
+        self.bottom = 100
+        self.height = 35
+
+    def changeFireMario(self):  # 불 마리오
+        self.bottom = 30
+        self.width, self.height = 25, 35
+        self.move_right_frame, self.move_left_frame = 230, 175
 
     def update(self):  # 행위 구현
         global Mario_jumping
@@ -28,10 +39,10 @@ class Mario:  # 마리오
         if Mario_running == True:  # 이동 중일 경우
             self.x += Mario_dir * 5  # 이동
             if Mario_dir == 1:  # 오른쪽으로 이동 중일 경우 애니메이션 설정
-                self.left, self.bottom = 200, 170
+                self.left = self.move_right_frame
                 self.frame = (self.frame + 1) % 3
             elif Mario_dir == -1:  # 왼쪽으로 이동 중일 경우 애니메이션 설정
-                self.left, self.bottom = 170, 170
+                self.left = self.move_left_frame
                 self.frame = -((self.frame + 1) % 2)
 
         if Mario_jumping == True:  # 점프 중일 경우
@@ -66,7 +77,8 @@ class Mario:  # 마리오
             Move_locX = 3200 - 400
 
     def draw(self):
-        self.image.clip_draw(self.left + self.frame * 30, self.bottom, 30, 30, self.x - Move_locX, self.y)
+        print(self.x)
+        self.image.clip_draw(self.left + self.frame * self.width, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
     def handle_events(self, event):  # 입력처리
         global playingaa

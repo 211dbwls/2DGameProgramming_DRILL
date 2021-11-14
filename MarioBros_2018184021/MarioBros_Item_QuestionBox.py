@@ -17,15 +17,15 @@ class QuestionBox:  # 물음표 상자
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 250 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 250 - Move_locX, 100)  # 코인
 
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 319 - Move_locX, 100)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 335 - Move_locX, 100 + 50)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 351 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 319 - Move_locX, 100)  # 슈퍼 버섯 : 키 커짐
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 335 - Move_locX, 100 + 50)  # 코인
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 351 - Move_locX, 100)  # 코인
 
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 980 - Move_locX, 100 + 30)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 980 - Move_locX, 100 + 30)  # 업 버섯 : 목숨 추가
 
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1204 - Move_locX, 100)
+        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1204 - Move_locX, 100)  # 파이어플라워
 
         self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1504 - Move_locX, 100)
         self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1504 - Move_locX, 100 + 50)
