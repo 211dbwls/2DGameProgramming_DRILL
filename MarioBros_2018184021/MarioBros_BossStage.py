@@ -357,9 +357,7 @@ def draw():
     numfont.draw(420, 569, '00', (255, 255, 255))
 
     font.draw(660, 570, 'TIME', (255, 255, 255))
-    numfont.draw(720, 570, '00', (255, 255, 255))
-    font.draw(743, 570, ':', (255, 255, 255))
-    numfont.draw(750, 570, '00', (255, 255, 255))
+    numfont.draw(720, 570, '%3.0f' % (400 - get_time()), (255, 255, 255))
 
     update_canvas()
     delay(0.07)

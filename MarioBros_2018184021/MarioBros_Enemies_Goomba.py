@@ -1,0 +1,27 @@
+from pico2d import *
+
+class Goomba:  # 굼바
+    image = None
+
+    def __init__(self):
+        if Goomba.image == None:
+            Goomba.image = load_image('EnemiesAnimationSheet.png')
+
+        self.x, self.y = 250, 60  # 위치
+        self.frame = 0  # 애니메이션 프레임
+        self.right = True  # 움직이는 방향 체크
+
+    def update(self):
+        if self.right == True:  # 오른쪽 방향으로 이동
+            self.x += 2
+            if self.x == 350:
+                self.right = False
+        else:  # 왼쪽 방향으로 이동
+            self.x -= 2
+            if self.x == 250:
+                self.right = True
+        self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션
+
+    def draw(self):
+        from MarioBros_Mario import Move_locX
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, self.x - Move_locX, self.y)
