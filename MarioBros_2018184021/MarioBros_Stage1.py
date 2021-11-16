@@ -27,9 +27,7 @@ from MarioBros_Item_UpMushroom import *
 from MarioBros_Item_PropellerMushroom import *
 
 from MarioBros_Mario import *
-
 from MarioBros_Mario_FireBall import *
-from MarioBros_Enemies_Boss_Fire import *
 
 name = "MarioBros_Stage1"
 
@@ -66,7 +64,6 @@ flower = None
 hamerbro = None
 
 mario = None
-
 mario_fireball = None
 
 
@@ -111,105 +108,52 @@ def enter():
     flower = Flower()  # 플라워 생성
     hamerbro = HamerBro()  # 해머브러스 생성
 
-    mario = Mario(1400, 60)  # 캐릭터 생성
+    mario = Mario(2900, 60)  # 캐릭터 생성
 
-    mario_fireball = FireBall()  # 불 공격 생성
+    game_world.add_object(background, 0)
+    game_world.add_object(startsign, 0)
+    game_world.add_object(bigcloud, 0)
+    game_world.add_object(smallcloud, 0)
+    game_world.add_object(bigmountain, 0)
+    game_world.add_object(smallmountain, 0)
+    game_world.add_object(biggrass, 0)
+    game_world.add_object(smallgrass, 0)
+    game_world.add_object(ground, 0)
+
+    game_world.add_object(smallpipe, 0)
+    game_world.add_object(midpipe, 0)
+    game_world.add_object(largepipe, 0)
+    game_world.add_object(brick, 0)
+
+    game_world.add_object(flag, 0)
+    game_world.add_object(castle, 0)
+
+    game_world.add_object(questionbox, 0)
+    game_world.add_object(coin, 0)
+    game_world.add_object(star, 0)
+    game_world.add_object(supermushroom, 0)
+    game_world.add_object(upmushroom, 0)
+    game_world.add_object(fireflower, 0)
+    game_world.add_object(propellermushroom, 0)
+
+    game_world.add_object(goomba, 0)
+    game_world.add_object(flower, 0)
+    game_world.add_object(hamerbro, 0)
+
+    game_world.add_object(mario, 1)
 
 def exit():
-    global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
-    global smallpipe, midpipe, largepipe, brick
-    global flag, castle
-    global questionbox, coin, star, supermushroom, upmushroom, fireflower, propellermushroom
-    global goomba, flower, hamerbro
-    global mario
-    global mario_fireball
-
-    del (background)
-    del (startsign)
-    del (bigcloud)
-    del (smallcloud)
-    del (bigmountain)
-    del (smallmountain)
-    del (biggrass)
-    del (smallgrass)
-    del (ground)
-
-    del (smallpipe)
-    del (midpipe)
-    del (largepipe)
-    del (brick)
-
-    del (flag)
-    del (castle)
-
-    del (questionbox)
-    del (coin)
-    del (star)
-    del (supermushroom)
-    del (upmushroom)
-    del (fireflower)
-    del (propellermushroom)
-
-    del (goomba)
-    del (flower)
-    del (hamerbro)
-
-    del (mario)
-
-    del(mario_fireball)
+    game_world.clear()
 
 def update():
-    mario.update()
-
-    flag.update()
-    castle.update()
-
-    questionbox.update()
-    coin.update()
-    star.update()
-
-    goomba.update()
-    flower.update()
-    hamerbro.update()
-
-    mario_fireball.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 def draw():
     clear_canvas()
 
-    background.draw()
-    startsign.draw()
-    bigcloud.draw()
-    smallcloud.draw()
-    bigmountain.draw()
-    smallmountain.draw()
-    biggrass.draw()
-    smallgrass.draw()
-    ground.draw()
-
-    smallpipe.draw()
-    midpipe.draw()
-    largepipe.draw()
-    brick.draw()
-
-    flag.draw()
-    castle.draw()
-
-    questionbox.draw()
-    coin.draw()
-    star.draw()
-    supermushroom.draw()
-    upmushroom.draw()
-    fireflower.draw()
-    propellermushroom.draw()
-
-    goomba.draw()
-    flower.draw()
-    hamerbro.draw()
-
-    mario.draw()
-
-    mario_fireball.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
     font = load_font('SuperMario256.ttf', 16)
     numfont = load_font('SuperMario256.ttf', 18)
@@ -243,4 +187,4 @@ def handle_events():  # 입력처리
         elif event.type == SDL_KEYDOWN and event.key == SDLK_f:  # f키
             mario.changeFireMario()
         else:
-            mario.handle_events(event)
+            mario.handle_event(event)

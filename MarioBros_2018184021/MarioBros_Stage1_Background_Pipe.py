@@ -7,6 +7,9 @@ class LargePipe:
         if LargePipe.image == None:
             LargePipe.image = load_image('ScenerySprites.gif')
 
+    def update(self):
+        pass
+
     def draw(self):
         from MarioBros_Mario import Move_locX
 

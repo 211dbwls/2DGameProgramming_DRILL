@@ -36,3 +36,15 @@ class Goomba:  # 굼바
 
         self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 1520 + self.movex - Move_locX, 60)
         self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 1550 + self.movex - Move_locX, 60)
+
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 1895 + self.movex - Move_locX, 60)
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 1925 + self.movex - Move_locX, 60)
+
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 2040 + self.movex - Move_locX, 60)
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 2070 + self.movex - Move_locX, 60)
+
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 2140 + self.movex - Move_locX, 60)
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 2170 + self.movex - Move_locX, 60)
+
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 2970 + self.movex - Move_locX, 60)
+        self.image.clip_draw(0 + self.frame * 30, 240, 30, 30, 3000 + self.movex - Move_locX, 60)

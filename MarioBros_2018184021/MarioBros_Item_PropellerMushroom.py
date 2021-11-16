@@ -7,6 +7,9 @@ class PropellerMushroom:  # 프로펠러 버섯 -> 날기 가능
         if PropellerMushroom.image == None:
             PropellerMushroom.image = load_image('ItemsSheet.png')
 
+    def update(self):
+        pass
+
     def draw(self):
         pass
         #  self.image.clip_draw(0, 80, 30, 30, 250 - Move_locX, 100)

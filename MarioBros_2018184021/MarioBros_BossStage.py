@@ -10,6 +10,7 @@ from MarioBros_BossStage_Coin import *
 from MarioBros_Enemies_Boss import *
 
 from MarioBros_Mario import *
+from MarioBros_Mario_FireBall import *
 
 name = "MarioBros_BossStage"
 

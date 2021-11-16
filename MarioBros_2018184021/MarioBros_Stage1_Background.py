@@ -7,6 +7,9 @@ class Background:  # 배경
         if Background.image == None:
             Background.image = load_image('Back.png')
 
+    def update(self):
+        pass
+
     def draw(self):
         self.image.draw(400, 300)
 
@@ -16,6 +19,9 @@ class StartSign:  # 시작 표지판
     def __init__(self):
         if StartSign.image == None:
             StartSign.image = load_image('GroundSheet.png')
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
@@ -27,6 +33,9 @@ class BigCloud:  # 구름
     def __init__(self):
         if BigCloud.image == None:
             BigCloud.image = load_image('ScenerySprites.gif')
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
@@ -47,6 +56,9 @@ class SmallCloud:  # 구름
     def __init__(self):
         if SmallCloud.image == None:
             SmallCloud.image = load_image('ScenerySprites.gif')
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
@@ -76,6 +88,9 @@ class BigMountain:  # 산
         if BigMountain.image == None:
             BigMountain.image = load_image('ScenerySprites.gif')
 
+    def update(self):
+        pass
+
     def draw(self):
         from MarioBros_Mario import Move_locX
         self.image.clip_draw(80, 900, 90, 60, 180 - Move_locX, 60)
@@ -93,6 +108,9 @@ class SmallMountain:  # 산
         if SmallMountain.image == None:
             SmallMountain.image = load_image('ScenerySprites.gif')
 
+    def update(self):
+        pass
+
     def draw(self):
         from MarioBros_Mario import Move_locX
         self.image.clip_draw(170, 900, 50, 60, 400 - Move_locX, 60)
@@ -109,6 +127,9 @@ class BigGrass:  # 풀
     def __init__(self):
         if BigGrass.image == None:
             BigGrass.image = load_image('ScenerySprites.gif')
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
@@ -128,6 +149,9 @@ class SmallGrass:  # 풀
     def __init__(self):
         if SmallGrass.image == None:
             SmallGrass.image = load_image('ScenerySprites.gif')
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
@@ -149,6 +173,9 @@ class Ground:  # 땅
         self.left, self.bottom = 2, 155  # clip
         self.width, self.height = 16, 17
         self.x, self.y = 8, 7  # 생성 위치
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
@@ -212,6 +239,9 @@ class SmallPipe:
         if SmallPipe.image == None:
             SmallPipe.image = load_image('ScenerySprites.gif')
 
+    def update(self):
+        pass
+
     def draw(self):
         from MarioBros_Mario import Move_locX
         self.image.clip_draw(305, 490, 40, 50, 460 - Move_locX, 60)
@@ -226,6 +256,9 @@ class MidPipe:
     def __init__(self):
         if MidPipe.image == None:
             MidPipe.image = load_image('ScenerySprites.gif')
+
+    def update(self):
+        pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX

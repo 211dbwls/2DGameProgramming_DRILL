@@ -11,6 +11,7 @@ from MarioBros_BonusStage_Brick import *
 from MarioBros_BonusStage_Coin import *
 
 from MarioBros_Mario import *
+from MarioBros_Mario_FireBall import *
 
 name = "MarioBros_BonusStage"
 
@@ -25,6 +26,8 @@ brick = None
 coin = None
 
 mario = None
+mario_fireball = None
+
 
 # 함수 -----------------------------------------------------------------------------------------------------------------
 def enter():
@@ -32,6 +35,7 @@ def enter():
     global lpipe, brick
     global coin
     global mario
+    global mario_fireball
 
     # initialization code : 초기화
     background = Background()  # 배경 생성
@@ -44,12 +48,15 @@ def enter():
 
     mario = Mario(90, 60)  # 캐릭터 생성
 
+    mario_fireball = FireBall()  # 불 공격 생성
+
 
 def exit():
     global background, ground
     global lpipe, brick
     global coin
     global mario
+    global mario_fireball
 
     del (background)
     del (ground)
@@ -61,10 +68,14 @@ def exit():
 
     del (mario)
 
+    del (mario_fireball)
+
 def update():
     mario.update()
 
     coin.update()
+
+    mario_fireball.update()
 
 def draw():
     clear_canvas()
@@ -78,6 +89,8 @@ def draw():
     coin.draw()
 
     mario.draw()
+
+    mario_fireball.draw()
 
     font = load_font('SuperMario256.ttf', 16)
     numfont = load_font('SuperMario256.ttf', 18)
