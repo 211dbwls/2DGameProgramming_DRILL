@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 
 import game_framework
 import game_world
@@ -173,6 +174,8 @@ class Mario:  # 마리오
         self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
         self.t = 0  # 점프
 
+        self.fall_speed = 20
+
         self.timer = 0
 
         self.event_que = []
@@ -196,7 +199,15 @@ class Mario:  # 마리오
     def add_event(self, event):
         self.event_que.insert(0, event)
 
+    def get_bb(self):
+        return self.x - Move_locX - 10, self.y - 15, self.x - Move_locX + 10, self.y + 15
+
+    def stop(self):
+        self.fall_speed = 0
+
     def update(self):
+        self.y -= self.fall_speed
+
         self.cur_state.do(self)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
@@ -220,6 +231,8 @@ class Mario:  # 마리오
             Move_locX = 3200 - 400
 
         self.cur_state.draw(self)
+
+        draw_rectangle(*self.get_bb())
         debug_print('Velocity : ' + str(self.velocity) + ' Dir : ' + str(self.dir))
 
     def handle_event(self, event):

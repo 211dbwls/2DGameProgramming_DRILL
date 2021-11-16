@@ -68,6 +68,18 @@ mario_fireball = None
 
 
 # 함수 -----------------------------------------------------------------------------------------------------------------
+def collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+
+    # 충돌이 안 일어나는 상황을 먼저 체크
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+
+    return True
+
 def enter():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass, ground
     global smallpipe, midpipe, largepipe, brick
@@ -86,7 +98,37 @@ def enter():
     smallmountain = SmallMountain()  # 산 생성
     biggrass = BigGrass()  # 풀 생성
     smallgrass = SmallGrass()  # 풀 생성
-    ground = Ground()  # 땅 생성
+
+    grounds = [Ground(18, 155, 16, 17, 8 + 15 * i, 7) for i in range(0, 69)] \
+              + [Ground(18, 155 + 17, 16, 17, 8 + 15 * i, 7 + 16) for i in range(0, 69)] \
+              + [Ground(18, 155 + 34, 16, 17, 8 + 15 * i, 7 + 32) for i in range(0, 69)] \
+              + [Ground(35, 155, 15, 17, 8 + 1035, 7)] \
+              + [Ground(35, 155 + 17, 15, 17, 8 + 1035, 7 + 16)] \
+              + [Ground(35, 155 + 34, 15, 17, 8 + 1035, 7 + 32)] \
+              + [Ground(2, 155, 16, 17, 8 + 1095, 7)] \
+              + [Ground(2, 155 + 17, 16, 17, 8 + 1095, 7 + 16)] \
+              + [Ground(2, 155 + 34, 16, 17, 8 + 1095, 7 + 32)] \
+              + [Ground(18, 155, 16, 17, 8 + 1110 + 15 * i, 7) for i in range(0, 15)] \
+              + [Ground(18, 155 + 17, 16, 17, 8 + 1110 + 15 * i, 7 + 16) for i in range(0, 15)] \
+              + [Ground(18, 155 + 34, 16, 17, 8 + 1110 + 15 * i, 7 + 32) for i in range(0, 15)] \
+              + [Ground(35, 155, 15, 17, 8 + 1335, 7)] \
+              + [Ground(35, 155 + 17, 15, 17, 8 + 1335, 7 + 16)] \
+              + [Ground(35, 155 + 34, 15, 17, 8 + 1335, 7 + 32)] \
+              + [Ground(2, 155, 16, 17, 8 + 1395, 7)] \
+              + [Ground(2, 155 + 17, 16, 17, 8 + 1395, 7 + 16)] \
+              + [Ground(2, 155 + 34, 16, 17, 8 + 1395, 7 + 32)] \
+              + [Ground(18, 155, 16, 17, 8 + 1410 + 15 * i, 7) for i in range(0, 80)] \
+              + [Ground(18, 155 + 17, 16, 17, 8 + 1410 + 15 * i, 7 + 16) for i in range(0, 80)] \
+              + [Ground(18, 155 + 34, 16, 17, 8 + 1410 + 15 * i, 7 + 32) for i in range(0, 80)] \
+              + [Ground(35, 155, 15, 17, 8 + 2610, 7)] \
+              + [Ground(35, 155 + 17, 15, 17, 8 + 2610, 7 + 16)] \
+              + [Ground(35, 155 + 34, 15, 17, 8 + 2610, 7 + 32)] \
+              + [Ground(2, 155, 16, 17, 8 + 2670, 7)] \
+              + [Ground(2, 155 + 17, 16, 17, 8 + 2670, 7 + 16)] \
+              + [Ground(2, 155 + 34, 16, 17, 8 + 2670, 7 + 32)] \
+              + [Ground(18, 155, 16, 17, 8 + 2685 + 15 * i, 7) for i in range(0, 61)] \
+              + [Ground(18, 155 + 17, 16, 17, 8 + 2685 + 15 * i, 7 + 16) for i in range(0, 61)] \
+              + [Ground(18, 155 + 34, 16, 17, 8 + 2685 + 15 * i, 7 + 32) for i in range(0, 61)] \
 
     smallpipe = SmallPipe()  # 파이프 생성
     midpipe = MidPipe()  # 파이프 생성
@@ -108,7 +150,7 @@ def enter():
     flower = Flower()  # 플라워 생성
     hamerbro = HamerBro()  # 해머브러스 생성
 
-    mario = Mario(2900, 60)  # 캐릭터 생성
+    mario = Mario(30, 100)  # 캐릭터 생성
 
     game_world.add_object(background, 0)
     game_world.add_object(startsign, 0)
@@ -118,7 +160,8 @@ def enter():
     game_world.add_object(smallmountain, 0)
     game_world.add_object(biggrass, 0)
     game_world.add_object(smallgrass, 0)
-    game_world.add_object(ground, 0)
+    for ground in grounds:
+        game_world.add_object(ground, 0)
 
     game_world.add_object(smallpipe, 0)
     game_world.add_object(midpipe, 0)
@@ -148,6 +191,10 @@ def exit():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
+
+    # 충돌 체크 및 충돌 처리
+    if collide(ground, mario):
+        mario.stop()
 
 def draw():
     clear_canvas()

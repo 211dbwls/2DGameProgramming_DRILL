@@ -166,71 +166,39 @@ class SmallGrass:  # 풀
 class Ground:  # 땅
     image = None
 
-    def __init__(self):
+    def __init__(self, left, bottom, width, height, x, y):
         if Ground.image == None:
             Ground.image = load_image('Ground.png')
 
-        self.left, self.bottom = 2, 155  # clip
-        self.width, self.height = 16, 17
-        self.x, self.y = 8, 7  # 생성 위치
+        # self.left, self.bottom = 2, 155  # clip
+        # self.width, self.height = 16, 17
+        # self.x, self.y = 8, 7  # 생성 위치
+        self.left, self.bottom = left, bottom  # clip
+        self.width, self.height = width, height
+        self.x, self.y = x, y  # 생성 위치
+
+    def get_bb(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 6, self.y - 6, self.x - Move_locX + 7, self.y + 7
 
     def update(self):
         pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
-        self.x = 8
-        for i in range(0, 3):
-            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
-        for i in range(0, 68):
-            self.x += 15
-            for j in range(0, 3):
-                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
-                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
-        self.x += 15
-        for i in range(0, 3):
-            self.image.clip_draw(self.left + 33, self.bottom + self.height * i, self.width - 1, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 끝 땅
+        # self.x += 60
+        # for i in range(0, 3):
+        #     self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
+        #                          self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
+        # for i in range(0, 61):
+        #     self.x += 15
+        #     for j in range(0, 3):
+        #         self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
+        #                              self.x - Move_locX, self.y + self.width * j)  # 중간 땅
 
-        self.x += 60
-        for i in range(0, 3):
-            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
-        for i in range(0, 15):
-            self.x += 15
-            for j in range(0, 3):
-                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
-                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
-        self.x += 15
-        for i in range(0, 3):
-            self.image.clip_draw(self.left + 33, self.bottom + self.height * i, self.width - 1, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 끝 땅
-
-        self.x += 60
-        for i in range(0, 3):
-            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
-        for i in range(0, 80):
-            self.x += 15
-            for j in range(0, 3):
-                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
-                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
-        self.x += 15
-        for i in range(0, 3):
-            self.image.clip_draw(self.left + 33, self.bottom + self.height * i, self.width - 1, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 끝 땅
-
-        self.x += 60
-        for i in range(0, 3):
-            self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
-                                 self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
-        for i in range(0, 61):
-            self.x += 15
-            for j in range(0, 3):
-                self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
-                                     self.x - Move_locX, self.y + self.width * j)  # 중간 땅
+        draw_rectangle(*self.get_bb())
 
 class SmallPipe:
     image = None
