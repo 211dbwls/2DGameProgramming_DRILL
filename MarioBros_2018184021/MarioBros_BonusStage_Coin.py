@@ -3,12 +3,20 @@ from pico2d import *
 class Coin:  # 코인
     image = None
 
-    def __init__(self):
+    def __init__(self,  left, bottom, width, height, x, y):
         if Coin.image == None:
             Coin.image = load_image('ItemsSheet.png')
 
+        self.left, self.bottom = left, bottom  # clip
+        self.width, self.height = width, height
+        self.x, self.y = x, y  # 생성 위치
+
         self.frame = 0
         self.time = 0  # update 시간 조절
+
+    def get_bb(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - 9, self.y - 11, self.x + 2, self.y + 5
 
     def update(self):
         if self.time % 2 == 0:
@@ -16,11 +24,7 @@ class Coin:  # 코인
         self.time += 1
 
     def draw(self):
-        for i in range(0, 11):
-            for j in range(0, 2):
-                self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 260 + 30 * i, 140 + 30 * j)
+        self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
 
-        for i in range(0, 9):
-            self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
-
-            self.image.clip_draw(120 + self.frame * 30, 0, 30, 30, 260 + 30 * i + 30, 140 + 60)
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x, self.y)
+        draw_rectangle(*self.get_bb())

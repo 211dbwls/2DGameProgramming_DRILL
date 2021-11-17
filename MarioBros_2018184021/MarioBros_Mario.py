@@ -36,6 +36,10 @@ key_event_table = {
 
 Mario_right = True
 Move_locX = 0
+Mario_in_BonusStage = False
+
+Mario_coins = 0
+Mario_score = 0
 
 class IdleState:
     def enter(self, event):
@@ -199,11 +203,27 @@ class Mario:  # 마리오
     def add_event(self, event):
         self.event_que.insert(0, event)
 
+    # 충돌 체크
     def get_bb(self):
         return self.x - Move_locX - 10, self.y - 15, self.x - Move_locX + 10, self.y + 15
 
-    def stop(self):
+    # 충돌처리 - 땅
+    def stop(self):  # 땅과 충돌했을 경우 : 떨어지지 않도록
         self.fall_speed = 0
+
+    def fall(self):  # 땅과 충돌하지 않았을 경우 : 떨어지도록
+        self.fall_speed = 20
+    # 충돌 처리 - 코인 : 코인 개수 추가
+    def addCoin(self):
+        global Mario_coins
+        Mario_coins += 1
+    # 충돌 처리 - 점수 추가
+    def addScore(self, score):
+        global Mario_score
+        Mario_score += score
+    # 충돌 처리 - 작은 파이프 : 앞으로 못 가도록
+    def cantgo(self):
+        self.velocity = 0
 
     def update(self):
         self.y -= self.fall_speed
@@ -224,11 +244,13 @@ class Mario:  # 마리오
             self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
 
     def draw(self):
-        global Move_locX
-        if self.x >= 400:  # 일정 거리를 넘으면 맵이 움직이도록
-            Move_locX = self.x - 400
-        if self.x >= 3200:  # 일정 거리를 넘으면 맵이 움직이지 않도록
-            Move_locX = 3200 - 400
+        global Move_locX, Mario_in_BonusStage
+
+        if Mario_in_BonusStage == False:
+            if self.x >= 400:  # 일정 거리를 넘으면 맵이 움직이도록
+                Move_locX = self.x - 400
+            if self.x >= 3200:  # 일정 거리를 넘으면 맵이 움직이지 않도록
+                Move_locX = 3200 - 400
 
         self.cur_state.draw(self)
 

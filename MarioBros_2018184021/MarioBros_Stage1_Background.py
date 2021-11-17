@@ -170,9 +170,6 @@ class Ground:  # 땅
         if Ground.image == None:
             Ground.image = load_image('Ground.png')
 
-        # self.left, self.bottom = 2, 155  # clip
-        # self.width, self.height = 16, 17
-        # self.x, self.y = 8, 7  # 생성 위치
         self.left, self.bottom = left, bottom  # clip
         self.width, self.height = width, height
         self.x, self.y = x, y  # 생성 위치
@@ -188,46 +185,52 @@ class Ground:  # 땅
         from MarioBros_Mario import Move_locX
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
-        # self.x += 60
-        # for i in range(0, 3):
-        #     self.image.clip_draw(self.left, self.bottom + self.height * i, self.width, self.height,
-        #                          self.x - Move_locX, self.y + self.width * i)  # 처음 시작 땅
-        # for i in range(0, 61):
-        #     self.x += 15
-        #     for j in range(0, 3):
-        #         self.image.clip_draw(self.left + 16, self.bottom + self.height * j, self.width, self.height,
-        #                              self.x - Move_locX, self.y + self.width * j)  # 중간 땅
-
         draw_rectangle(*self.get_bb())
 
 class SmallPipe:
     image = None
 
-    def __init__(self):
+    def __init__(self, left, bottom, width, height, x, y):
         if SmallPipe.image == None:
             SmallPipe.image = load_image('ScenerySprites.gif')
+
+        self.left, self.bottom = left, bottom  # clip
+        self.width, self.height = width, height
+        self.x, self.y = x, y  # 생성 위치
+
+    def get_bb(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 15, self.y - 20, self.x - Move_locX + 15, self.y + 18
 
     def update(self):
         pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(305, 490, 40, 50, 460 - Move_locX, 60)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
-        self.image.clip_draw(305, 490, 40, 50, 2850 - Move_locX, 60)
-
-        self.image.clip_draw(305, 490, 40, 50, 3100 - Move_locX, 60)
+        draw_rectangle(*self.get_bb())
 
 class MidPipe:
     image = None
 
-    def __init__(self):
+    def __init__(self, left, bottom, width, height, x, y):
         if MidPipe.image == None:
             MidPipe.image = load_image('ScenerySprites.gif')
+
+        self.left, self.bottom = left, bottom  # clip
+        self.width, self.height = width, height
+        self.x, self.y = x, y  # 생성 위치
+
+    def get_bb(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 15, self.y - 30, self.x - Move_locX + 18, self.y + 28
 
     def update(self):
         pass
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(265, 490, 40, 60, 600 - Move_locX, 65)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+
+        draw_rectangle(*self.get_bb())

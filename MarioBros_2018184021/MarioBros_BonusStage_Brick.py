@@ -7,6 +7,9 @@ class Brick:  # 벽돌
         if Brick.image == None:
             Brick.image = load_image('ScenerySprites2.gif')
 
+    def update(self):
+        pass
+
     def draw(self):
         for i in range(0, 3):
             for j in range(0, 30):
