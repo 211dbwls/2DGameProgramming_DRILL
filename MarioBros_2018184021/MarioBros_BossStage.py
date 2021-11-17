@@ -97,12 +97,15 @@ def draw():
     font = load_font('SuperMario256.ttf', 16)
     numfont = load_font('SuperMario256.ttf', 18)
 
+    from MarioBros_Mario import Mario_score, Mario_life
     font.draw(30, 570, 'MARIO', (255, 255, 255))
+    numfont.draw(100, 570, '%06d' % Mario_score, (255, 255, 255))
+    numfont.draw(100, 550, 'x', (255, 255, 255))
+    numfont.draw(115, 550, '%02d' % Mario_life, (255, 255, 255))
 
-    numfont.draw(100, 570, '000000', (255, 255, 255))
-
+    from MarioBros_Mario import Mario_coins
     numfont.draw(405, 569, 'x', (255, 255, 255))
-    numfont.draw(420, 569, '00', (255, 255, 255))
+    numfont.draw(420, 569, '%02d' % Mario_coins, (255, 255, 255))
 
     font.draw(660, 570, 'TIME', (255, 255, 255))
     numfont.draw(720, 570, '%3.0f' % (400 - get_time()), (255, 255, 255))

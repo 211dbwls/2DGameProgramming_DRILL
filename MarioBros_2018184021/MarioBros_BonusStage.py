@@ -122,9 +122,11 @@ def draw():
     font = load_font('SuperMario256.ttf', 16)
     numfont = load_font('SuperMario256.ttf', 18)
 
-    from MarioBros_Mario import Mario_score
+    from MarioBros_Mario import Mario_score, Mario_life
     font.draw(30, 570, 'MARIO', (255, 255, 255))
     numfont.draw(100, 570, '%06d' % Mario_score, (255, 255, 255))
+    numfont.draw(100, 550, 'x', (255, 255, 255))
+    numfont.draw(115, 550, '%02d' % Mario_life, (255, 255, 255))
 
     from MarioBros_Mario import Mario_coins
     numfont.draw(405, 569, 'x', (255, 255, 255))
@@ -141,6 +143,8 @@ def handle_events():  # 입력처리
     for event in events:
         if event.type == SDL_QUIT:  # 종료 버튼
             game_framework.quit()
+        if event.type == SDLK_ESCAPE:
+            game_framework.change_state(MarioBros_Stage1)
         else:
             mario.handle_event(event)
 

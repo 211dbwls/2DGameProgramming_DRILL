@@ -34,23 +34,38 @@ key_event_table = {
 # ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 # FRAMES_PER_ACTION = 3
 
+jumping = False
 Mario_right = True
 Move_locX = 0
 Mario_in_BonusStage = False
 
 Mario_coins = 0
 Mario_score = 0
+Mario_life = 3
 
 class IdleState:
     def enter(self, event):
-        self.timer = 1000
+        if event == RIGHT_DOWN:
+            self.velocity += 15
+        elif event == LEFT_DOWN:
+            self.velocity -= 15
+        elif event == RIGHT_UP:
+            self.velocity -= 15
+        elif event == LEFT_UP:
+            self.velocity += 15
 
     def exit(self, event):
         if event == ENTER:
             self.fire_ball()
 
     def do(self):
-        self.timer -= 1
+        if self.dir == 1:  # 오른쪽으로 이동 중일 경우 애니메이션 설정
+            self.left = self.move_right_frame
+            self.frame = (self.frame + 1) % 3
+        elif self.dir == -1:  # 왼쪽으로 이동 중일 경우 애니메이션 설정
+            self.left = self.move_left_frame
+            self.frame = -((self.frame + 1) % 3)
+        self.x += self.velocity
 
     def draw(self):
         if self.dir == 1:
@@ -64,13 +79,13 @@ class RunState:
         self.velocity = 0
 
         if event == RIGHT_DOWN:
-            self.velocity += 5
+            self.velocity += 15
         elif event == LEFT_DOWN:
-            self.velocity -= 5
+            self.velocity -= 15
         elif event == RIGHT_UP:
-            self.velocity -= 5
+            self.velocity -= 15
         elif event == LEFT_UP:
-            self.velocity += 5
+            self.velocity += 15
 
         if self.velocity > 0:
             self.dir = 1
@@ -92,8 +107,6 @@ class RunState:
             self.frame = (self.frame + 1) % 3
         elif self.dir == -1:  # 왼쪽으로 이동 중일 경우 애니메이션 설정
             self.left = self.move_left_frame
-            self.frame = -((self.frame + 1) % 3)
-        self.timer -= 1
         self.x += self.velocity
 
     def draw(self):
@@ -106,23 +119,47 @@ class RunState:
 
 class JumpState:
     def enter(self, event):
-        self.jumping = True
+        global jumping
+        jumping = True
+
+        global Mario_right
+        self.velocity = 0
+
+        if event == RIGHT_DOWN:
+            self.velocity += 15
+        elif event == LEFT_DOWN:
+            self.velocity -= 15
+        elif event == RIGHT_UP:
+            self.velocity -= 15
+        elif event == LEFT_UP:
+            self.velocity += 15
+
+        if self.velocity > 0:
+            self.dir = 1
+            Mario_right = True
+        elif self.velocity < 0:
+            self.dir = -1
+            Mario_right = False
+        else:
+            self.dir = 0
 
     def exit(self, event):
         if event == ENTER:
             self.fire_ball()
 
     def do(self):
-        if self.jumping == True:
+        global jumping
+        if jumping == True:
             if self.t == 0:  # 점프할 3점 위치 설정
                 if Mario_right == True:  # 오른쪽 방향으로 점프할 경우
                     self.x1, self.y1 = self.x, self.y  # 시작점
-                    self.x2, self.y2 = self.x + 25, self.y + 50  # 중간점
-                    self.x3, self.y3 = self.x + 50, self.y  # 끝점
+                    self.x2, self.y2 = self.x + 35, self.y + 50  # 중간점
+                    self.x3, self.y3 = self.x + 70, self.y  # 끝점
                 elif Mario_right == False:  # 왼쪽 방향으로 점프할 경우
                     self.x1, self.y1 = self.x, self.y  # 시작점
-                    self.x2, self.y2 = self.x - 25, self.y + 50  # 중간점
-                    self.x3, self.y3 = self.x - 50, self.y  # 끝점
+                    self.x2, self.y2 = self.x - 35, self.y + 50  # 중간점
+                    self.x3, self.y3 = self.x - 70, self.y  # 끝점
+
 
             if self.t < 1:  # 세 점 곡선 그리기
                 if Mario_right == True:  # 오른쪽 방향으로 점프할 경우
@@ -130,14 +167,12 @@ class JumpState:
                 elif Mario_right == False:  # 왼쪽 방향으로 점프할 경우
                     self.frame = -((self.frame + 1) % 6)  # 애니메이션 설정
 
-                self.x = (2 * self.t ** 2 - 3 * self.t + 1) * self.x1 + (
-                        -4 * self.t ** 2 + 4 * self.t) * self.x2 + (2 * self.t ** 2 - self.t) * self.x3
-                self.y = (2 * self.t ** 2 - 3 * self.t + 1) * self.y1 + (
-                        -4 * self.t ** 2 + 4 * self.t) * self.y2 + (2 * self.t ** 2 - self.t) * self.y3
+                self.x = (2 * self.t ** 2 - 3 * self.t + 1) * self.x1 + (-4 * self.t ** 2 + 4 * self.t) * self.x2 + (2 * self.t ** 2 - self.t) * self.x3
+                self.y = (2 * self.t ** 2 - 3 * self.t + 1) * self.y1 + (-4 * self.t ** 2 + 4 * self.t) * self.y2 + (2 * self.t ** 2 - self.t) * self.y3
                 self.t += 0.1
             elif self.t >= 1:  # 점프 끝나면 점프 종료
                 self.t = 0
-                self.jumping = False
+                jumping = False
 
     def draw(self):
         if self.dir == 1:
@@ -153,8 +188,8 @@ next_state_table = {
                 RIGHT_DOWN: RunState, LEFT_DOWN: RunState, JUMP_DOWN: JumpState, ENTER: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, JUMP_UP: JumpState,
                LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, JUMP_DOWN: JumpState, ENTER: RunState},
-    JumpState: {RIGHT_UP: RunState, LEFT_UP: RunState, JUMP_UP: JumpState,
-               LEFT_DOWN: RunState, RIGHT_DOWN: RunState, JUMP_DOWN: JumpState, ENTER: JumpState}
+    JumpState: {RIGHT_UP: RunState, LEFT_UP: RunState, JUMP_UP: IdleState,
+               LEFT_DOWN: RunState, RIGHT_DOWN: RunState, JUMP_DOWN: IdleState, ENTER: JumpState}
 }
 
 class Mario:  # 마리오
@@ -188,8 +223,10 @@ class Mario:  # 마리오
         self.cur_state.enter(self, None)
 
     def changeBigMario(self):  # 큰 마리오
+        print("changeBigMario")
         self.bottom = 100
         self.height = 37
+        self.y += 10
 
     def changeFireMario(self):  # 불 마리오
         self.bottom = 30
@@ -221,27 +258,33 @@ class Mario:  # 마리오
     def addScore(self, score):
         global Mario_score
         Mario_score += score
+    # 충돌 처리 - 목숨 추가
+    def addLife(self):
+        global Mario_life
+        Mario_life += 1
     # 충돌 처리 - 작은 파이프 : 앞으로 못 가도록
     def cantgo(self):
         self.velocity = 0
 
     def update(self):
-        self.y -= self.fall_speed
+        global jumping
+        # self.y -= self.fall_speed
 
         self.cur_state.do(self)
         if len(self.event_que) > 0:
-            event = self.event_que.pop()
-            self.cur_state.exit(self, event)  # 현재 상태 나감
+            if jumping == False:
+                event = self.event_que.pop()
+                self.cur_state.exit(self, event)  # 현재 상태 나감
 
-            # error occurs here
-            try:  # 시도를 해본다.
-                history.append((self.cur_state.__name__, event_name[event]))  # (현재 상태, 이벤트) 튜플 저장
-                self.cur_state = next_state_table[self.cur_state][event]
-            except:  # 문제 발생 확인
-                print('State : ' + self.cur_state.__name__ + ' event : ' + event_name[event])  # 현재 상태와 이벤트 출력
-                exit(-1)
+                # error occurs here
+                try:  # 시도를 해본다.
+                    history.append((self.cur_state.__name__, event_name[event]))  # (현재 상태, 이벤트) 튜플 저장
+                    self.cur_state = next_state_table[self.cur_state][event]
+                except:  # 문제 발생 확인
+                    print('State : ' + self.cur_state.__name__ + ' event : ' + event_name[event])  # 현재 상태와 이벤트 출력
+                    exit(-1)
 
-            self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
+                self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
 
     def draw(self):
         global Move_locX, Mario_in_BonusStage

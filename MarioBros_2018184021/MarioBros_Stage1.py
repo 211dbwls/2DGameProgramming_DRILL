@@ -53,12 +53,11 @@ brick = None
 flag = None
 castle = None
 
-questionbox = None
-coins = []
-star = None
-supermushroom = None
-upmushroom = None
-fireflower = None
+questionboxs_coin = []
+questionbox_star = None
+questionbox_supermushroom = None
+questionboxs_upmushroom = []
+questionbox_fireflower = None
 propellermushroom = None
 
 goombas = []
@@ -66,8 +65,8 @@ flower = None
 hamerbro = None
 
 mario = None
-mario_fireball = None
 
+coin_image = None
 
 # 함수 -----------------------------------------------------------------------------------------------------------------
 def collide(a, b):
@@ -82,12 +81,21 @@ def collide(a, b):
 
     return True
 
+def up_collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+
+    if top_a >= bottom_b:
+        return True
+
+    return False
+
 def enter():
     global background, startsign, bigcloud, smallcloud, bigmountain, smallmountain, biggrass, smallgrass
     global collision_grounds, grounds
     global smallpipes, midpipe, largepipe, largepipe_bonus, brick
     global flag, castle
-    global questionbox, coins, star, supermushroom, upmushroom, fireflower, propellermushroom
+    global questionboxs_coin, questionbox_star, questionbox_supermushroom, questionboxs_upmushroom, questionbox_fireflower, propellermushroom
     global goombas, flower, hamerbro
     global mario
     global mario_fireball
@@ -145,19 +153,23 @@ def enter():
     flag = Flag()  # 깃발 생성
     castle = Castle()  # 성 생성
 
-    questionbox = QuestionBox()  # 물음표 상자 생성
-    # 코인 생성
-    coins = [Coin(120, 0, 30, 30, 250, 130), Coin(120, 0, 30, 30, 335, 130), Coin(120, 0, 30, 30, 351, 130),
-             Coin(120, 0, 30, 30, 1504, 130), Coin(120, 0, 30, 30, 1504, 130 + 50),
-             Coin(120, 0, 30, 30, 1770, 130), Coin(120, 0, 30, 30, 1820, 130), Coin(120, 0, 30, 30, 1870, 130),
-             Coin(120, 0, 30, 30, 2169, 130 + 50), Coin(120, 0, 30, 30, 2185, 130 + 50),
-             Coin(120, 0, 30, 30, 2935, 130)]
+    questionboxs_coin = [QuestionBox(0, 80, 30, 30, 250, 100),
+                         QuestionBox(0, 80, 30, 30, 335, 100 + 50), QuestionBox(0, 80, 30, 30, 351, 100 + 50),
+                         QuestionBox(0, 80, 30, 30, 1504, 100), QuestionBox(0, 80, 30, 30, 1504, 100 + 50),
+                         QuestionBox(0, 80, 30, 30, 1770, 100), QuestionBox(0, 80, 30, 30, 1820, 100), QuestionBox(0, 80, 30, 30, 1870, 100),
+                         QuestionBox(0, 80, 30, 30, 2169, 100 + 50), QuestionBox(0, 80, 30, 30, 2185, 100 + 50),
+                         QuestionBox(0, 80, 30, 30, 2935, 100)]  # 물음표 상자_코인 생성
 
-    star = Star()  # 별 생성
-    supermushroom = SuperMushroom()  # 슈퍼 버섯 생성
-    upmushroom = UpMushroom()  # 업 버섯 생성
-    fireflower = FireFlower()  # 파이어 플라워 생성
-    propellermushroom = PropellerMushroom()  # 프로펠러 버섯 생성
+    # self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 319 - Move_locX, 100)  # 슈퍼 버섯 : 키 커짐
+    # self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 980 - Move_locX, 100 + 30)  # 업 버섯 : 목숨 추가
+    # self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1204 - Move_locX, 100)  # 파이어플라워
+    # self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1820 - Move_locX, 100 + 50)  # 업 버섯 : 목숨 추가
+
+    questionbox_star = QuestionBox(0, 80, 30, 30, 1654, 100 + 50)
+    questionbox_supermushroom = QuestionBox(0, 80, 30, 30, 319, 100)
+    questionboxs_upmushroom = [QuestionBox(0, 80, 30, 30, 980, 100 + 30), QuestionBox(0, 80, 30, 30, 1820, 100 + 50)]
+    questionbox_fireflower = QuestionBox(0, 80, 30, 30, 1204, 100)
+    # questionbox_propellermushroom
 
     goombas = [Goomba(0, 240, 30, 30, 250, 60),
                Goomba(0, 240, 30, 30, 785, 60), Goomba(0, 240, 30, 30, 815, 60),
@@ -168,12 +180,12 @@ def enter():
                Goomba(0, 240, 30, 30, 2040, 60), Goomba(0, 240, 30, 30, 2070, 60),
                Goomba(0, 240, 30, 30, 2140, 60), Goomba(0, 240, 30, 30, 2170, 60),
                Goomba(0, 240, 30, 30, 2970, 60), Goomba(0, 240, 30, 30, 3000, 60),
-               Goomba(0, 240, 30, 30, 1895, 60), Goomba(0, 240, 30, 30, 1925, 60),]  # 굼바 생성
+               Goomba(0, 240, 30, 30, 1895, 60), Goomba(0, 240, 30, 30, 1925, 60)]  # 굼바 생성
 
     flower = Flower()  # 플라워 생성
     hamerbro = HamerBro()  # 해머브러스 생성
 
-    mario = Mario(900, 100)  # 캐릭터 생성
+    mario = Mario(30, 60)  # 캐릭터 생성
 
     game_world.add_object(background, 0)
     game_world.add_object(startsign, 0)
@@ -198,14 +210,14 @@ def enter():
     game_world.add_object(flag, 0)
     game_world.add_object(castle, 0)
 
-    game_world.add_object(questionbox, 0)
-    for coin in coins:
-        game_world.add_object(coin, 0)
-    game_world.add_object(star, 0)
-    game_world.add_object(supermushroom, 0)
-    game_world.add_object(upmushroom, 0)
-    game_world.add_object(fireflower, 0)
-    game_world.add_object(propellermushroom, 0)
+    for questionbox_coin in questionboxs_coin:
+        game_world.add_object(questionbox_coin, 0)
+    game_world.add_object(questionbox_star, 0)
+    game_world.add_object(questionbox_supermushroom, 0)
+    for questionbox_upmushroom in questionboxs_upmushroom:
+        game_world.add_object(questionbox_upmushroom, 0)
+    game_world.add_object(questionbox_fireflower, 0)
+    # game_world.add_object(propellermushroom, 0)
 
     for goomba in goombas:
         game_world.add_object(goomba, 0)
@@ -223,51 +235,83 @@ def update():
 
     # 충돌 체크 및 충돌 처리
     # 마리오 - 땅
-    ground_collision = False
-    for collision_ground in collision_grounds:
-        if collide(collision_ground, mario):
-            ground_collision = True
-    if ground_collision == True:
-        mario.stop()
-    else:
-        mario.fall()
+    # ground_collision = False
+    # for collision_ground in collision_grounds:
+    #     if collide(collision_ground, mario):
+    #         ground_collision = True
+    # if ground_collision == True:
+    #     mario.stop()
+    # else:
+    #     mario.fall()
 
-    # 마리오 - 코인
-    for coin in coins:
-        if collide(coin, mario):  # 코인과 충돌했을 경우
-            mario.addCoin()  # 획득 코인 수 추가
-            mario.addScore(200)  # 점수 추가
-            coins.remove(coin)  # 코인 충돌 검사하는 리스트에서 제거
-            game_world.remove_object(coin)  # 충돌한 코인 삭제
+    # 마리오 - 물음표 상자_코인
+    for questionbox_coin in questionboxs_coin:
+        if collide(questionbox_coin, mario):  # 물음표 상자와 충돌했을 경우
+            coin = Coin(120, 0, 30, 30, questionbox_coin.x, questionbox_coin.y)  # 코인 생성
+            game_world.add_object(coin, 0)
+            mario.addCoin()
+            mario.addScore(200)
+            questionboxs_coin.remove(questionbox_coin)  # 물음표 상자 충돌 검사하는 리스트에서 제거
+            game_world.remove_object(questionbox_coin)  # 충돌한 물음표 상자 삭제
+    # 마리오 - 물음표 상자_별
+    if collide(questionbox_star, mario):  # 물음표 상자와 충돌했을 경우
+        star = Star(0, 0, 30, 30, questionbox_star.x, questionbox_star.y)  # 별 생성
+        game_world.add_object(star, 0)
+        mario.addScore(1000)
+        game_world.remove_object(questionbox_star)  # 충돌한 물음표 상자 삭제
+    # 마리오 - 물음표 상자_슈퍼버섯
+    if collide(questionbox_supermushroom, mario):  # 물음표 상자와 충돌했을 경우
+        supermushroom = SuperMushroom(180, 60, 30, 30, questionbox_supermushroom.x, questionbox_supermushroom.y)  # 슈퍼버섯 생성
+        game_world.add_object(supermushroom, 0)
+        mario.addScore(1000)
+        mario.changeBigMario()
+        game_world.remove_object(questionbox_supermushroom)  # 충돌한 물음표 상자삭제
+    # 마리오 - 물음표 상자_업버섯
+    for questionbox_upmushroom in questionboxs_upmushroom:
+        if collide(questionbox_upmushroom, mario):  # 물음표 상자와 충돌했을 경우
+            upmushroom = UpMushroom(210, 60, 30, 30, questionbox_upmushroom.x, questionbox_upmushroom.y)  # 업버섯 생성
+            game_world.add_object(upmushroom, 0)
+            mario.addScore(1000)
+            mario.addLife()
+            game_world.remove_object(questionbox_upmushroom)  # 충돌한 물음표 상자삭제
+    # 마리오 - 물음표 상자_파이어 플라워
+    if collide(questionbox_fireflower, mario):  # 물음표 상자와 충돌했을 경우
+        fireflower = FireFlower(140, 30, 30, 30, questionbox_fireflower.x, questionbox_fireflower.y)  # 파이어 플라워 생성
+        game_world.add_object(fireflower, 0)
+        mario.addScore(1000)
+        mario.changeFireMario()
+        game_world.remove_object(questionbox_fireflower)  # 충돌한 물음표 상자삭제
+
 
     # 마리오 - 파이프
-    for smallpipe in smallpipes:
-        if collide(smallpipe, mario):  # 파이프와 충돌했을 경우
-            mario.cantgo()  # 앞으로 못 감
-            mario.stop()
-    if collide(midpipe, mario):
-        mario.cantgo()
-        mario.stop()
-    if collide(largepipe, mario):
-        mario.cantgo()
-        mario.stop()
-    if collide(largepipe_bonus, mario):  # 보너스맵과 연결된 파이프
-        from MarioBros_Mario import Mario_in_BonusStage
-        global Mario_in_BonusStage
-        Mario_in_BonusStage = True
-        game_framework.change_state(MarioBros_BonusStage)   # 보너스 맵으로 이동
+    # for smallpipe in smallpipes:
+    #     if collide(smallpipe, mario):  # 파이프와 충돌했을 경우
+    #         mario.cantgo()  # 앞으로 못 감
+    #         mario.stop()
+    # if collide(midpipe, mario):
+    #     mario.cantgo()
+    #     mario.stop()
+    # if collide(largepipe, mario):
+    #     mario.cantgo()
+    #     mario.stop()
+    # if collide(largepipe_bonus, mario):  # 보너스맵과 연결된 파이프
+    #     from MarioBros_Mario import Mario_in_BonusStage
+    #     global Mario_in_BonusStage
+    #     Mario_in_BonusStage = True
+    #     game_framework.change_state(MarioBros_BonusStage)   # 보너스 맵으로 이동
 
     # 마리오 - 굼바
     for goomba in goombas:
-        if collide(goomba, mario):  # 굼바와 충돌했을 경우
+        if collide(goomba, mario) and up_collide(goomba, mario):  # 굼바와 충돌했을 경우
             goomba.dead()  # 굼바 죽음
             goombas.remove(goomba)  # 죽었을 경우 충돌 검사하는 리스트에서 제거
-            game_world.remove_object(goomba)  # 충돌한 굼바 삭제
             mario.addScore(100)  # 점수 추가
 
 
 
 def draw():
+    global coin_image
+
     clear_canvas()
 
     for game_object in game_world.all_objects():
@@ -276,9 +320,15 @@ def draw():
     font = load_font('SuperMario256.ttf', 16)
     numfont = load_font('SuperMario256.ttf', 18)
 
-    from MarioBros_Mario import Mario_score
+    from MarioBros_Mario import Mario_score, Mario_life
     font.draw(30, 570, 'MARIO', (255, 255, 255))
     numfont.draw(100, 570, '%06d' % Mario_score, (255, 255, 255))
+    numfont.draw(100, 550, 'x', (255, 255, 255))
+    numfont.draw(115, 550, '%02d' % Mario_life, (255, 255, 255))
+
+    if coin_image == None:
+        coin_image = load_image('ItemsSheet.png')
+    coin_image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
 
     from MarioBros_Mario import Mario_coins
     numfont.draw(405, 569, 'x', (255, 255, 255))
@@ -299,9 +349,5 @@ def handle_events():  # 입력처리
             game_framework.change_state(MarioBros_StartState)  # 이전 화면으로 이동
         elif event.type == SDL_KEYDOWN and event.key == SDLK_TAB:  # tab키
             game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지 이동
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_b:  # b키
-            mario.changeBigMario()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_f:  # f키
-            mario.changeFireMario()
         else:
             mario.handle_event(event)

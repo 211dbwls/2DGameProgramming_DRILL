@@ -27,4 +27,4 @@ class Coin:  # 코인
         self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
 
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x, self.y)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())

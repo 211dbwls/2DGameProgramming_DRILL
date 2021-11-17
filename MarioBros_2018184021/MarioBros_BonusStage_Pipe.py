@@ -20,7 +20,7 @@ class LPipe:
     def draw(self):
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x, self.y)
 
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
         self.image.clip_draw(70, 535, 80, 90, 760, 215)  # 위에 연결
         self.image.clip_draw(70, 535, 80, 90, 760, 305)

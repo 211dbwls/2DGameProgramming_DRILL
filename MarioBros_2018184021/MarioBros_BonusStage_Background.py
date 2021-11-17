@@ -33,5 +33,5 @@ class Ground:  # 땅
     def draw(self):
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x, self.y)
 
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 

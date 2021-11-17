@@ -3,12 +3,20 @@ from pico2d import *
 class QuestionBox:  # 물음표 상자
     image = None
 
-    def __init__(self):
+    def __init__(self, left, bottom, width, height, x, y):
         if QuestionBox.image == None:
             QuestionBox.image = load_image('ItemsSheet.png')
 
+        self.left, self.bottom = left, bottom  # clip
+        self.width, self.height = width, height
+        self.x, self.y = x, y  # 생성 위치
+
         self.frame = 0
         self.time = 0  # update 시간 조절
+
+    def get_bb(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 11, self.y - 2, self.x - Move_locX + 5, self.y + 16
 
     def update(self):
         if self.time % 3 == 0:
@@ -17,27 +25,7 @@ class QuestionBox:  # 물음표 상자
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 250 - Move_locX, 100)  # 코인
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height,
+                             self.x - Move_locX, self.y)
 
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 319 - Move_locX, 100)  # 슈퍼 버섯 : 키 커짐
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 335 - Move_locX, 100 + 50)  # 코인
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 351 - Move_locX, 100)  # 코인
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 980 - Move_locX, 100 + 30)  # 업 버섯 : 목숨 추가
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1204 - Move_locX, 100)  # 파이어플라워
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1504 - Move_locX, 100)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1504 - Move_locX, 100 + 50)
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1654 - Move_locX, 100)
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1770 - Move_locX, 100)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1820 - Move_locX, 100)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1820 - Move_locX, 100 + 50)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 1870 - Move_locX, 100)
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 2169 - Move_locX, 100 + 50)
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 2185 - Move_locX, 100 + 50)
-
-        self.image.clip_draw(0 + self.frame * 30, 80, 30, 30, 2935 - Move_locX, 100)
+        draw_rectangle(*self.get_bb())

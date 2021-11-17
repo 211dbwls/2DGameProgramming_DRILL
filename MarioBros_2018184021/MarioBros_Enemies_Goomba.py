@@ -1,4 +1,5 @@
 from pico2d import *
+import game_world
 
 class Goomba:  # 굼바
     image = None
@@ -15,6 +16,9 @@ class Goomba:  # 굼바
         self.frame = 0  # 애니메이션 프레임
         self.dir = 1  # 움직이는 방향 체크
 
+        self.dying = False
+        self.deadcount = 0
+
     def get_bb(self):
         from MarioBros_Mario import Move_locX
         return self.x + self.movex - Move_locX - 17, self.y - 15, self.x + self.movex - Move_locX + 2, self.y + 10
@@ -22,18 +26,23 @@ class Goomba:  # 굼바
     def dead(self):
         self.left, self.frame = 60, 0
         self.dir = 0
+        self.dying = True
 
     def update(self):
         if self.dir == 1:  # 오른쪽 방향으로 이동
             self.movex += 2
             if self.movex == 50:
-                self.dir = 1
+                self.dir = -1
             self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션
         elif self.dir == -1:  # 왼쪽 방향으로 이동
             self.movex -= 2
             if self.movex == 0:
-                self.dir = -1
+                self.dir = 1
             self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션
+        if self.dying == True:
+            if self.deadcount == 5:
+                game_world.remove_object(self)
+            self.deadcount += 1
 
     def draw(self):
         from MarioBros_Mario import Move_locX

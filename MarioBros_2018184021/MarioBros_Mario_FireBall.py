@@ -5,7 +5,7 @@ import game_world
 class FireBall:
     image = None
 
-    def __init__(self, x = 1200, y = 65, velocity = 20):
+    def __init__(self, x = 1200, y = 65, velocity = 100):
         if FireBall.image == None:
             FireBall.image = load_image('ScenerySprites2.gif')
 
