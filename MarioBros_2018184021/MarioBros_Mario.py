@@ -148,31 +148,31 @@ class JumpState:
             self.fire_ball()
 
     def do(self):
-        global jumping
-        if jumping == True:
-            if self.t == 0:  # 점프할 3점 위치 설정
-                if Mario_right == True:  # 오른쪽 방향으로 점프할 경우
-                    self.x1, self.y1 = self.x, self.y  # 시작점
-                    self.x2, self.y2 = self.x + 35, self.y + 50  # 중간점
-                    self.x3, self.y3 = self.x + 70, self.y  # 끝점
-                elif Mario_right == False:  # 왼쪽 방향으로 점프할 경우
-                    self.x1, self.y1 = self.x, self.y  # 시작점
-                    self.x2, self.y2 = self.x - 35, self.y + 50  # 중간점
-                    self.x3, self.y3 = self.x - 70, self.y  # 끝점
-
-
-            if self.t < 1:  # 세 점 곡선 그리기
-                if Mario_right == True:  # 오른쪽 방향으로 점프할 경우
-                    self.frame = (self.frame + 1) % 6  # 애니메이션 설정
-                elif Mario_right == False:  # 왼쪽 방향으로 점프할 경우
-                    self.frame = -((self.frame + 1) % 6)  # 애니메이션 설정
-
-                self.x = (2 * self.t ** 2 - 3 * self.t + 1) * self.x1 + (-4 * self.t ** 2 + 4 * self.t) * self.x2 + (2 * self.t ** 2 - self.t) * self.x3
-                self.y = (2 * self.t ** 2 - 3 * self.t + 1) * self.y1 + (-4 * self.t ** 2 + 4 * self.t) * self.y2 + (2 * self.t ** 2 - self.t) * self.y3
-                self.t += 0.1
-            elif self.t >= 1:  # 점프 끝나면 점프 종료
-                self.t = 0
-                jumping = False
+        self.y += self.gravity
+        # if jumping == True:
+        #     if self.t == 0:  # 점프할 3점 위치 설정
+        #         if Mario_right == True:  # 오른쪽 방향으로 점프할 경우
+        #             self.x1, self.y1 = self.x, self.y  # 시작점
+        #             self.x2, self.y2 = self.x + 35, self.y + 50  # 중간점
+        #             self.x3, self.y3 = self.x + 70, self.y  # 끝점
+        #         elif Mario_right == False:  # 왼쪽 방향으로 점프할 경우
+        #             self.x1, self.y1 = self.x, self.y  # 시작점
+        #             self.x2, self.y2 = self.x - 35, self.y + 50  # 중간점
+        #             self.x3, self.y3 = self.x - 70, self.y  # 끝점
+        #
+        #
+        #     if self.t < 1:  # 세 점 곡선 그리기
+        #         if Mario_right == True:  # 오른쪽 방향으로 점프할 경우
+        #             self.frame = (self.frame + 1) % 6  # 애니메이션 설정
+        #         elif Mario_right == False:  # 왼쪽 방향으로 점프할 경우
+        #             self.frame = -((self.frame + 1) % 6)  # 애니메이션 설정
+        #
+        #         self.x = (2 * self.t ** 2 - 3 * self.t + 1) * self.x1 + (-4 * self.t ** 2 + 4 * self.t) * self.x2 + (2 * self.t ** 2 - self.t) * self.x3
+        #         self.y = (2 * self.t ** 2 - 3 * self.t + 1) * self.y1 + (-4 * self.t ** 2 + 4 * self.t) * self.y2 + (2 * self.t ** 2 - self.t) * self.y3
+        #         self.t += 0.1
+        #     elif self.t >= 1:  # 점프 끝나면 점프 종료
+        #         self.t = 0
+        #         jumping = False
 
     def draw(self):
         if self.dir == 1:
@@ -205,17 +205,14 @@ class Mario:  # 마리오
         self.x, self.y = Start_locX, Start_locY  # 30
 
         self.dir = 1
-        self.velocity = 0
+        self.velocity = 0  # 속도
+        self.gravity = 20  # 중력
 
         self.move_right_frame, self.move_left_frame = 200, 170
         self.frame = 0  # 애니메이션 프레임
 
-        self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
-        self.t = 0  # 점프
-
-        self.fall_speed = 20
-
-        self.timer = 0
+        # self.x1, self.x2, self.x3, self.y1, self.y2, self.y3 = 0, 0, 0, 0, 0, 0  # 점프 시, 세 점
+        # self.t = 0  # 점프
 
         self.event_que = []
 
@@ -223,7 +220,6 @@ class Mario:  # 마리오
         self.cur_state.enter(self, None)
 
     def changeBigMario(self):  # 큰 마리오
-        print("changeBigMario")
         self.bottom = 100
         self.height = 37
         self.y += 10
@@ -244,12 +240,23 @@ class Mario:  # 마리오
     def get_bb(self):
         return self.x - Move_locX - 10, self.y - 15, self.x - Move_locX + 10, self.y + 15
 
+    def get_bb_foot(self):
+        return self.x - Move_locX - 5, self.y - 15, self.x - Move_locX + 10, self.y - 5
+
+    def get_bb_head(self):
+        return self.x - Move_locX - 5, self.y + 10, self.x - Move_locX + 10, self.y + 15
+
     # 충돌처리 - 땅
-    def stop(self):  # 땅과 충돌했을 경우 : 떨어지지 않도록
-        self.fall_speed = 0
+    def stop(self, collide_loc):  # 땅과 충돌했을 경우 : 떨어지지 않도록
+        global jumping
+        if jumping == False:
+            self.y = collide_loc
 
     def fall(self):  # 땅과 충돌하지 않았을 경우 : 떨어지도록
-        self.fall_speed = 20
+        global jumping
+        if jumping == False:
+            self.y -= self.gravity
+
     # 충돌 처리 - 코인 : 코인 개수 추가
     def addCoin(self):
         global Mario_coins
@@ -258,17 +265,27 @@ class Mario:  # 마리오
     def addScore(self, score):
         global Mario_score
         Mario_score += score
-    # 충돌 처리 - 목숨 추가
+    # 충돌 처리 - 목숨
     def addLife(self):
         global Mario_life
         Mario_life += 1
+    def minusLife(self):
+        global Mario_life
+        Mario_life -= 1
     # 충돌 처리 - 작은 파이프 : 앞으로 못 가도록
-    def cantgo(self):
-        self.velocity = 0
+    def cantgo_left(self, collide_loc):
+        if self.x > collide_loc:
+            self.x = collide_loc
+
+    def cantgo_right(self, collide_loc):
+        if self.x < collide_loc:
+            self.x = collide_loc
 
     def update(self):
         global jumping
-        # self.y -= self.fall_speed
+
+        if self.y > 80:
+            jumping = False
 
         self.cur_state.do(self)
         if len(self.event_que) > 0:
@@ -297,7 +314,9 @@ class Mario:  # 마리오
 
         self.cur_state.draw(self)
 
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb_foot())
+        # draw_rectangle(*self.get_bb_head())
         debug_print('Velocity : ' + str(self.velocity) + ' Dir : ' + str(self.dir))
 
     def handle_event(self, event):

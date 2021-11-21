@@ -202,6 +202,14 @@ class SmallPipe:
         from MarioBros_Mario import Move_locX
         return self.x - Move_locX - 15, self.y - 20, self.x - Move_locX + 15, self.y + 18
 
+    def get_bb_left(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 15, self.y - 20, self.x - Move_locX, self.y + 18
+
+    def get_bb_right(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX, self.y - 20, self.x - Move_locX + 15, self.y + 18
+
     def update(self):
         pass
 
@@ -210,6 +218,8 @@ class SmallPipe:
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
         # draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb_left())
+        draw_rectangle(*self.get_bb_right())
 
 class MidPipe:
     image = None
@@ -226,6 +236,14 @@ class MidPipe:
         from MarioBros_Mario import Move_locX
         return self.x - Move_locX - 15, self.y - 30, self.x - Move_locX + 18, self.y + 28
 
+    def get_bb_left(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 15, self.y - 30, self.x - Move_locX, self.y + 28
+
+    def get_bb_right(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX, self.y - 20, self.x - Move_locX + 18, self.y + 28
+
     def update(self):
         pass
 
@@ -234,3 +252,5 @@ class MidPipe:
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
         # draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb_left())
+        draw_rectangle(*self.get_bb_right())
