@@ -13,7 +13,15 @@ class LargePipe:
 
     def get_bb(self):
         from MarioBros_Mario import Move_locX
-        return self.x - Move_locX - 15, self.y - 40, self.x - Move_locX + 15, self.y + 38
+        return self.x - Move_locX - 15, self.y - 40, self.x - Move_locX + 15, self.y + 35
+
+    def get_bb_left(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 15, self.y - 40, self.x - Move_locX, self.y + 35
+
+    def get_bb_right(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX, self.y - 40, self.x - Move_locX + 15, self.y + 35
 
     def update(self):
         pass
@@ -23,3 +31,5 @@ class LargePipe:
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
         # draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb_left())
+        # draw_rectangle(*self.get_bb_right())

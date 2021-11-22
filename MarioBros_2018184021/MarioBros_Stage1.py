@@ -190,7 +190,7 @@ def enter():
     brick = Brick()  # 벽돌 생성
 
     flag = Flag()  # 깃발 생성
-    castle = Castle()  # 성 생성
+    castle = Castle(250, 0, 100, 100, 3500, 90)  # 성 생성
 
     questionboxs_coin = [QuestionBox(0, 80, 30, 30, 250, 100),
                          QuestionBox(0, 80, 30, 30, 335, 100 + 50), QuestionBox(0, 80, 30, 30, 351, 100 + 50),
@@ -219,7 +219,7 @@ def enter():
     flower = Flower()  # 플라워 생성
     hamerbro = HamerBro()  # 해머브러스 생성
 
-    mario = Mario(500, 80)  # 캐릭터 생성
+    mario = Mario(3400, 80)  # 캐릭터 생성
 
     game_world.add_object(background, 0)
     game_world.add_object(startsign, 0)
@@ -330,30 +330,52 @@ def update():
             questionboxs_fireflower.remove(questionbox_fireflower)  # 물음표 상자 충돌 검사하는 리스트에서 제거
             game_world.remove_object(questionbox_fireflower)  # 충돌한 물음표 상자삭제
 
-    # 마리오 - 파이프
+    # 마리오 - 작은파이프
     for smallpipe in smallpipes:
         if collide_left_all(smallpipe, mario):  # 파이프와 충돌했을 경우
-            left_a, bottom_a, right_a, top_a = smallpipe.get_bb_left()
-            collide_loc = left_a - 5
+            from MarioBros_Mario import Move_locX
+            left, bottom, right, top = smallpipe.get_bb_left()
+            collide_loc = left + Move_locX - 10
             mario.cantgo_left(collide_loc)  # 앞으로 못 감
         if collide_right_all(smallpipe, mario):  # 파이프와 충돌했을 경우
-            left_a, bottom_a, right_a, top_a = smallpipe.get_bb_right()
-            collide_loc = right_a
+            from MarioBros_Mario import Move_locX
+            left, bottom, right, top = smallpipe.get_bb_right()
+            collide_loc = right + Move_locX + 11
             mario.cantgo_right(collide_loc)  # 앞으로 못 감
-
+    # 마리오 - 중간파이프
     if collide_left_all(midpipe, mario):  # 파이프와 충돌했을 경우
-        left_a, bottom_a, right_a, top_a = midpipe.get_bb_left()
-        collide_loc = left_a - 5
+        from MarioBros_Mario import Move_locX
+        left, bottom, right, top = midpipe.get_bb_left()
+        collide_loc = left + Move_locX - 10
         mario.cantgo_left(collide_loc)  # 앞으로 못 감
     if collide_right_all(midpipe, mario):  # 파이프와 충돌했을 경우
-        left_a, bottom_a, right_a, top_a = midpipe.get_bb_right()
-        collide_loc = right_a
+        from MarioBros_Mario import Move_locX
+        left, bottom, right, top = midpipe.get_bb_right()
+        collide_loc = right + Move_locX + 11
         mario.cantgo_right(collide_loc)  # 앞으로 못 감
-
-    # if collide(largepipe, mario):
-    #     mario.cantgo()
-    #     mario.stop()
-    # if collide(largepipe_bonus, mario):  # 보너스맵과 연결된 파이프
+    # 마리오 - 큰파이프
+    if collide_left_all(largepipe, mario):  # 파이프와 충돌했을 경우
+        from MarioBros_Mario import Move_locX
+        left, bottom, right, top = largepipe.get_bb_left()
+        collide_loc = left + Move_locX - 10
+        mario.cantgo_left(collide_loc)  # 앞으로 못 감
+    if collide_right_all(largepipe, mario):  # 파이프와 충돌했을 경우
+        from MarioBros_Mario import Move_locX
+        left, bottom, right, top = largepipe.get_bb_right()
+        collide_loc = right + Move_locX + 11
+        mario.cantgo_right(collide_loc)  # 앞으로 못 감
+    # 마리오 - 보너스맵과 연결된 큰파이프
+    if collide_left_all(largepipe_bonus, mario):  # 파이프와 충돌했을 경우
+        from MarioBros_Mario import Move_locX
+        left, bottom, right, top = largepipe_bonus.get_bb_left()
+        collide_loc = left + Move_locX - 10
+        mario.cantgo_left(collide_loc)  # 앞으로 못 감
+    if collide_right_all(largepipe_bonus, mario):  # 파이프와 충돌했을 경우
+        from MarioBros_Mario import Move_locX
+        left, bottom, right, top = largepipe_bonus.get_bb_right()
+        collide_loc = right + Move_locX + 11
+        mario.cantgo_right(collide_loc)  # 앞으로 못 감
+    # if collide(largepipe_bonus, mario):
     #     from MarioBros_Mario import Mario_in_BonusStage
     #     global Mario_in_BonusStage
     #     Mario_in_BonusStage = True
@@ -367,6 +389,10 @@ def update():
             goomba.dead()  # 굼바 죽음
             goombas.remove(goomba)  # 죽었을 경우 충돌 검사하는 리스트에서 제거
             mario.addScore(100)  # 점수 추가
+
+    # 마리오 - 성
+    if collide(castle, mario):  # 성과 충돌했을 경우
+        game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지로 이동
 
 def draw():
     global coin_image
@@ -406,7 +432,5 @@ def handle_events():  # 입력처리
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:  # esc키
             game_framework.change_state(MarioBros_StartState)  # 이전 화면으로 이동
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_TAB:  # tab키
-            game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지 이동
         else:
             mario.handle_event(event)

@@ -317,7 +317,10 @@ class Mario:  # 마리오
         # draw_rectangle(*self.get_bb())
         # draw_rectangle(*self.get_bb_foot())
         # draw_rectangle(*self.get_bb_head())
+
         debug_print('Velocity : ' + str(self.velocity) + ' Dir : ' + str(self.dir))
+
+        print("Mario : " + str(self.x))
 
     def handle_event(self, event):
        if(event.type, event.key) in key_event_table:

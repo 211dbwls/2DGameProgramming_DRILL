@@ -219,7 +219,7 @@ class SmallPipe:
 
         # draw_rectangle(*self.get_bb())
         # draw_rectangle(*self.get_bb_left())
-        draw_rectangle(*self.get_bb_right())
+        # draw_rectangle(*self.get_bb_right())
 
 class MidPipe:
     image = None
@@ -252,5 +252,5 @@ class MidPipe:
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
         # draw_rectangle(*self.get_bb())
-        draw_rectangle(*self.get_bb_left())
-        draw_rectangle(*self.get_bb_right())
+        # draw_rectangle(*self.get_bb_left())
+        # draw_rectangle(*self.get_bb_right())
