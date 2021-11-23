@@ -23,6 +23,10 @@ class LargePipe:
         from MarioBros_Mario import Move_locX
         return self.x - Move_locX, self.y - 40, self.x - Move_locX + 15, self.y + 35
 
+    def get_bb_head(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 15, self.y + 30, self.x - Move_locX + 15, self.y + 35
+
     def update(self):
         pass
 
@@ -33,3 +37,4 @@ class LargePipe:
         # draw_rectangle(*self.get_bb())
         # draw_rectangle(*self.get_bb_left())
         # draw_rectangle(*self.get_bb_right())
+        draw_rectangle(*self.get_bb_head())

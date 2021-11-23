@@ -37,7 +37,6 @@ key_event_table = {
 jumping = False
 Mario_right = True
 Move_locX = 0
-Mario_in_BonusStage = False
 
 Mario_coins = 0
 Mario_score = 0
@@ -182,7 +181,6 @@ class JumpState:
             self.image.clip_draw(self.left + int(self.frame) * self.width, self.bottom, self.width, self.height,
                                  self.x - Move_locX, self.y)
 
-
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, JUMP_UP: JumpState,
                 RIGHT_DOWN: RunState, LEFT_DOWN: RunState, JUMP_DOWN: JumpState, ENTER: IdleState},
@@ -218,6 +216,8 @@ class Mario:  # 마리오
 
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
+
+        self.mario_in_bonusstage = False
 
     def changeBigMario(self):  # 큰 마리오
         self.bottom = 100
@@ -306,11 +306,13 @@ class Mario:  # 마리오
     def draw(self):
         global Move_locX, Mario_in_BonusStage
 
-        if Mario_in_BonusStage == False:
+        if self.mario_in_bonusstage == False:
             if self.x >= 400:  # 일정 거리를 넘으면 맵이 움직이도록
                 Move_locX = self.x - 400
             if self.x >= 3200:  # 일정 거리를 넘으면 맵이 움직이지 않도록
                 Move_locX = 3200 - 400
+        else:
+            Move_locX = 0
 
         self.cur_state.draw(self)
 
@@ -329,3 +331,5 @@ class Mario:  # 마리오
                print(history[-10:])
            else:
                self.add_event(key_event)
+       else:
+           pass

@@ -15,7 +15,6 @@ class Coin:  # 코인
         self.time = 0  # update 시간 조절
 
     def get_bb(self):
-        from MarioBros_Mario import Move_locX
         return self.x - 9, self.y - 11, self.x + 2, self.y + 5
 
     def update(self):
@@ -24,7 +23,6 @@ class Coin:  # 코인
         self.time += 1
 
     def draw(self):
-        self.image.clip_draw(120, 0, 30, 30, 400, 575)  # 코인 개수 이미지
-
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x, self.y)
-        # draw_rectangle(*self.get_bb())
+
+        draw_rectangle(*self.get_bb())

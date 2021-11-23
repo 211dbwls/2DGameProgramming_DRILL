@@ -9,8 +9,8 @@ import MarioBros_BossStage
 
 pico2d.open_canvas()
 # game_framework.run(MarioBros_LogoState)
-game_framework.run(MarioBros_Stage1)
+# game_framework.run(MarioBros_Stage1)
 # game_framework.run(MarioBros_BonusStage)
-# game_framework.run(MarioBros_BossStage)
+game_framework.run(MarioBros_BossStage)
 
 pico2d.close_canvas()
