@@ -28,4 +28,4 @@ class QuestionBox:  # 물음표 상자
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height,
                              self.x - Move_locX, self.y)
 
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())

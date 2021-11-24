@@ -87,7 +87,15 @@ def enter():
     server.midpipe = MidPipe(265, 490, 40, 60, 600, 65)  # 파이프 생성
     server.largepipe = LargePipe(225, 490, 40, 80, 740, 75)  # 파이프 생성
     server.largepipe_bonus = LargePipe(225, 490, 40, 80, 900, 75)  # 파이프 생성_보너스 맵 연결
-    server.brick = Brick()  # 벽돌 생성
+    server.bricks = [Brick(68, 36, 17, 16, 300, 107), Brick(68, 36, 17, 16, 332, 107), Brick(68, 36, 17, 16, 364, 107)]  \
+                   + [Brick(68, 36, 17, 16, 1185, 107), Brick(68, 36, 17, 16, 1217, 107)] \
+                   + [Brick(68, 36, 17, 16, 1233 + i * 16, 107 + 50) for i in range(0, 10)] \
+                   + [Brick(68, 36, 17, 16, 1453 + i * 16, 107 + 50) for i in range(0, 3)] \
+                   + [Brick(68, 36, 17, 16, 1635, 107), Brick(68, 36, 17, 16, 1980, 107)] \
+                   + [Brick(68, 36, 17, 16, 2050 + i * 16, 107 + 50) for i in range(0, 3)] \
+                   + [Brick(68, 36, 17, 16, 2150, 107 + 50), Brick(68, 36, 17, 16, 2198, 107 + 50)] \
+                   + [Brick(68, 36, 17, 16, 2169, 107), Brick(68, 36, 17, 16, 2185, 107)] \
+                   + [Brick(68, 36, 17, 16, 2900, 107), Brick(68, 36, 17, 16, 2916, 107), Brick(68, 36, 17, 16, 2948, 107)]  # 벽돌 생성
 
     server.flag = Flag()  # 깃발 생성
     server.castle = Castle(250, 0, 100, 100, 3500, 90)  # 성 생성
@@ -119,7 +127,7 @@ def enter():
     server.flower = Flower()  # 플라워 생성
     server.hamerbro = HamerBro()  # 해머브러스 생성
 
-    server.mario = Mario(700, 80)  # 캐릭터 생성
+    server.mario = Mario(30, 80)  # 캐릭터 생성
 
     game_world.add_object(server.background, 0)
     game_world.add_object(server.startsign, 0)
@@ -139,7 +147,9 @@ def enter():
     game_world.add_object(server.midpipe, 0)
     game_world.add_object(server.largepipe, 0)
     game_world.add_object(server.largepipe_bonus, 0)
-    game_world.add_object(server.brick, 0)
+
+    for brick in server.bricks:
+        game_world.add_object(brick, 0)
 
     game_world.add_object(server.flag, 0)
     game_world.add_object(server.castle, 0)

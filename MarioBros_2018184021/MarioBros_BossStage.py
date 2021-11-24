@@ -54,7 +54,7 @@ def enter():
 
     server.boss = Boss()  # 보스 생성
 
-    server.mario = Mario(2685, 228)  # 캐릭터 생성
+    server.mario = Mario(60, 228)  # 캐릭터 생성
 
     game_world.add_object(server.background, 0)
 

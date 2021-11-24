@@ -53,4 +53,4 @@ class Goomba:  # 굼바
         self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x + self.movex - Move_locX, self.y)
 
         # draw_rectangle(*self.get_bb())
-        draw_rectangle(*self.get_bb_head())
+        # draw_rectangle(*self.get_bb_head())
