@@ -86,7 +86,8 @@ def enter():
 
     server.midpipe = MidPipe(265, 490, 40, 60, 600, 65)  # 파이프 생성
     server.largepipe = LargePipe(225, 490, 40, 80, 740, 75)  # 파이프 생성
-    server.largepipe_bonus = LargePipe(225, 490, 40, 80, 900, 75)  # 파이프 생성_보너스 맵 연결
+    server.largepipes_bonus = [LargePipe(225, 490, 40, 80, 900, 75)]  # 파이프 생성_보너스 맵 연결
+
     server.bricks = [Brick(68, 36, 17, 16, 300, 107), Brick(68, 36, 17, 16, 332, 107), Brick(68, 36, 17, 16, 364, 107)]  \
                    + [Brick(68, 36, 17, 16, 1185, 107), Brick(68, 36, 17, 16, 1217, 107)] \
                    + [Brick(68, 36, 17, 16, 1233 + i * 16, 107 + 50) for i in range(0, 10)] \
@@ -127,7 +128,8 @@ def enter():
     server.flower = Flower()  # 플라워 생성
     server.hamerbro = HamerBro()  # 해머브러스 생성
 
-    server.mario = Mario(30, 80)  # 캐릭터 생성
+    server.mario = Mario(server.start_loc_x, server.start_loc_y)  # 캐릭터 생성
+    # server.mario = Mario(30, 150)  # 캐릭터 생성
 
     game_world.add_object(server.background, 0)
     game_world.add_object(server.startsign, 0)
@@ -146,7 +148,8 @@ def enter():
         game_world.add_object(smallpipe, 0)
     game_world.add_object(server.midpipe, 0)
     game_world.add_object(server.largepipe, 0)
-    game_world.add_object(server.largepipe_bonus, 0)
+    for largepipe_bonus in server.largepipes_bonus:
+        game_world.add_object(largepipe_bonus, 0)
 
     for brick in server.bricks:
         game_world.add_object(brick, 0)
@@ -184,18 +187,12 @@ def update():
 
     # 충돌 체크 및 충돌 처리
     # 마리오 - 땅
-    ground_collision = False
     for collision_ground in server.collision_grounds:
         if collision.collide(collision_ground, server.mario):
-            ground_collision = True
-
             left, bottom, right, top = collision_ground.get_bb()
             collide_loc = top + 10
 
-    if ground_collision == True:
-        server.mario.stop(collide_loc)
-    else:
-        server.mario.fall()
+            server.mario.stop(collide_loc)
 
     # 마리오 - 물음표 상자_코인
     for questionbox_coin in server.questionboxs_coin:
@@ -254,6 +251,11 @@ def update():
             left, bottom, right, top = smallpipe.get_bb_right()
             collide_loc = right + Move_locX + 11
             server.mario.cantgo_right(collide_loc)  # 앞으로 못 감
+        if collision.collide_head_foot(smallpipe, server.mario):  # 위에 올라섰을 경우
+            left, bottom, right, top = smallpipe.get_bb_head()
+            collide_loc = top + 10
+            server.mario.stop(collide_loc)
+
     # 마리오 - 중간파이프
     if collision.collide_left_all(server.midpipe, server.mario):  # 파이프와 충돌했을 경우
         from MarioBros_Mario import Move_locX
@@ -265,6 +267,11 @@ def update():
         left, bottom, right, top = server.midpipe.get_bb_right()
         collide_loc = right + Move_locX + 11
         server.mario.cantgo_right(collide_loc)  # 앞으로 못 감
+    if collision.collide_head_foot(server.midpipe, server.mario):  # 위에 올라섰을 경우
+        left, bottom, right, top = server.midpipe.get_bb_head()
+        collide_loc = top + 10
+        server.mario.stop(collide_loc)
+
     # 마리오 - 큰파이프
     if collision.collide_left_all(server.largepipe, server.mario):  # 파이프와 충돌했을 경우
         from MarioBros_Mario import Move_locX
@@ -276,19 +283,26 @@ def update():
         left, bottom, right, top = server.largepipe.get_bb_right()
         collide_loc = right + Move_locX + 11
         server.mario.cantgo_right(collide_loc)  # 앞으로 못 감
+    if collision.collide_head_foot(server.largepipe, server.mario):  # 위에 올라섰을 경우
+        left, bottom, right, top = server.largepipe.get_bb_head()
+        collide_loc = top + 10
+        server.mario.stop(collide_loc)
+
     # 마리오 - 보너스맵과 연결된 큰파이프
-    if collision.collide_left_all(server.largepipe_bonus, server.mario):  # 파이프와 충돌했을 경우
-        from MarioBros_Mario import Move_locX
-        left, bottom, right, top = server.largepipe_bonus.get_bb_left()
-        collide_loc = left + Move_locX - 10
-        server.mario.cantgo_left(collide_loc)  # 앞으로 못 감
-    if collision.collide_right_all(server.largepipe_bonus, server.mario):  # 파이프와 충돌했을 경우
-        from MarioBros_Mario import Move_locX
-        left, bottom, right, top = server.largepipe_bonus.get_bb_right()
-        collide_loc = right + Move_locX + 11
-        server.mario.cantgo_right(collide_loc)  # 앞으로 못 감
-    if collision.collide_head_foot(server.largepipe_bonus, server.mario):  # 파이프와 충돌했을 때
-        game_framework.change_state(MarioBros_BonusStage)  # 보너스맵으로 이동
+    for largepipe_bonus in server.largepipes_bonus:
+        if collision.collide_left_all(largepipe_bonus, server.mario):  # 파이프와 충돌했을 경우
+            from MarioBros_Mario import Move_locX
+            left, bottom, right, top = largepipe_bonus.get_bb_left()
+            collide_loc = left + Move_locX - 10
+            server.mario.cantgo_left(collide_loc)  # 앞으로 못 감
+        if collision.collide_right_all(largepipe_bonus, server.mario):  # 파이프와 충돌했을 경우
+            from MarioBros_Mario import Move_locX
+            left, bottom, right, top = largepipe_bonus.get_bb_right()
+            collide_loc = right + Move_locX + 11
+            server.mario.cantgo_right(collide_loc)  # 앞으로 못 감
+        if collision.collide_head_foot(largepipe_bonus, server.mario):  # 파이프와 충돌했을 때
+            server.largepipes_bonus.remove(largepipe_bonus)  # 충돌했을 경우 충돌 검사하는 리스트에서 제거
+            game_framework.change_state(MarioBros_BonusStage)  # 보너스맵으로 이동
 
     # 마리오 - 굼바
     for goomba in server.goombas:

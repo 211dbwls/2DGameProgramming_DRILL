@@ -14,10 +14,15 @@ class Brick:  # 벽돌
     def get_bb(self):
         return self.x - 7, self.y - 10, self.x + 7, self.y + 8
 
+    def get_bb_head(self):
+        return self.x - 7, self.y, self.x + 7, self.y + 8
+
     def update(self):
         pass
 
     def draw(self):
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x, self.y)
 
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb_head())
+

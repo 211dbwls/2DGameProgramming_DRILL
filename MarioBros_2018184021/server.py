@@ -12,7 +12,7 @@ grounds = []
 smallpipes = []
 midpipe = None
 largepipe = None
-largepipe_bonus = None
+largepipes_bonus = []
 bricks = []
 
 flag = None
@@ -30,6 +30,8 @@ flower = None
 hamerbro = None
 
 mario = None
+start_loc_x = 30
+start_loc_y = 150
 
 coin_image = None
 

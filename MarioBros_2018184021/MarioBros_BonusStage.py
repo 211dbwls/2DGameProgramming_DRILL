@@ -37,20 +37,18 @@ def enter():
                     + [Brick(393, 1134, 15, 16, 250 + 15 * i, 56) for i in range(1, 21)] \
                     + [Brick(393, 1134, 15, 16, 250 + 15 * i, 56 + 16) for i in range(1, 21)] \
                     + [Brick(393, 1134, 15, 16, 250 + 15 * i, 56 + 32) for i in range(1, 21)] \
-                    + [Brick(393, 1134, 15, 16, 250 + 15 * i, 56 + 48) for i in range(1, 21)] \
                     + [Brick(393, 1134, 15, 16, 250 + 15 * i, 485 + 16) for i in range(0, 22)] \
-                    + [Brick(393, 1134, 15, 16, 250 + 15 * i, 485 + 16) for i in range(0, 22)] \
-                    + [Brick(393, 1134, 15, 16, 250 + 15 * i, 485 + 32) for i in range(0, 22)]  # 벽돌 생성
-    server.collision_bricks_left = [Brick(393, 1134, 15, 16, 250, 56 + 16 * i) for i in range(0, 4)]
+                    + [Brick(393, 1134, 15, 16, 250 + 15 * i, 485 + 16) for i in range(0, 22)]  # 벽돌 생성
+    server.collision_bricks_left = [Brick(393, 1134, 15, 16, 250, 56 + 16 * i) for i in range(0, 3)]
     server.collision_bricks_right = [Brick(393, 1134, 15, 16, 25 + 30, 56 + 16 * i) for i in range(0, 30)] \
-                                    + [Brick(393, 1134, 15, 16, 250 + 15 * 21, 56 + 16 * i) for i in range(0, 4)]
-    server.collision_bricks_top = [Brick(393, 1134, 15, 16, 250 + 15 * i, 56 + 64) for i in range(0, 22)]
+                                    + [Brick(393, 1134, 15, 16, 250 + 15 * 21, 56 + 16 * i) for i in range(0, 3)]
+    server.collision_bricks_top = [Brick(393, 1134, 15, 16, 250 + 15 * i, 56 + 32) for i in range(0, 22)]
 
     server.coins = [Coin(120, 0, 30, 30, 260 + 30 * i, 140) for i in range(0, 11)] \
         + [Coin(120, 0, 30, 30, 260 + 30 * i, 140 + 30) for i in range(0, 11)] \
         + [Coin(120, 0, 30, 30,  260 + 30 * i + 30, 140 + 60) for i in range(0, 9)]  # 코인 생성
 
-    server.mario = Mario(700, 300)  # 캐릭터 생성 90 60
+    server.mario = Mario(90, 60)  # 캐릭터 생성 90 60
 
     game_world.add_object(server.background, 0)
     for collision_ground in server.collision_grounds:
@@ -84,18 +82,11 @@ def update():
 
     # 충돌 체크 및 충돌 처리
     # 마리오 - 땅
-    ground_collision = False
     for collision_ground in server.collision_grounds:
         if collision.collide(collision_ground, server.mario):
-            ground_collision = True
-
             left, bottom, right, top = collision_ground.get_bb()
-            collide_loc = top + 30
-
-    if ground_collision == True:
-        server.mario.stop(collide_loc)
-    else:
-        server.mario.fall()
+            collide_loc = top + 15
+            server.mario.stop(collide_loc)
 
     # 마리오 - 벽돌
     for collision_brick_left in server.collision_bricks_left:
@@ -108,18 +99,12 @@ def update():
             left, bottom, right, top = collision_brick_right.get_bb()
             collide_loc_right = right + 11
             server.mario.cantgo_right(collide_loc_right)  # 앞으로 못 감
-    collision_brick_top_ing = False
     for collision_brick_top in server.collision_bricks_top:
-        if collision.collide(collision_brick_top, server.mario):  # 벽돌과 충돌했을 경우
-            collision_brick_top_ing = True
+        if collision.collide_head_foot(collision_brick_top, server.mario):  # 벽돌과 충돌했을 경우
+            left, bottom, right, top = collision_brick_top.get_bb_head()
+            collide_loc = top + 15
+            server.mario.stop(collide_loc)
 
-            left, bottom, right, top = collision_brick_right.get_bb()
-            collide_loc_top = top + 30
-
-    if collision_brick_top_ing == True:
-        server.mario.stop(collide_loc_top)
-    else:
-        server.mario.fall()
     # 마리오 - 코인
     for coin in server.coins:
         if collision.collide(coin, server.mario):  # 코인과 충돌했을 경우
@@ -130,9 +115,7 @@ def update():
 
     # 마리오 - 파이프
     if collision.collide(server.lpipe, server.mario):  # 파이프와 충돌했을 경우
-        # from MarioBros_Mario import Mario_in_BonusStage
-        # global Mario_in_BonusStage
-        # Mario_in_BonusStage = False
+        server.start_loc_x, server.start_loc_y = 900, 300
         game_framework.change_state(MarioBros_Stage1)  # stage1으로 이동
 
 def draw():
