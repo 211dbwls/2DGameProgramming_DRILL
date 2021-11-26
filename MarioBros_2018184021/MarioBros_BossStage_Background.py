@@ -35,7 +35,7 @@ class Ground:  # 땅
         from MarioBros_Mario import Move_locX
         self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
 
-        # draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb())
 
 class FireGround:
     image = None

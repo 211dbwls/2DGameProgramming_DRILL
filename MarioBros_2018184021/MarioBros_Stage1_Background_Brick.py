@@ -15,6 +15,10 @@ class Brick:  # 벽돌
         from MarioBros_Mario import Move_locX
         return self.x - Move_locX - 7, self.y - 8, self.x - Move_locX + 7, self.y + 8
 
+    def get_bb_head(self):
+        from MarioBros_Mario import Move_locX
+        return self.x - Move_locX - 7, self.y, self.x - Move_locX + 7, self.y + 8
+
     def update(self):
         pass
 

@@ -30,14 +30,28 @@ def enter():
                         + [Ground(413, 1095, 16, 17, 1416, 349 - 68 + 17 * i) for i in range(0, 16)] \
                         + [Ground(413, 1095, 16, 17, 1416 + 16 * i, 349 - 68 + 17 * j) for i in range(0, 50) for j in range(0, 16)] \
                         + [Ground(413, 1095, 16, 17, 2216 + 16 * i, 349 + 17 * j) for i in range(0, 87) for j in range(0, 12)] # 땅 생성
-    server.grounds_down = [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 34 * t + 17 * j) for t in range(0, 3) for i in range(0, 15 - t * 2) for j in range(0, 2)] \
-                          + [Ground(413, 1095, 16, 17, 8 + 16 * i, 5 + 17 * j) for i in range(0, 40) for j in range(0, 7)] \
-                          + [Ground(413, 1095, 16, 17, 680 + 16 * i, 5 + 17 * j) for i in range(0, 25) for j in range(0, 7)] \
-                          + [Ground(413, 1095, 16, 17, 1112 + 16 * i, 5 + 17 * j) for i in range(0, 10) for j in range(0, 7)] \
-                          + [Ground(413, 1095, 16, 17, 1304 + 16 * i, 5 + 17 * j) for i in range(0, 75) for j in range(0, 7)] \
-                          + [Ground(413, 1095, 16, 17, 2866 + 16 * i, 124 + 17 * j) for i in range(0, 5) for j in range(0, 2)] \
-                          + [Ground(413, 1095, 16, 17, 2866 + 16 * i, 5 + 17 * j) for i in range(0, 5) for j in range(0, 7)] \
-                          + [Ground(413, 1095, 16, 17, 2946 + 16 * i, 5 + 17 * j) for i in range(0, 42) for j in range(0, 7)]  # 땅 생성
+    server.grounds_down = [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 34 * 2) for i in range(0, 11)] \
+                          + [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 34 + 17) for i in range(0, 11)] \
+                          + [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 34) for i in range(0, 13)] \
+                          + [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 17) for i in range(0, 13)]\
+                          + [Ground(413, 1095, 16, 17, 8 + 16 * i, 124) for i in range(0, 15)] \
+                          + [Ground(413, 1095, 16, 17, 8 + 16 * i, 5 + 17 * j) for i in range(0, 40) for j in range(0, 6)] \
+                          + [Ground(413, 1095, 16, 17, 680 + 16 * i, 5 + 17 * j) for i in range(0, 25) for j in range(0, 6)] \
+                          + [Ground(413, 1095, 16, 17, 1112 + 16 * i, 5 + 17 * j) for i in range(0, 10) for j in range(0, 6)] \
+                          + [Ground(413, 1095, 16, 17, 1304 + 16 * i, 5 + 17 * j) for i in range(0, 75) for j in range(0, 6)] \
+                          + [Ground(413, 1095, 16, 17, 2866 + 16 * i, 124) for i in range(0, 5)] \
+                          + [Ground(413, 1095, 16, 17, 2866 + 16 * i, 5 + 17 * j) for i in range(0, 5) for j in range(0, 6)] \
+                          + [Ground(413, 1095, 16, 17, 2946 + 16 * i, 5 + 17 * j) for i in range(0, 42) for j in range(0, 6)]  # 땅 생성
+    server.grounds_down_top = [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 34 * 2 + 17) for i in range(0, 11)] \
+                              + [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 34 + 17) for i in range(11, 13)] \
+                              + [Ground(413, 1095, 16, 17, 8 + 16 * i, 124 + 17) for i in range(13, 15)] \
+                              + [Ground(413, 1095, 16, 17, 8 + 16 * i, 5 + 17 * 6) for i in range(0, 40)] \
+                              + [Ground(413, 1095, 16, 17, 680 + 16 * i, 5 + 17 * 6) for i in range(0, 25)] \
+                              + [Ground(413, 1095, 16, 17, 1112 + 16 * i, 5 + 17 * 6) for i in range(0, 10)] \
+                              + [Ground(413, 1095, 16, 17, 1304 + 16 * i, 5 + 17 * 6) for i in range(0, 75)] \
+                              + [Ground(413, 1095, 16, 17, 2866 + 16 * i, 124 + 17) for i in range(0, 5)] \
+                              + [Ground(413, 1095, 16, 17, 2866 + 16 * i, 5 + 17 * 6) for i in range(0, 5)] \
+                              + [Ground(413, 1095, 16, 17, 2946 + 16 * i, 5 + 17 * 6) for i in range(0, 42)]  # 땅 생성
 
     server.firegrounds = [FireGround(620, 755, 35, 35, 656, 10), FireGround(620, 755, 35, 35, 656, 30), FireGround(620, 792, 35, 12, 656, 54),
                           FireGround(620, 755, 35, 35, 1088, 10), FireGround(620, 755, 35, 35, 1088, 30), FireGround(620, 792, 35, 12, 1088, 54),
@@ -52,9 +66,9 @@ def enter():
                      Brick(373, 1095, 16, 17, 1416, 264), Brick(373, 1095, 16, 17, 1630, 264),
                      Brick(373, 1095, 16, 17, 1844, 264), Brick(373, 1095, 16, 17, 2058, 264)]  # 벽돌 생성
 
-    server.boss = Boss()  # 보스 생성
+    server.boss = Boss(0, 10, 40, 50, 2820, 130)  # 보스 생성
 
-    server.mario = Mario(60, 228)  # 캐릭터 생성
+    server.mario = Mario(2500, 100)  # 캐릭터 생성
 
     game_world.add_object(server.background, 0)
 
@@ -62,6 +76,8 @@ def enter():
         game_world.add_object(ground_up, 0)
     for ground_down in server.grounds_down:
         game_world.add_object(ground_down, 0)
+    for ground_down_top in server.grounds_down_top:
+        game_world.add_object(ground_down_top, 0)
 
     for fireground in server.firegrounds:
         game_world.add_object(fireground, 0)
@@ -87,44 +103,27 @@ def update():
 
     # 충돌 체크 및 충돌 처리
     # 마리오 - 땅
-    ground_collision = False
-    for ground_down in server.grounds_down:
-        if collision.collide(ground_down, server.mario):
-            ground_collision = True
+    for ground_down_top in server.grounds_down_top:
+        if collision.collide(ground_down_top, server.mario):
+            left, bottom, right, top = ground_down_top.get_bb()
+            collide_loc = top + 10
 
-            left, bottom, right, top = ground_down.get_bb()
-            collide_loc = top + 30
-
-    if ground_collision == True:
-        server.mario.stop(collide_loc)
-    else:
-        server.mario.fall()
+            server.mario.stop(collide_loc)
 
     # 마리오 - 다리
-    bridgeground_collision = False
     for bridgeground in server.bridgegrounds:
         if collision.collide(bridgeground, server.mario):
-            bridgeground_collision = True
-
             left, bottom, right, top = bridgeground.get_bb()
-            collide_loc = top + 30
+            collide_loc = top + 10
 
-    if bridgeground_collision == True:
-        server.mario.stop(collide_loc)
-    else:
-        server.mario.fall()
+            server.mario.stop(collide_loc)
+
     # 마리오 - 다리
-    bridgeground_up_collision = False
     if collision.collide(server.bridgeground_up, server.mario):
-        bridgeground_up_collision = True
-
         left, bottom, right, top = server.bridgeground_up.get_bb()
         collide_loc = top + 10
 
-    if bridgeground_up_collision == True:
         server.mario.stop(collide_loc)
-    else:
-        server.mario.fall()
 
 def draw():
     clear_canvas()

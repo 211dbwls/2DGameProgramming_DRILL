@@ -48,6 +48,7 @@ coins = []
 # background = None
 grounds_up = []
 grounds_down = []
+grounds_down_top = []
 firegrounds = []
 bridgegrounds = []
 bridgeground_up = None

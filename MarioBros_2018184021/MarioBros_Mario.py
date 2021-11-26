@@ -172,7 +172,7 @@ class Mario:  # 마리오
 
         self.dir = 1
         self.velocity = 0  # 속도
-        self.gravity = 50  # 중력
+        self.gravity = 20  # 중력
 
         self.move_right_frame, self.move_left_frame = 200, 170
         self.frame = 0  # 애니메이션 프레임
@@ -217,11 +217,18 @@ class Mario:  # 마리오
 
     # 충돌처리 - 땅
     def stop(self, collide_loc):  # 땅과 충돌했을 경우 : 떨어지지 않도록
-        print(collide_loc)
+        global Mario_jumping
         self.y = collide_loc
+        self.gravity = 0
+
+        if Mario_jumping == True:
+            Mario_jumping = False
+            self.jump_start = False
+            self.t = 0
+
     def fall(self):  # 땅과 충돌하지 않았을 경우 : 떨어지도록
-        if Mario_jumping == False:
-            self.y -= self.gravity
+        self.gravity = 20
+
     # 충돌 처리 - 코인 : 코인 개수 추가
     def addCoin(self):
         global Mario_coins
@@ -237,11 +244,10 @@ class Mario:  # 마리오
     def minusLife(self):
         global Mario_life
         Mario_life -= 1
-    # 충돌 처리 - 작은 파이프 : 앞으로 못 가도록
+    # 충돌 처리 - 좌우로 이동 못하도록
     def cantgo_left(self, collide_loc):
         if self.x > collide_loc:
             self.x = collide_loc
-
     def cantgo_right(self, collide_loc):
         if self.x < collide_loc:
             self.x = collide_loc

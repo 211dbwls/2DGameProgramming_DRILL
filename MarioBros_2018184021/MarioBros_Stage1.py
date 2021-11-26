@@ -304,6 +304,13 @@ def update():
             server.largepipes_bonus.remove(largepipe_bonus)  # 충돌했을 경우 충돌 검사하는 리스트에서 제거
             game_framework.change_state(MarioBros_BonusStage)  # 보너스맵으로 이동
 
+    # 마리오 - 벽돌
+    for brick in server.bricks:
+        if collision.collide_head_foot(brick, server.mario):  # 위에 올라섰을 경우
+            left, bottom, right, top = brick.get_bb_head()
+            collide_loc = top + 10
+            server.mario.stop(collide_loc)
+
     # 마리오 - 굼바
     for goomba in server.goombas:
         if collision.collide(goomba, server.mario):  # 굼바와 충돌했을 경우
