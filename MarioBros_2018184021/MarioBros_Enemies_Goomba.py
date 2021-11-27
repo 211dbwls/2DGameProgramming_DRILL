@@ -21,11 +21,11 @@ class Goomba:  # 굼바
 
     def get_bb(self):
         from MarioBros_Mario import Move_locX
-        return self.x + self.movex - Move_locX - 17, self.y - 15, self.x + self.movex - Move_locX + 2, self.y + 10
+        return self.x + self.movex - Move_locX - 17, self.y - 15, self.x + self.movex - Move_locX + 2, self.y + 5
 
     def get_bb_head(self):
         from MarioBros_Mario import Move_locX
-        return self.x + self.movex - Move_locX - 15, self.y, self.x + self.movex - Move_locX, self.y + 10
+        return self.x + self.movex - Move_locX - 15, self.y + 5, self.x + self.movex - Move_locX, self.y + 10
 
     def dead(self):
         self.left, self.frame = 60, 0

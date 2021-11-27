@@ -49,7 +49,7 @@ def enter():
     server.biggrass = BigGrass()  # 풀 생성
     server.smallgrass = SmallGrass()  # 풀 생성
     # 땅 생성
-    server.collision_grounds = [Ground(18, 155 + 34, 16, 17, 8 + 15 * i, 7 + 32) for i in range(0, 69)] \
+    server.collision_grounds = [Ground(18, 155 + 34, 15, 17, 8 + 15 * i, 7 + 32) for i in range(0, 69)] \
               + [Ground(35, 155 + 34, 15, 17, 8 + 1035, 7 + 32)] \
               + [Ground(2, 155 + 34, 16, 17, 8 + 1095, 7 + 32)] \
               + [Ground(18, 155 + 34, 16, 17, 8 + 1110 + 15 * i, 7 + 32) for i in range(0, 15)] \
