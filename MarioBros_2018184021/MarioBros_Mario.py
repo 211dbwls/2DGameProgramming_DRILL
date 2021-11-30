@@ -211,6 +211,8 @@ class Mario:  # 마리오
 
         self.mario_in_bonusstage = False
 
+        self.parent = None
+
     def changeBigMario(self):  # 큰 마리오
         self.bottom = 100
         self.height = 37
@@ -239,21 +241,21 @@ class Mario:  # 마리오
         return self.x - Move_locX - 5, self.y + 10, self.x - Move_locX + 10, self.y + 15
 
     # 충돌처리 - 땅
-    def stop(self, collide_loc):  # 땅과 충돌했을 경우 : 떨어지지 않도록
-        global Mario_jumping
-        if Mario_jumping == True:
-            self.gravity = 20
-        else:
-            self.y = collide_loc
-            self.gravity = 0
-
-        # if Mario_jumping == True:
-        #     Mario_jumping = False
-        #     self.jump_start = False
-        #     self.t = 0
-
-    def fall(self):  # 땅과 충돌하지 않았을 경우 : 떨어지도록
-        self.gravity = 20
+    # def stop(self, collide_loc):  # 땅과 충돌했을 경우 : 떨어지지 않도록
+    #     global Mario_jumping
+    #     if Mario_jumping == True:
+    #         self.gravity = 20
+    #     else:
+    #         self.y = collide_loc
+    #         self.gravity = 0
+    #
+    #     # if Mario_jumping == True:
+    #     #     Mario_jumping = False
+    #     #     self.jump_start = False
+    #     #     self.t = 0
+    #
+    # def fall(self):  # 땅과 충돌하지 않았을 경우 : 떨어지도록
+    #     self.gravity = 20
 
     # 충돌 처리 - 코인 : 코인 개수 추가
     def addCoin(self):
@@ -278,23 +280,35 @@ class Mario:  # 마리오
         if self.x < collide_loc:
             self.x = collide_loc
 
+    def set_parent(self, ground):
+        self.parent = ground
+
+        self.y = ground.y + ground.MARIO_Y0
+
     def update(self):
         self.cur_state.do(self)
 
-        if Mario_jumping == False:
-            if len(self.event_que) > 0:
-                event = self.event_que.pop()
-                self.cur_state.exit(self, event)  # 현재 상태 나감
+        # if Mario_jumping == False:
 
-                # error occurs here
-                try:  # 시도를 해본다.
-                    history.append((self.cur_state.__name__, event_name[event]))  # (현재 상태, 이벤트) 튜플 저장
-                    self.cur_state = next_state_table[self.cur_state][event]
-                except:  # 문제 발생 확인
-                    print('State : ' + self.cur_state.__name__ + ' event : ' + event_name[event])  # 현재 상태와 이벤트 출력
-                    exit(-1)
+        if len(self.event_que) > 0:
+            event = self.event_que.pop()
+            self.cur_state.exit(self, event)  # 현재 상태 나감
 
-                self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
+            # error occurs here
+            try:  # 시도를 해본다.
+                history.append((self.cur_state.__name__, event_name[event]))  # (현재 상태, 이벤트) 튜플 저장
+                self.cur_state = next_state_table[self.cur_state][event]
+            except:  # 문제 발생 확인
+                print('State : ' + self.cur_state.__name__ + ' event : ' + event_name[event])  # 현재 상태와 이벤트 출력
+                exit(-1)
+
+            self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
+
+        # if self.parent:  #
+        #     self.x += self.parent.speed * game_framework.frame_time
+        #     self.x = clamp(self.parent.x - 80, self.x, self.parent.x + 80)
+
+
 
     def draw(self):
         global Move_locX, Mario_in_BonusStage

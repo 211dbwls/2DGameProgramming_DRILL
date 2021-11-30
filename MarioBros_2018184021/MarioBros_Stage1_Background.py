@@ -1,5 +1,8 @@
 from pico2d import *
 
+import collision
+import server
+
 class Background:  # 배경
     image = None
 
@@ -165,6 +168,7 @@ class SmallGrass:  # 풀
 
 class Ground:  # 땅
     image = None
+    MARIO_Y0 = 25
 
     def __init__(self, left, bottom, width, height, x, y):
         if Ground.image == None:
@@ -179,7 +183,8 @@ class Ground:  # 땅
         return self.x - Move_locX - 6, self.y - 6, self.x - Move_locX + 7, self.y + 7
 
     def update(self):
-        pass
+        if collision.collide(self, server.mario):
+            server.mario.set_parent(self)
 
     def draw(self):
         from MarioBros_Mario import Move_locX

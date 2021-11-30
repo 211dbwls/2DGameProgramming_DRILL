@@ -187,12 +187,12 @@ def update():
 
     # 충돌 체크 및 충돌 처리
     # 마리오 - 땅
-    for collision_ground in server.collision_grounds:
-        if collision.collide(collision_ground, server.mario):
-            left, bottom, right, top = collision_ground.get_bb()
-            collide_loc = top + 10
-
-            server.mario.stop(collide_loc)
+    # for collision_ground in server.collision_grounds:
+    #     if collision.collide(collision_ground, server.mario):
+    #         left, bottom, right, top = collision_ground.get_bb()
+    #         collide_loc = top + 10
+    #
+    #         server.mario.stop(collide_loc)
 
     # 마리오 - 물음표 상자_코인
     for questionbox_coin in server.questionboxs_coin:
