@@ -54,3 +54,5 @@ bridgegrounds = []
 bridgeground_up = None
 
 boss = None
+
+bgm = None

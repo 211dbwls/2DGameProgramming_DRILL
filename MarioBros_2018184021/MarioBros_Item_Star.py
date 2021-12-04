@@ -14,13 +14,14 @@ class Star:  # 별
 
         self.frame = 0
         self.time = 0  # update 시간 조절
+
         self.up = True
         self.movey = 0
 
     def update(self):
         if self.up == True:
-            self.movey += 10
-            if self.movey == 50:
+            self.movey += 5
+            if self.movey == 30:
                 self.up = False
         else:
             self.movey -= 10

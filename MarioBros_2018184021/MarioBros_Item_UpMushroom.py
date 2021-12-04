@@ -12,16 +12,22 @@ class UpMushroom:  # 1-UP 버섯 -> 목숨 + 1
         self.width, self.height = width, height
         self.x, self.y = x, y  # 생성 위치
 
+        self.up = True
         self.movey = 0
 
     def update(self):
-        if self.movey == 20:
-            game_world.remove_object(self)
-        else:
+        if self.up == True:
             self.movey += 5
+            if self.movey == 30:
+                self.up = False
+        else:
+            self.movey -= 10
+            if self.movey == 0:
+                game_world.remove_object(self)
+
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y + self.movey)
 
 

@@ -213,6 +213,16 @@ class Mario:  # 마리오
 
         self.parent = None
 
+        self.bgm = load_wav('Sound_main theme overworld.wav')
+        self.bgm.set_volume(44)  # 소리 크리 0 ~ 128
+        self.bgm.repeat_play()  # 반복 재생
+
+        self.jump_sound = load_wav('Sound_Jumps.wav')
+        self.jump_sound.set_volume(44)
+
+        self.question_box_coin_sound = load_wav('Sound_gets a coin.wav')
+        self.question_box_coin_sound.set_volume(44)
+
     def changeBigMario(self):  # 큰 마리오
         self.bottom = 100
         self.height = 37
@@ -261,6 +271,7 @@ class Mario:  # 마리오
     def addCoin(self):
         global Mario_coins
         Mario_coins += 1
+        self.question_box_coin_sound.play()
     # 충돌 처리 - 점수 추가
     def addScore(self, score):
         global Mario_score
@@ -279,6 +290,10 @@ class Mario:  # 마리오
     def cantgo_right(self, collide_loc):
         if self.x < collide_loc:
             self.x = collide_loc
+    # 충돌 처리 - 아래로 떨어지지 않도록
+    def stop(self, collide_loc):
+        if self.y < collide_loc:
+            self.y = collide_loc
 
     def set_parent(self, ground):
         self.parent = ground
@@ -303,12 +318,6 @@ class Mario:  # 마리오
                 exit(-1)
 
             self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
-
-        # if self.parent:  #
-        #     self.x += self.parent.speed * game_framework.frame_time
-        #     self.x = clamp(self.parent.x - 80, self.x, self.parent.x + 80)
-
-
 
     def draw(self):
         global Move_locX, Mario_in_BonusStage

@@ -168,8 +168,7 @@ class SmallGrass:  # 풀
 
 class Ground:  # 땅
     image = None
-    MARIO_Y0 = 25
-
+    MARIO_Y0 = 23
     def __init__(self, left, bottom, width, height, x, y):
         if Ground.image == None:
             Ground.image = load_image('Ground.png')
@@ -180,7 +179,7 @@ class Ground:  # 땅
 
     def get_bb(self):
         from MarioBros_Mario import Move_locX
-        return self.x - Move_locX - 6, self.y - 6, self.x - Move_locX + 7, self.y + 7
+        return self.x - Move_locX - 6, self.y - 6, self.x - Move_locX + 8, self.y + 8
 
     def update(self):
         if collision.collide(self, server.mario):
@@ -209,11 +208,11 @@ class SmallPipe:
 
     def get_bb_left(self):
         from MarioBros_Mario import Move_locX
-        return self.x - Move_locX - 15, self.y - 20, self.x - Move_locX, self.y + 10
+        return self.x - Move_locX - 15, self.y - 20, self.x - Move_locX, self.y + 6
 
     def get_bb_right(self):
         from MarioBros_Mario import Move_locX
-        return self.x - Move_locX, self.y - 20, self.x - Move_locX + 15, self.y + 10
+        return self.x - Move_locX, self.y - 20, self.x - Move_locX + 15, self.y + 6
 
     def get_bb_head(self):
         from MarioBros_Mario import Move_locX

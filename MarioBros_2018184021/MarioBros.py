@@ -1,11 +1,13 @@
 import game_framework
-import pico2d
+from pico2d import *
 
 import MarioBros_LogoState
 import MarioBros_StartState
 import MarioBros_Stage1
 import MarioBros_BonusStage
 import MarioBros_BossStage
+
+import server
 
 pico2d.open_canvas()
 # game_framework.run(MarioBros_LogoState)

@@ -17,8 +17,8 @@ class FireFlower:  # 파이어 플라워 -> 불 공격
 
     def update(self):
         if self.up == True:
-            self.movey += 10
-            if self.movey == 50:
+            self.movey += 5
+            if self.movey == 30:
                 self.up = False
         else:
             self.movey -= 10
@@ -27,4 +27,4 @@ class FireFlower:  # 파이어 플라워 -> 불 공격
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y)
+        self.image.clip_draw(self.left, self.bottom, self.width, self.height, self.x - Move_locX, self.y + self.movey)
