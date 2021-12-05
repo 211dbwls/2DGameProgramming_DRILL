@@ -30,8 +30,8 @@ flower = None
 hamerbro = None
 
 mario = None
-start_loc_x = 30
-start_loc_y = 150
+start_loc_x = 1200
+start_loc_y = 100
 
 coin_image = None
 
@@ -54,5 +54,3 @@ bridgegrounds = []
 bridgeground_up = None
 
 boss = None
-
-bgm = None

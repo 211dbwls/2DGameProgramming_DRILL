@@ -19,6 +19,10 @@ class Goomba:  # 굼바
         self.dying = False
         self.deadcount = 0
 
+        self.dead_sound = load_wav('Sound_touched an enemy.wav')
+        self.dead_sound.set_volume(44)
+
+
     def get_bb(self):
         from MarioBros_Mario import Move_locX
         return self.x + self.movex - Move_locX - 17, self.y - 15, self.x + self.movex - Move_locX + 2, self.y + 5
@@ -31,6 +35,8 @@ class Goomba:  # 굼바
         self.left, self.frame = 60, 0
         self.dir = 0
         self.dying = True
+
+        self.dead_sound.play()
 
     def update(self):
         if self.dir == 1:  # 오른쪽 방향으로 이동

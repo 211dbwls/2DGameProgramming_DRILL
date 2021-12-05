@@ -8,9 +8,9 @@ from MarioBros_Mario_FireBall import FireBall
 
 history = []  # (현재 상태, 이벤트) 저장하는 리스트
 
-RIGHT_DOWN, LEFT_DOWN, JUMP_DOWN, RIGHT_UP, LEFT_UP, JUMP_UP, ENTER, DEBUG_KEY = range(8)
+RIGHT_DOWN, LEFT_DOWN, JUMP_DOWN, RIGHT_UP, LEFT_UP, JUMP_UP, SPACE, DEBUG_KEY = range(8)
 
-event_name = ['RIGHT_DOWN', 'LEFT_DOWN', 'JUMP_DOWN', 'RIGHT_UP', 'LEFT_UP', 'JUMP_UP', 'ENTER', 'DEBUG_KEY']
+event_name = ['RIGHT_DOWN', 'LEFT_DOWN', 'JUMP_DOWN', 'RIGHT_UP', 'LEFT_UP', 'JUMP_UP', 'SPACE', 'DEBUG_KEY']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
@@ -19,7 +19,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_d): RIGHT_UP,
     (SDL_KEYUP, SDLK_a): LEFT_UP,
     (SDL_KEYUP, SDLK_w): JUMP_UP,
-    (SDL_KEYUP, SDLK_l): ENTER,
+    (SDL_KEYUP, SDLK_SPACE): SPACE,
 
     (SDL_KEYDOWN, SDLK_q): DEBUG_KEY
 }
@@ -58,7 +58,7 @@ class IdleState:
             self.velocity += RUN_SPEED_PPS
 
     def exit(self, event):
-        if event == ENTER:
+        if event == SPACE:
             self.fire_ball()
 
     def do(self):
@@ -80,19 +80,22 @@ class RunState:
 
         self.dir = clamp(-1, self.velocity, 1)
 
+        global FRAMES_PER_ACTION
+        FRAMES_PER_ACTION = 3
+
 
     def exit(self, event):
-        if event == ENTER:
+        if event == SPACE:
             self.fire_ball()
 
     def do(self):
         if self.dir == 1:  # 오른쪽으로 이동 중일 경우 애니메이션 설정
             self.left = self.move_right_frame
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
             # print("dir : 1 frame : " + str(self.frame))
         elif self.dir == -1:  # 왼쪽으로 이동 중일 경우 애니메이션 설정
             self.left = self.move_left_frame
-            self.frame = -((self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3)
+            self.frame = -((self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION)
             # print("dir : -1 frame : " + str(self.frame))
         self.x += self.velocity * game_framework.frame_time
         self.x = clamp(25, self.x, 3600)
@@ -113,6 +116,9 @@ class JumpState:
 
         global Mario_jumping
         Mario_jumping = True
+
+        global FRAMES_PER_ACTION
+        FRAMES_PER_ACTION = 6
 
         self.gravity = 50
         self.jump_height = 0
@@ -139,10 +145,10 @@ class JumpState:
     def do(self):
         if self.dir == 1:  # 오른쪽으로 이동 중일 경우 애니메이션 설정
             self.left = self.move_right_frame
-            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6
+            self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         elif self.dir == -1:  # 왼쪽으로 이동 중일 경우 애니메이션 설정
             self.left = self.move_left_frame
-            self.frame = -((self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6)
+            self.frame = -((self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION)
         self.x += self.velocity * game_framework.frame_time
         self.x = clamp(25, self.x, 3600)
 
@@ -173,11 +179,11 @@ class JumpState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, JUMP_UP: JumpState,
-                RIGHT_DOWN: RunState, LEFT_DOWN: RunState, JUMP_DOWN: JumpState, ENTER: IdleState},
+                RIGHT_DOWN: RunState, LEFT_DOWN: RunState, JUMP_DOWN: JumpState, SPACE: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, JUMP_UP: JumpState,
-               LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, JUMP_DOWN: JumpState, ENTER: RunState},
+               LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, JUMP_DOWN: JumpState, SPACE: RunState},
     JumpState: {RIGHT_UP: RunState, LEFT_UP: RunState, JUMP_UP: IdleState,
-               LEFT_DOWN: RunState, RIGHT_DOWN: RunState, JUMP_DOWN: IdleState, ENTER: JumpState}
+               LEFT_DOWN: RunState, RIGHT_DOWN: RunState, JUMP_DOWN: IdleState, SPACE: JumpState}
 }
 
 class Mario:  # 마리오
@@ -223,6 +229,9 @@ class Mario:  # 마리오
         self.question_box_coin_sound = load_wav('Sound_gets a coin.wav')
         self.question_box_coin_sound.set_volume(44)
 
+        self.falling_down_sound = load_wav('Sound_Dies.wav')
+        self.falling_down_sound.set_volume(44)
+
     def changeBigMario(self):  # 큰 마리오
         self.bottom = 100
         self.height = 37
@@ -234,7 +243,7 @@ class Mario:  # 마리오
         self.move_right_frame, self.move_left_frame = 230, 175
 
     def fire_ball(self):
-        fireball = FireBall(self.x, self.y,  self.dir * 3)
+        fireball = FireBall(self.x, self.y, self.dir * 3)
         game_world.add_object(fireball, 1)
 
     def add_event(self, event):
@@ -283,6 +292,7 @@ class Mario:  # 마리오
     def minusLife(self):
         global Mario_life
         Mario_life -= 1
+
     # 충돌 처리 - 좌우로 이동 못하도록
     def cantgo_left(self, collide_loc):
         if self.x > collide_loc:
@@ -295,9 +305,14 @@ class Mario:  # 마리오
         if self.y < collide_loc:
             self.y = collide_loc
 
+    # 떨어졌을 경우
+    def falling_died(self):
+        global Mario_life
+        Mario_life -= 1
+        self.falling_down_sound.play()
+
     def set_parent(self, ground):
         self.parent = ground
-
         self.y = ground.y + ground.MARIO_Y0
 
     def update(self):

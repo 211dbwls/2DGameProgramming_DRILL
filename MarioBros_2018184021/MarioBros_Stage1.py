@@ -325,6 +325,14 @@ def update():
     if collision.collide(server.castle, server.mario):  # 성과 충돌했을 경우
         game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지로 이동
 
+    # 마리오 : 떨어졌을 경우
+    if server.mario.y < 40:
+        server.mario.x = 1000
+        server.mario.y = 100
+    if server.mario.y < 50:
+        server.mario.falling = True
+        server.mario.falling_died()
+
 def draw():
     clear_canvas()
 
