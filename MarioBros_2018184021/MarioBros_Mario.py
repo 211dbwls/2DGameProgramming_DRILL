@@ -139,7 +139,7 @@ class JumpState:
 
 
     def exit(self, event):
-        if event == ENTER:
+        if event == SPACE:
             self.fire_ball()
 
     def do(self):

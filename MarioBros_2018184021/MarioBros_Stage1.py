@@ -126,8 +126,8 @@ def enter():
                Goomba(0, 240, 30, 30, 2970, 60), Goomba(0, 240, 30, 30, 3000, 60),
                Goomba(0, 240, 30, 30, 1895, 60), Goomba(0, 240, 30, 30, 1925, 60)]  # 굼바 생성
 
-    server.flower = Flower()  # 플라워 생성
-    server.hamerbro = HamerBro()  # 해머브러스 생성
+    server.flower = Flower(380, 205, 30, 30, 490, 60)  # 플라워 생성
+    server.hamerbro = HamerBro(170, 145, 30, 30, 2400, 60)  # 해머브러스 생성
 
     server.mario = Mario(server.start_loc_x, server.start_loc_y)  # 캐릭터 생성
     # server.mario = Mario(30, 150)  # 캐릭터 생성
@@ -320,6 +320,13 @@ def update():
             goomba.dead()  # 굼바 죽음
             server.goombas.remove(goomba)  # 죽었을 경우 충돌 검사하는 리스트에서 제거
             server.mario.addScore(100)  # 점수 추가
+
+    # 마리오 - 플라워
+    if collision.collide(server.flower, server.mario):  # 플라워와 충돌했을 경우
+        server.mario.minusLife()  # 목숨 - 1
+
+    # 마리오 - 해머브러스
+
 
     # 마리오 - 성
     if collision.collide(server.castle, server.mario):  # 성과 충돌했을 경우

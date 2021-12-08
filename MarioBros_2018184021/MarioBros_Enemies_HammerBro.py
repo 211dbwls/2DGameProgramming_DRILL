@@ -5,13 +5,15 @@ from MarioBros_Enemies_HammerBro_Hammer import Hammer
 class HamerBro:  # 해머브러스
     image = None
 
-    def __init__(self):
+    def __init__(self, left, bottom, width, height, x, y):
         if HamerBro.image == None:
             HamerBro.image = load_image('EnemiesAnimationSheet.png')
 
-        self.x, self.y = 1700, 60
+        self.left, self.bottom = left, bottom  # clip
+        self.width, self.height = width, height
+        self.x, self.y = x, y  # 생성 위치
+
         self.movex = 0
-        self.left = 170
         self.frame = 0  # 애니메이션 프레임
         self.right = True  # 움직이는 방향 체크
         self.dir = 1
@@ -44,4 +46,6 @@ class HamerBro:  # 해머브러스
 
     def draw(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(self.left + self.frame * 30, 145, 30, 30, 1700 + self.movex - Move_locX, 60)
+        self.image.clip_draw(self.left + self.frame * 30, self.bottom, self.width, self.height, self.x + self.movex - Move_locX, self.y)
+
+        # draw_rectangle(*self.get_bb())

@@ -30,7 +30,7 @@ flower = None
 hamerbro = None
 
 mario = None
-start_loc_x = 1200
+start_loc_x = 500
 start_loc_y = 100
 
 coin_image = None
