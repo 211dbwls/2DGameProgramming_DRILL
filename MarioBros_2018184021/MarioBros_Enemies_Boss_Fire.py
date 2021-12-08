@@ -18,7 +18,7 @@ FRAMES_PER_ACTION = 2
 class Fire:
     image = None
 
-    def __init__(self, x = 1200, y = 300, velocity = 1000):
+    def __init__(self, x = 1200, y = 300, velocity = 500):
         if Fire.image == None:
             Fire.image = load_image('EnemiesAnimationSheet.png')
 
@@ -27,11 +27,10 @@ class Fire:
 
     def get_bb(self):
         from MarioBros_Mario import Move_locX
-        return self.x - Move_locX - 5, self.y - 7, self.x - Move_locX + 4, self.y + 4
+        return self.x - Move_locX - 10, self.y - 7, self.x - Move_locX + 4, self.y + 4
 
     def update(self):
         from MarioBros_Mario import Move_locX
-
 
         self.x -= RUN_SPEED_PPS * game_framework.frame_time
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION

@@ -44,9 +44,9 @@ def enter():
                                     + [Brick(393, 1134, 15, 16, 250 + 15 * 21, 56 + 16 * i) for i in range(0, 3)]
     server.collision_bricks_top = [Brick(393, 1134, 15, 16, 250 + 15 * i, 56 + 32) for i in range(0, 22)]
 
-    server.coins = [Coin(120, 0, 30, 30, 260 + 30 * i, 140) for i in range(0, 11)] \
-        + [Coin(120, 0, 30, 30, 260 + 30 * i, 140 + 30) for i in range(0, 11)] \
-        + [Coin(120, 0, 30, 30,  260 + 30 * i + 30, 140 + 60) for i in range(0, 9)]  # 코인 생성
+    server.coins = [Coin(120, 0, 30, 30, 260 + 30 * i, 110) for i in range(0, 11)] \
+        + [Coin(120, 0, 30, 30, 260 + 30 * i, 110 + 30) for i in range(0, 11)] \
+        + [Coin(120, 0, 30, 30,  260 + 30 * i + 30, 110 + 60) for i in range(0, 9)]  # 코인 생성
 
     server.mario = Mario(90, 60)  # 캐릭터 생성 90 60
 
@@ -115,7 +115,7 @@ def update():
 
     # 마리오 - 파이프
     if collision.collide(server.lpipe, server.mario):  # 파이프와 충돌했을 경우
-        server.start_loc_x, server.start_loc_y = 900, 300
+        server.start_loc_x, server.start_loc_y = 950, 60
         game_framework.change_state(MarioBros_Stage1)  # stage1으로 이동
 
 def draw():

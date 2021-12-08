@@ -18,22 +18,29 @@ FRAMES_PER_ACTION = 2
 class Hammer:
     image = None
 
-    def __init__(self, x, y, velocity):
+    def __init__(self, x = 1200, y = 300, velocity = 500):
         if Hammer.image == None:
-            Hammer.image = load_image('ScenerySprites2.gif')
+            Hammer.image = load_image('EnemiesAnimationSheet.png')
 
         self.x, self.y, self.velocity = x, y, velocity
+        self.frame = 0
 
-    def draw(self):
+    def get_bb(self):
         from MarioBros_Mario import Move_locX
-        self.image.clip_draw(500, 100, 100, 100, self.x - Move_locX, self.y)
+        return self.x - Move_locX - 5, self.y - 7, self.x - Move_locX + 4, self.y + 4
 
     def update(self):
         from MarioBros_Mario import Move_locX
 
-        self.x += self.velocity
+        self.x += RUN_SPEED_PPS * game_framework.frame_time
+        #self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
 
-        # if (self.x - Move_locX) < 25 or (self.x - Move_locX) > 800 - 25:
-        #     game_world.remove_object(self)
+        # 화면을 벗어날 경우
+        if (self.x - Move_locX) < 25 or (self.x - Move_locX) > 800 - 25:
+            game_world.remove_object(self)
 
+    def draw(self):
+        from MarioBros_Mario import Move_locX
+        self.image.clip_draw(260 + int(self.frame) * 30, 145, 30, 30, self.x - Move_locX, self.y)
 
+        draw_rectangle(*self.get_bb())

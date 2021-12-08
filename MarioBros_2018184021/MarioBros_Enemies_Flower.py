@@ -17,30 +17,30 @@ class Flower:  # 플라워
         self.time = 0  # update 시간 조절
 
         self.up = True
-        self.move = True
         self.movey = 0
         self.timer = 5.0
 
     def get_bb(self):
         from MarioBros_Mario import Move_locX
-        return self.x - Move_locX - 5, self.y - 15, self.x - Move_locX + 15, self.y + 8
+        return self.x - Move_locX - 5, self.y + self.movey - 15, self.x - Move_locX + 15, self.y + self.movey + 8
 
     def update(self):
         self.timer -= game_framework.frame_time
 
-        if self.timer <= 0:
-            self.move = True
-            self.timer = 5.0
-
-        if self.move == True:
-            if self.up == True:
-                self.movey += 10
-                if self.movey == 50:
+        if self.up == True:
+            if self.movey == 27:
+                if self.timer <= 0:
                     self.up = False
+                    self.timer = 5.0
             else:
-                self.movey -= 10
-                if self.movey == 0:
-                    self.move = False
+                self.movey += 3
+        else:
+            if self.movey == 0:
+                if self.timer <= 0:
+                    self.up = True
+                    self.timer = 5.0
+            else:
+                self.movey -= 3
 
         if self.time % 5 == 0:
             self.frame = (self.frame + 1) % 2  # 움직일 때 애니메이션

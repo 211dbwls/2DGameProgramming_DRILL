@@ -13,7 +13,7 @@ from MarioBros_Enemies_Boss_Fire import Fire
 
 # boss Run Speed
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 10.0  # Km / Hour
+RUN_SPEED_KMPH = 2.0  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -32,9 +32,6 @@ class Boss:
     def __init__(self, left, bottom, width, height, x, y):
         if Boss.image == None:
             Boss.image = load_image('EnemiesAnimationSheet.png')
-
-        # self.prepare_patrol_points()
-        # self.patrol_order = 1
 
         self.left, self.bottom = left, bottom  # clip
         self.width, self.height = width, height
@@ -64,14 +61,14 @@ class Boss:
         else:
             return BehaviorTree.RUNNING
 
-    def wait(self):
-        self.speed = 0
-        self.wait_timer -= game_framework.frame_time
-        if self.wait_timer <= 0:
-            self.wait_timer = 2.0
-            return BehaviorTree.SUCCESS
-
-        return BehaviorTree.RUNNING
+    # def wait(self):
+    #     self.speed = 0
+    #     self.wait_timer -= game_framework.frame_time
+    #     if self.wait_timer <= 0:
+    #         self.wait_timer = 2.0
+    #         return BehaviorTree.SUCCESS
+    #
+    #     return BehaviorTree.RUNNING
 
     def find_player(self):
         distance = (server.mario.x - self.x) ** 2

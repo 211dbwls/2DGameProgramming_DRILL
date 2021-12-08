@@ -99,7 +99,7 @@ def enter():
                    + [Brick(68, 36, 17, 16, 2169, 107), Brick(68, 36, 17, 16, 2185, 107)] \
                    + [Brick(68, 36, 17, 16, 2900, 107), Brick(68, 36, 17, 16, 2916, 107), Brick(68, 36, 17, 16, 2948, 107)]  # 벽돌 생성
 
-    server.flag = Flag()  # 깃발 생성
+    server.flag = Flag(247, 185, 30, 170, 3370, 130)  # 깃발 생성
     server.castle = Castle(250, 0, 100, 100, 3500, 90)  # 성 생성
 
     server.questionboxs_coin = [QuestionBox(0, 80, 30, 30, 250, 100),
@@ -126,7 +126,7 @@ def enter():
                Goomba(0, 240, 30, 30, 2970, 60), Goomba(0, 240, 30, 30, 3000, 60),
                Goomba(0, 240, 30, 30, 1895, 60), Goomba(0, 240, 30, 30, 1925, 60)]  # 굼바 생성
 
-    server.flower = Flower(380, 205, 30, 30, 490, 60)  # 플라워 생성
+    server.flower = Flower(380, 205, 25, 25, 455, 60)  # 플라워 생성
     server.hamerbro = HamerBro(170, 145, 30, 30, 2400, 60)  # 해머브러스 생성
 
     server.mario = Mario(server.start_loc_x, server.start_loc_y)  # 캐릭터 생성
@@ -144,6 +144,8 @@ def enter():
         game_world.add_object(collision_ground, 0)
     for ground in server.grounds:
         game_world.add_object(ground, 0)
+
+    game_world.add_object(server.flower, 0)
 
     for smallpipe in server.smallpipes:
         game_world.add_object(smallpipe, 0)
@@ -172,7 +174,7 @@ def enter():
 
     for goomba in server.goombas:
         game_world.add_object(goomba, 0)
-    game_world.add_object(server.flower, 0)
+
     game_world.add_object(server.hamerbro, 0)
 
     game_world.add_object(server.mario, 1)
@@ -185,15 +187,6 @@ def exit():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
-
-    # 충돌 체크 및 충돌 처리
-    # 마리오 - 땅
-    # for collision_ground in server.collision_grounds:
-    #     if collision.collide(collision_ground, server.mario):
-    #         left, bottom, right, top = collision_ground.get_bb()
-    #         collide_loc = top + 10
-    #
-    #         server.mario.stop(collide_loc)
 
     # 마리오 - 물음표 상자_코인
     for questionbox_coin in server.questionboxs_coin:
@@ -330,6 +323,9 @@ def update():
 
     # 마리오 - 성
     if collision.collide(server.castle, server.mario):  # 성과 충돌했을 경우
+        server.mario.sound_stop_bgm()
+        server.mario.sound_into_castle()
+        delay(10)
         game_framework.change_state(MarioBros_BossStage)  # 보스 스테이지로 이동
 
     # 마리오 : 떨어졌을 경우
@@ -353,7 +349,10 @@ def draw():
     font.draw(30, 570, 'MARIO', (255, 255, 255))
     numfont.draw(100, 570, '%06d' % Mario_score, (255, 255, 255))
     numfont.draw(100, 550, 'x', (255, 255, 255))
-    numfont.draw(115, 550, '%02d' % Mario_life, (255, 255, 255))
+    if Mario_life == -1:
+        numfont.draw(115, 550, '00', (255, 255, 255))
+    else:
+        numfont.draw(115, 550, '%02d' % Mario_life, (255, 255, 255))
 
     if server.coin_image == None:
         server.coin_image = load_image('ItemsSheet.png')
