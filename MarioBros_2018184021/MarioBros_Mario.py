@@ -335,6 +335,7 @@ class Mario:  # 마리오
             self.cur_state.enter(self, event)  # 결정한 다음 상태 진행
 
     def draw(self):
+        # print(self.x)
         global Move_locX, Mario_in_BonusStage
 
         if self.mario_in_bonusstage == False:
